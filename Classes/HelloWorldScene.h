@@ -26,6 +26,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+using namespace cocos2d;
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -34,8 +35,11 @@ public:
 
     virtual bool init();
     
-    // a selector callback
+    void addExitButton(Vec2 origin, Size visibleSize);
     void menuCloseCallback(cocos2d::Ref* pSender);
+
+    void setupScreen(Vec2 origin, Size visibleSize);
+
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
