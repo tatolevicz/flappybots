@@ -94,14 +94,26 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
     // the .plist file can be generated with any of the tools mentioned below
     spritecache->addSpriteFramesWithFile("Sprites/SpriteSheet.plist");
 
-    auto sky = Sprite::createWithSpriteFrameName("SkyTileSprite.png");
-    auto ground = Sprite::createWithSpriteFrameName("GrassThinSprite.png");
+    auto sky = Sprite::createWithSpriteFrameName("sky_repeated.png");
+    auto ground = Sprite::createWithSpriteFrameName("ground.png");
+    auto trees = Sprite::createWithSpriteFrameName("trees.png");
     sky->setAnchorPoint(Vec2(0,0));
     ground->setAnchorPoint(Vec2(0,0.5));
+    trees->setAnchorPoint(Vec2(0,0));
 
-    this->addChild(sky);
-    this->addChild(ground);
+    auto skyRate = 1.0;
+    auto treesRate = 1.3;
+    auto groundRate = 1.8;
 
+    this->addChild(sky,-3);
+    this->addChild(trees,-2);
+    this->addChild(ground,-1);  
+ 
+    this->scrollSprite(sky,skyRate,visibleSize);
+    this->scrollSprite(trees,treesRate,visibleSize);
+    this->scrollSprite(ground,groundRate,visibleSize);
+
+    
     auto player = Sprite::createWithSpriteFrameName("BirdHero0.png");
     Vector<SpriteFrame*> animFrames;
     animFrames.reserve(2);
@@ -116,6 +128,38 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
     player->setPosition(Vec2(300,visibleSize.height/2));
     player->setScale(0.4);
     this->addChild(player);
+
+    auto moveBy = MoveBy::create(1,Vec2(0,100));
+    auto delay = DelayTime::create(0.1);
+    auto seq = Sequence::create(moveBy,delay,moveBy->reverse(),delay->clone(),nullptr);
+    player->runAction(RepeatForever::create(seq));
+
+    auto startLabel = Label::createWithTTF("Tap to start", "fonts/Marker Felt.ttf", 64);
+    startLabel->enableShadow();
+    auto callbackStart = [&](Ref* sender){
+         log("Clicando no item do menu.\n");
+    };
+    auto startMenuItem  = MenuItemLabel::create(startLabel,callbackStart);
+    auto myMenu = Menu::createWithItem(startMenuItem); 
+    this->addChild(myMenu,10);
+
+    auto button = Button::create("Sprites/bt_normal.png","Sprites/bt_pressed.png");
+    button->setPosition(Vec2(visibleSize.width/2,visibleSize.height*0.3));
+    button->setAnchorPoint(Vec2(0.5f,0.5f));
+    button->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type){
+        switch (type)
+        {
+        case Widget::TouchEventType::BEGAN:
+            log("Button pressed.\n");
+            break;
+        case Widget::TouchEventType::ENDED:
+             log("Button released.\n");
+        default:
+            break;
+        }
+    });
+    
+    this->addChild(button);
     //  auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     // if (label == nullptr)
     // {
@@ -149,6 +193,7 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
+    log("estou clicando no label");
     //Close the cocos2d-x game scene and quit the application
     // Director::getInstance()->end();
 
@@ -158,4 +203,11 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void HelloWorld::scrollSprite(Sprite *sprite, float rate, Size visibleSize,float baseSpeed){
+    auto move = MoveTo::create(baseSpeed/rate,Vec2(-visibleSize.width,0));
+    auto resetPos = MoveTo::create(0,Vec2::ZERO);
+    auto sequence = Sequence::create(move,resetPos,nullptr);
+    sprite->runAction(RepeatForever::create(sequence));
 }

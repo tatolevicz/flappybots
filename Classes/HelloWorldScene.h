@@ -26,7 +26,9 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 using namespace cocos2d;
+using namespace ui;
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -36,8 +38,11 @@ public:
     virtual bool init();
     
     void addExitButton(Vec2 origin, Size visibleSize);
-    void menuCloseCallback(cocos2d::Ref* pSender);
-
+    void menuCloseCallback(Ref* pSender);
+    void scrollSprite(Sprite* sprite, 
+                        float rate, 
+                        Size visibleSize,
+                        float baseSpeed = 15.0);
     void setupScreen(Vec2 origin, Size visibleSize);
 
     
