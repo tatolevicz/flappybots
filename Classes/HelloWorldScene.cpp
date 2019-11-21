@@ -44,11 +44,10 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Scene::init() )
+    if (!Scene::initWithPhysics() )
     {
         return false;
     }
-
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -132,7 +131,7 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
     auto moveBy = MoveBy::create(1,Vec2(0,100));
     auto delay = DelayTime::create(0.1);
     auto seq = Sequence::create(moveBy,delay,moveBy->reverse(),delay->clone(),nullptr);
-    player->runAction(RepeatForever::create(seq));
+    // player->runAction(RepeatForever::create(seq));
 
     auto startLabel = Label::createWithTTF("Tap to start", "fonts/Marker Felt.ttf", 64);
     startLabel->enableShadow();
@@ -160,49 +159,54 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
     });
     
     this->addChild(button);
-    //  auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    // if (label == nullptr)
-    // {
-    //     problemLoading("'fonts/Marker Felt.ttf'");
-    // }
-    // else
-    // {
-    //     // position the label on the center of the screen
-    //     label->setPosition(Vec2(origin.x + visibleSize.width/2,
-    //                             origin.y + visibleSize.height - label->getContentSize().height));
+    auto sizeBodyGround = Size(visibleSize.width,visibleSize.height*0.10);
+    auto physicsBodyGround = PhysicsBody::createBox(sizeBodyGround,PHYSICSBODY_MATERIAL_DEFAULT);
+    physicsBodyGround->setDynamic(false);
 
-    //     // add the label as a child to this layer
-    //     this->addChild(label, 1);
-    // }
+    auto physicsBodyPlayer = PhysicsBody::createCircle(player->getContentSize().width*0.33,PHYSICSBODY_MATERIAL_DEFAULT);
 
-    // // add "HelloWorld" splash screen"
-    // auto sprite = Sprite::create("HelloWorld.png");
-    // if (sprite == nullptr)
-    // {
-    //     problemLoading("'HelloWorld.png'");
-    // }
-    // else
-    // {
-    //     // position the sprite on the center of the screen
-    //     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    int ground_bit_mask_category = 0x01;
+    int player_bit_mask_category = 0x02;
+    int obstacle_bit_mask_category = 0x03;
 
-    //     // add the sprite as a child to this layer
-    //     this->addChild(sprite, 0);
-    // }
+    physicsBodyGround->setCategoryBitmask(ground_bit_mask_category);
+    physicsBodyPlayer->setCategoryBitmask(player_bit_mask_category);
+
+    physicsBodyPlayer->setCollisionBitmask(ground_bit_mask_category | obstacle_bit_mask_category);
+    physicsBodyGround->setCollisionBitmask(player_bit_mask_category);
+
+    physicsBodyPlayer->setContactTestBitmask(ground_bit_mask_category);
+    physicsBodyGround->setContactTestBitmask(player_bit_mask_category);
+
+    this->getPhysicsWorld()->setDebugDrawMask(ground_bit_mask_category | player_bit_mask_category);
+    this->getPhysicsWorld()->setSpeed(3);
+
+    auto groundCollider = Sprite::create();
+    groundCollider->setAnchorPoint(Vec2::ZERO);
+    groundCollider->setContentSize(sizeBodyGround);
+
+    player->setName("player");
+    groundCollider->setName("ground");
+
+    player->setTag(1);
+    groundCollider->setTag(2);
+
+    groundCollider->addComponent(physicsBodyGround);
+    player->addComponent(physicsBodyPlayer);
+
+    this->addChild(groundCollider);
+
+    auto contactListener = EventListenerPhysicsContact::create();
+    // auto contactListener = EventListenerPhysicsContactWithBodies::create(physicsBodyPLayer,physicsBodyGround);
+    contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
     log("estou clicando no label");
-    //Close the cocos2d-x game scene and quit the application
-    // Director::getInstance()->end();
-
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
 
 void HelloWorld::scrollSprite(Sprite *sprite, float rate, Size visibleSize,float baseSpeed){
@@ -210,4 +214,27 @@ void HelloWorld::scrollSprite(Sprite *sprite, float rate, Size visibleSize,float
     auto resetPos = MoveTo::create(0,Vec2::ZERO);
     auto sequence = Sequence::create(move,resetPos,nullptr);
     sprite->runAction(RepeatForever::create(sequence));
+}
+
+bool HelloWorld::onContactBegin(PhysicsContact& contact)
+{
+    auto nodeA = contact.getShapeA()->getBody()->getNode();
+    auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+    log("Contact: node A name: %s. node B name: %s",nodeA->getName().c_str(),nodeB->getName().c_str());
+    if (nodeA && nodeB)
+    {
+        // log("Contact 2: tag: %d", nodeB->getTag());
+        // if (nodeA->getTag() == 1)
+        // {
+        //     nodeB->removeFromParentAndCleanup(true);
+        // }
+        // else if (nodeB->getTag() == 1)
+        // {
+        //     nodeA->removeFromParentAndCleanup(true);
+        // }
+    }
+
+    //bodies can collide
+    return true;
 }

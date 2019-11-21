@@ -44,10 +44,12 @@ public:
                         Size visibleSize,
                         float baseSpeed = 15.0);
     void setupScreen(Vec2 origin, Size visibleSize);
-
+    bool onContactBegin(PhysicsContact& contact);
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+    // uint8_t 
 };
 
 #endif // __HELLOWORLD_SCENE_H__
