@@ -27,6 +27,22 @@
 		46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
 		496C426A238618FE0086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
 		496C426B238619110086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
+		496C426E238758630086CE71 /* StateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C426D238758630086CE71 /* StateMachine.cpp */; };
+		496C426F238758630086CE71 /* StateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C426D238758630086CE71 /* StateMachine.cpp */; };
+		496C42722387587F0086CE71 /* Respawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42702387587F0086CE71 /* Respawner.cpp */; };
+		496C42732387587F0086CE71 /* Respawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42702387587F0086CE71 /* Respawner.cpp */; };
+		496C4276238758A00086CE71 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4274238758A00086CE71 /* Player.cpp */; };
+		496C4277238758A00086CE71 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4274238758A00086CE71 /* Player.cpp */; };
+		496C427A238758B60086CE71 /* ScrollableSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4278238758B60086CE71 /* ScrollableSprite.cpp */; };
+		496C427B238758B60086CE71 /* ScrollableSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4278238758B60086CE71 /* ScrollableSprite.cpp */; };
+		496C427E238758CF0086CE71 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C427C238758CF0086CE71 /* GameManager.cpp */; };
+		496C427F238758CF0086CE71 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C427C238758CF0086CE71 /* GameManager.cpp */; };
+		496C4282238758F00086CE71 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4280238758F00086CE71 /* Column.cpp */; };
+		496C4283238758F00086CE71 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C4280238758F00086CE71 /* Column.cpp */; };
+		496C42862387590C0086CE71 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42842387590C0086CE71 /* Splash.cpp */; };
+		496C42872387590C0086CE71 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42842387590C0086CE71 /* Splash.cpp */; };
+		496C428A2387630C0086CE71 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42882387630C0086CE71 /* GameScene.cpp */; };
+		496C428B2387630C0086CE71 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42882387630C0086CE71 /* GameScene.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10517EB98FF00D1A890 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 503AE10317EB98FF00D1A890 /* main.cpp */; };
 		503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11A17EB9C5A00D1A890 /* IOKit.framework */; };
@@ -115,6 +131,22 @@
 		46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
 		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		496C4269238618FE0086CE71 /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
+		496C426C2387584D0086CE71 /* StateMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
+		496C426D238758630086CE71 /* StateMachine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cpp; sourceTree = "<group>"; };
+		496C42702387587F0086CE71 /* Respawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Respawner.cpp; sourceTree = "<group>"; };
+		496C42712387587F0086CE71 /* Respawner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Respawner.hpp; sourceTree = "<group>"; };
+		496C4274238758A00086CE71 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		496C4275238758A00086CE71 /* Player.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
+		496C4278238758B60086CE71 /* ScrollableSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollableSprite.cpp; sourceTree = "<group>"; };
+		496C4279238758B60086CE71 /* ScrollableSprite.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScrollableSprite.hpp; sourceTree = "<group>"; };
+		496C427C238758CF0086CE71 /* GameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
+		496C427D238758CF0086CE71 /* GameManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameManager.hpp; sourceTree = "<group>"; };
+		496C4280238758F00086CE71 /* Column.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Column.cpp; sourceTree = "<group>"; };
+		496C4281238758F00086CE71 /* Column.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Column.hpp; sourceTree = "<group>"; };
+		496C42842387590C0086CE71 /* Splash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Splash.cpp; sourceTree = "<group>"; };
+		496C42852387590C0086CE71 /* Splash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Splash.hpp; sourceTree = "<group>"; };
+		496C42882387630C0086CE71 /* GameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		496C42892387630C0086CE71 /* GameScene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameScene.hpp; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE10317EB98FF00D1A890 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = mac/main.cpp; sourceTree = "<group>"; };
@@ -276,6 +308,22 @@
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
+				496C42882387630C0086CE71 /* GameScene.cpp */,
+				496C42892387630C0086CE71 /* GameScene.hpp */,
+				496C426C2387584D0086CE71 /* StateMachine.h */,
+				496C426D238758630086CE71 /* StateMachine.cpp */,
+				496C42702387587F0086CE71 /* Respawner.cpp */,
+				496C42712387587F0086CE71 /* Respawner.hpp */,
+				496C4274238758A00086CE71 /* Player.cpp */,
+				496C4275238758A00086CE71 /* Player.hpp */,
+				496C4278238758B60086CE71 /* ScrollableSprite.cpp */,
+				496C4279238758B60086CE71 /* ScrollableSprite.hpp */,
+				496C427C238758CF0086CE71 /* GameManager.cpp */,
+				496C427D238758CF0086CE71 /* GameManager.hpp */,
+				496C4280238758F00086CE71 /* Column.cpp */,
+				496C4281238758F00086CE71 /* Column.hpp */,
+				496C42842387590C0086CE71 /* Splash.cpp */,
+				496C42852387590C0086CE71 /* Splash.hpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
 			);
 			name = Classes;
@@ -436,11 +484,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496C4276238758A00086CE71 /* Player.cpp in Sources */,
+				496C427E238758CF0086CE71 /* GameManager.cpp in Sources */,
+				496C427A238758B60086CE71 /* ScrollableSprite.cpp in Sources */,
+				496C42722387587F0086CE71 /* Respawner.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
+				496C428A2387630C0086CE71 /* GameScene.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				496C426E238758630086CE71 /* StateMachine.cpp in Sources */,
+				496C42862387590C0086CE71 /* Splash.cpp in Sources */,
+				496C4282238758F00086CE71 /* Column.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,7 +506,15 @@
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				496C42872387590C0086CE71 /* Splash.cpp in Sources */,
+				496C4277238758A00086CE71 /* Player.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				496C42732387587F0086CE71 /* Respawner.cpp in Sources */,
+				496C427F238758CF0086CE71 /* GameManager.cpp in Sources */,
+				496C4283238758F00086CE71 /* Column.cpp in Sources */,
+				496C428B2387630C0086CE71 /* GameScene.cpp in Sources */,
+				496C426F238758630086CE71 /* StateMachine.cpp in Sources */,
+				496C427B238758B60086CE71 /* ScrollableSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
