@@ -34,12 +34,11 @@ void Player::initialSetup(){
 void Player::addAnimation(){
     auto spriteSheet = SpriteFrameCache::getInstance();
     this->initWithSpriteFrameName("BirdHero0.png");
-    Vector<SpriteFrame*> animFrames;
-    animFrames.reserve(2);
-    animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero0.png"));
-    animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero1.png"));
+    this->animFrames.reserve(2);
+    this->animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero0.png"));
+    this->animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero1.png"));
    
-    Animation* anim = Animation::createWithSpriteFrames(animFrames,0.15f);
+    Animation* anim = Animation::createWithSpriteFrames(this->animFrames,0.15f);
     Animate* animate = Animate::create(anim);
 
     this->runAction(RepeatForever::create(animate));
@@ -68,8 +67,15 @@ void Player::jump(){
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);
     this->getPhysicsBody()->applyImpulse(Vec2(0,1)*GameManager::getInstance()->jumpForce);
+    this->flap();
 }
 
 void Player::stopAnimation(){
     this->stopAllActions();
+}
+
+void Player::flap(){
+    Animation* anim = Animation::createWithSpriteFrames(this->animFrames,0.15f);
+    Animate* animate = Animate::create(anim);
+    this->runAction(animate);
 }

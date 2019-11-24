@@ -16,16 +16,19 @@ USING_NS_CC;
  class Player : public Sprite{
 
      public:
-        Player();
-        ~Player();
-        static Player* create();
-        void jump();
-        void addAnimation();
-        void stopAnimation();
+      Player();
+      ~Player();
+      static Player* create();
+      void jump();
+      void addAnimation();
+      void stopAnimation();
+      
      private:
-        Size screenSize;
-        void initialSetup();
-        void addPhysics();
- };
+      Vector<SpriteFrame*> animFrames;
+      Size screenSize;
+      void initialSetup();
+      void addPhysics();
+      void flap();
+};
 
 #endif
