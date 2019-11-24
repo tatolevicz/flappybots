@@ -59,6 +59,7 @@ void Respawner::unschedule(){
 }
 
 void Respawner::initializePool(){
+    pool->reserve(poolSize);
     auto initPos = Vec2(this->screenSize.width + this->screenSize.width/2 , this->screenSize.height/2);
     for(int i = 0; i < poolSize; i++){
         auto col = Column::create(this->gapSize);
@@ -112,7 +113,7 @@ void Respawner::respawn(){
 
     column->setRate(this->speed/2.0f);
     column->setShouldRepeat(false);
-    
+
     column->start();
     
     nextColumnIdx++;

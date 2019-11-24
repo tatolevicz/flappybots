@@ -6,3 +6,17 @@
 //
 
 #include "GameManager.hpp"
+
+GameManager::GameManager(){}
+GameManager::~GameManager(){}
+
+GameManager* GameManager::instance = 0;
+
+GameManager* GameManager::getInstance()
+{
+    if (instance == 0)
+    {
+        instance = new GameManager();
+    }
+    return instance;
+}

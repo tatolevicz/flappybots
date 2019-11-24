@@ -112,7 +112,6 @@ void HelloWorld::setupScreen(Vec2 origin, Size visibleSize)
     this->scrollSprite(trees,treesRate,visibleSize);
     this->scrollSprite(ground,groundRate,visibleSize);
 
-    
     auto player = Sprite::createWithSpriteFrameName("BirdHero0.png");
     Vector<SpriteFrame*> animFrames;
     animFrames.reserve(2);

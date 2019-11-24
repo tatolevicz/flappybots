@@ -11,6 +11,9 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Respawner.hpp"
+#include "ScrollableSprite.hpp"
+#include "GameManager.hpp"
+#include "Player.hpp"
 
 using namespace cocos2d;
 using namespace ui;
@@ -24,18 +27,34 @@ class GameScene : public Scene
         Respawner* respawner;
         bool onContactBegin(PhysicsContact& contact);
         CREATE_FUNC(GameScene);
-
-        //ui variables
-        Menu* startButton;
+    
         //methods
         void startButtonPressed(Ref* pSender);
+        void setupInput();
+        virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 
     private:
+
+        Size screenSize;
+        //game variables
+        ScrollableSprite* sky;
+        ScrollableSprite* ground; 
+        ScrollableSprite* trees;
+
+        Player* player;
+        Sprite* groundCollider;
+        
+        //ui variables
+        Menu* startButton;
+
         void loadSpriteSheet();
-        void setupScreen(Vec2 origin, Size visibleSize);
-        void createParallax(Size visibleSize);
-        void addPlayer(Size visibleSize);
+        void setupScreen(Vec2 origin);
+        void createParallax();
+        void addPlayer();
         void createRespawner();
         void createUI();
+        void addPhysicsGround();
+        void addPhysicsPlayer();
+        void setPhysicsParameters();
 };
 #endif
