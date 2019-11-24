@@ -7,25 +7,35 @@
 
 #ifndef GameScene_hpp
 #define GameScene_hpp
+
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Respawner.hpp"
+
 using namespace cocos2d;
 using namespace ui;
 
 class GameScene : public Scene
 {
-public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();
-    void setupScreen(Vec2 origin, Size visibleSize);
-    // implement the "static create()" method manually
-    void scrollSprite(Sprite* sprite, 
-                        float rate, 
-                        Size visibleSize,
-                        Vec2 resetPosition = Vec2::ZERO,
-                        float baseSpeed = 15.0);
-    bool onContactBegin(PhysicsContact& contact);
-    SpriteFrameCache* loadSpriteSheet();
-    CREATE_FUNC(GameScene);
+    public:
+        static cocos2d::Scene* createScene();
+        virtual bool init();
+        SpriteFrameCache *spriteSheet;
+        Respawner* respawner;
+        bool onContactBegin(PhysicsContact& contact);
+        CREATE_FUNC(GameScene);
+
+        //ui variables
+        Menu* startButton;
+        //methods
+        void startButtonPressed(Ref* pSender);
+
+    private:
+        void loadSpriteSheet();
+        void setupScreen(Vec2 origin, Size visibleSize);
+        void createParallax(Size visibleSize);
+        void addPlayer(Size visibleSize);
+        void createRespawner();
+        void createUI();
 };
 #endif

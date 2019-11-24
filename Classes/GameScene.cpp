@@ -6,8 +6,6 @@
 //
 
 #include "GameScene.hpp"
-#include "Column.hpp"
-#include "Respawner.hpp"
 #include "ScrollableSprite.hpp"
 
 USING_NS_CC;
@@ -31,8 +29,45 @@ bool GameScene::init()
 
 void GameScene::setupScreen(Vec2 origin, Size visibleSize){
    
-    auto spritecache = loadSpriteSheet();
+    loadSpriteSheet();
+    createParallax(visibleSize);
+    addPlayer(visibleSize);
+    createRespawner();
+    createUI();
+}
 
+bool GameScene::onContactBegin(PhysicsContact& contact)
+{
+    auto nodeA = contact.getShapeA()->getBody()->getNode();
+    auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+    log("Contact: node A name: %s. node B name: %s",nodeA->getName().c_str(),nodeB->getName().c_str());
+    if (nodeA && nodeB)
+    {
+        // log("Contact 2: tag: %d", nodeB->getTag());
+        // if (nodeA->getTag() == 1)
+        // {
+        //     nodeB->removeFromParentAndCleanup(true);
+        // }
+        // else if (nodeB->getTag() == 1)
+        // {
+        //     nodeA->removeFromParentAndCleanup(true);
+        // }
+    }
+
+    //bodies can collide
+    return true;
+}
+
+void GameScene::loadSpriteSheet(){
+    // load the Sprite Sheet
+    this->spriteSheet = SpriteFrameCache::getInstance();
+    // the .plist file can be generated with any of the tools mentioned below
+    spriteSheet->addSpriteFramesWithFile("Sprites/SpriteSheet.plist");
+}
+
+
+void GameScene::createParallax(Size visibleSize){
     auto sky = ScrollableSprite::create(true);
     auto ground = ScrollableSprite::create(true);
     auto trees = ScrollableSprite::create(true);
@@ -70,12 +105,14 @@ void GameScene::setupScreen(Vec2 origin, Size visibleSize){
     this->addChild(sky,-3);
     this->addChild(trees,-2);
     this->addChild(ground,-1);  
-    
+}
+
+void GameScene::addPlayer(Size visibleSize){
     auto player = Sprite::createWithSpriteFrameName("BirdHero0.png");
     Vector<SpriteFrame*> animFrames;
     animFrames.reserve(2);
-    animFrames.pushBack(spritecache->spriteFrameByName("BirdHero0.png"));
-    animFrames.pushBack(spritecache->spriteFrameByName("BirdHero1.png"));
+    animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero0.png"));
+    animFrames.pushBack(spriteSheet->spriteFrameByName("BirdHero1.png"));
    
     Animation* anim = Animation::createWithSpriteFrames(animFrames,0.15f);
     Animate* animate = Animate::create(anim);
@@ -90,43 +127,27 @@ void GameScene::setupScreen(Vec2 origin, Size visibleSize){
     auto delay = DelayTime::create(0.1);
     auto seq = Sequence::create(moveBy,delay,moveBy->reverse(),delay->clone(),nullptr);
     player->runAction(RepeatForever::create(seq));
+}
 
-    auto respawner = Respawner::create();
+void  GameScene::createRespawner(){
+    this->respawner = Respawner::create();
     respawner->setSceneNode(this);
     respawner->setSpeed(1.8);
-    respawner->start();
     this->addChild(respawner);
 }
 
-bool GameScene::onContactBegin(PhysicsContact& contact)
-{
-    auto nodeA = contact.getShapeA()->getBody()->getNode();
-    auto nodeB = contact.getShapeB()->getBody()->getNode();
-
-    log("Contact: node A name: %s. node B name: %s",nodeA->getName().c_str(),nodeB->getName().c_str());
-    if (nodeA && nodeB)
-    {
-        // log("Contact 2: tag: %d", nodeB->getTag());
-        // if (nodeA->getTag() == 1)
-        // {
-        //     nodeB->removeFromParentAndCleanup(true);
-        // }
-        // else if (nodeB->getTag() == 1)
-        // {
-        //     nodeA->removeFromParentAndCleanup(true);
-        // }
-    }
-
-    //bodies can collide
-    return true;
+void GameScene::createUI(){
+    auto startLabel = Label::createWithTTF("Tap to start", "fonts/Marker Felt.ttf", 64);
+    startLabel->enableShadow();
+    auto callbackStart = [&](Ref* sender){
+         this->startButtonPressed(this->startButton);
+    };
+    auto startButtonItem  = MenuItemLabel::create(startLabel,callbackStart);
+    this->startButton = Menu::createWithItem(startButtonItem); 
+    this->addChild(this->startButton,10);
 }
 
-SpriteFrameCache* GameScene::loadSpriteSheet(){
-    // load the Sprite Sheet
-    auto spritecache = SpriteFrameCache::getInstance();
-    // the .plist file can be generated with any of the tools mentioned below
-    spritecache->addSpriteFramesWithFile("Sprites/SpriteSheet.plist");
-    return spritecache;
+void GameScene::startButtonPressed(Ref* pSender){
+     respawner->start();
+     this->startButton->setVisible(false);
 }
-
-

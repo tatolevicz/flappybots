@@ -31,19 +31,16 @@ void ScrollableSprite::scrollSprite(){
     auto move = MoveTo::create(this->baseSpeed/this->rate,this->endPosition);
     auto resetPos = MoveTo::create(0,this->initPosition);
 
-    ActionInterval* sequence;
+    ActionInterval* action;
 
     if(this->shouldRepeat){
-        sequence = RepeatForever::create(Sequence::create(move,resetPos,nullptr));
+        action = RepeatForever::create(Sequence::create(move,resetPos,nullptr));
     }
     else{
-        auto callBackEnd = CallFunc::create([=](){
-            this->removeFromParentAndCleanup(true);
-        });
-        sequence = Sequence::create(move,callBackEnd,nullptr);
+        action = Sequence::create(move,nullptr);
     }
 
-    this->runAction(RepeatForever::create(sequence));
+    this->runAction(RepeatForever::create(action));
 }
 
 void ScrollableSprite::start(){

@@ -33,7 +33,10 @@ class Respawner : public Node
         bool shouldRespawn = false;
         Scene* sceneNode;
         Size screenSize;
+        Vector<Column*> *pool = new Vector<Column*>();
+        int nextColumnIdx = 0;
 
+        void initializePool();
         void update(float dt);  
         void schedule();
         void unschedule();  

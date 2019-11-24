@@ -43,6 +43,7 @@ void Respawner::setGapSize(float newGapSize){
 
 void Respawner::start(){
     shouldRespawn = true;
+    currentTime = respawnRate;
 }
 
 void Respawner::stop(){
@@ -55,6 +56,16 @@ void Respawner::schedule(){
 
 void Respawner::unschedule(){
     Director::getInstance()->getScheduler()->unschedule("respawner", this);
+}
+
+void Respawner::initializePool(){
+    auto initPos = Vec2(this->screenSize.width + this->screenSize.width/2 , this->screenSize.height/2);
+    for(int i = 0; i < poolSize; i++){
+        auto col = Column::create(this->gapSize);
+        col->setPosition(initPos);
+        pool->pushBack(col);
+        sceneNode->addChild(col,1);
+    }
 }
 
 void Respawner::update(float dt){
@@ -79,23 +90,35 @@ void Respawner::update(float dt){
 
 void Respawner::setSceneNode(Scene* sceneNodeRef){
     this->sceneNode = sceneNodeRef;
+    if(this->sceneNode){
+        this->initializePool();
+    }
+    else{
+        log("Respawner: Problems initializing scenenode. So the pool was not initalized.");
+    }
 }
 
 void Respawner::respawn(){
-    auto columnTest = Column::create(this->gapSize);
+    auto column = this->pool->at(nextColumnIdx);
+    column->stop();
+
     float randomY = this->randomizeHeight();
     auto initPos = Vec2(this->screenSize.width + this->screenSize.width/2 , randomY);
     auto endPos = Vec2(-this->screenSize.width/2, randomY);
 
-    columnTest->setPosition(initPos);
-    columnTest->setInitPosition(initPos);
-    columnTest->setEndPosition(endPos);
+    column->setPosition(initPos);
+    column->setInitPosition(initPos);
+    column->setEndPosition(endPos);
 
-    sceneNode->addChild(columnTest,1);
-
-    columnTest->setRate(this->speed/2.0f);
-    columnTest->setShouldRepeat(false);
-    columnTest->start();
+    column->setRate(this->speed/2.0f);
+    column->setShouldRepeat(false);
+    
+    column->start();
+    
+    nextColumnIdx++;
+    if(nextColumnIdx >= poolSize){
+        nextColumnIdx = 0;
+    }
 }
 
 float Respawner::randomizeHeight(){
