@@ -25,6 +25,7 @@ public:
                         Vec2 resetPosition = Vec2::ZERO,
                         float baseSpeed = 15.0);
     bool onContactBegin(PhysicsContact& contact);
+    SpriteFrameCache* loadSpriteSheet();
     CREATE_FUNC(GameScene);
 };
 #endif

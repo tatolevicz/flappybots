@@ -14,9 +14,15 @@ using namespace cocos2d;
 class Column : public Sprite
 {
     public:
+        Size screenSize;
         Column();
         ~Column();
         static Column* create();
+        void randomizeHeight();
+        void setGapSize(float newGapSize);
+        float getGapSize();
+    private:
+        float gapSize = 17.0f;
 };
 
 #endif 
