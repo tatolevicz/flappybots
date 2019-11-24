@@ -13,18 +13,28 @@ Column::Column() {}
 
 Column::~Column() {}
 
-Column* Column::create()
+Column* Column::create(float _gapSize = 17.0f)
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-
     Column* container = new Column();
-    container->screenSize = visibleSize;
 
+    if (container)
+    {
+        container->autorelease();
+        container->setGapSize(_gapSize);
+        container->initialSetup();
+        return container;
+    }
+
+    CC_SAFE_DELETE(container);
+    return NULL;
+}
+
+void Column::initialSetup(){
+    this->screenSize = Director::getInstance()->getVisibleSize();;
     auto spriteUp = Sprite::create("Sprites/column.png");
     auto spriteDown = Sprite::create("Sprites/column.png");
     auto scoreArea = Node::create();
-
-    auto scoreAreaHeight = visibleSize.height*container->getGapSize();
+    auto scoreAreaHeight = this->gapSize;
 
     spriteUp->setAnchorPoint(Vec2(0.5,0));
     spriteDown->setAnchorPoint(Vec2(0.5,0));
@@ -35,33 +45,11 @@ Column* Column::create()
     scoreArea->setContentSize(Size(spriteUp->getContentSize().width/2,scoreAreaHeight));
     scoreArea->setAnchorPoint(Vec2(0,0.5));
 
-    container->addChild(spriteUp);
-    container->addChild(spriteDown);
-    container->addChild(scoreArea);
-
-    container->randomizeHeight();
-
-    if (container)
-    {
-        container->autorelease();
-        return container;
-    }
-
-    CC_SAFE_DELETE(container);
-    return NULL;
-}
-
-void Column::randomizeHeight(){
-    auto currentPos = this->getPosition();
-    float random = ((float) rand()) / (float) RAND_MAX;
-    log("random number %f", random);
-    this->setPosition(currentPos.x,this->screenSize.height*random);
+    this->addChild(spriteUp);
+    this->addChild(spriteDown);
+    this->addChild(scoreArea);
 }
 
 void Column::setGapSize(float newGapSize){
     this->gapSize = newGapSize;
-}
-
-float Column::getGapSize(){
-    return this->gapSize;
 }

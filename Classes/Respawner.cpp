@@ -82,8 +82,29 @@ void Respawner::setSceneNode(Scene* sceneNodeRef){
 }
 
 void Respawner::respawn(){
-    auto columnTest = Column::create();
-    columnTest->setPosition(Vec2(this->screenSize.width*1.5f, 0));
-    columnTest->randomizeHeight();
-    sceneNode->addChild(columnTest,10);
+    auto columnTest = Column::create(this->gapSize);
+    float randomY = this->randomizeHeight();
+    auto initPos = Vec2(this->screenSize.width + this->screenSize.width/2 , randomY);
+    auto endPos = Vec2(-this->screenSize.width/2, randomY);
+
+    columnTest->setPosition(initPos);
+    columnTest->setInitPosition(initPos);
+    columnTest->setEndPosition(endPos);
+
+    sceneNode->addChild(columnTest,1);
+
+    columnTest->setRate(this->speed/2.0f);
+    columnTest->setShouldRepeat(false);
+    columnTest->start();
+}
+
+float Respawner::randomizeHeight(){
+    float random = ((float) rand()) / (float) RAND_MAX;
+    float result = (this->screenSize.height*0.7)*random + this->screenSize.height*0.2;
+    log("random result %f", result);
+    return result;
+}
+
+void Respawner::setSpeed( float newSpeed){
+    this->speed = newSpeed;
 }

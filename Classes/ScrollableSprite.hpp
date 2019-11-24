@@ -17,17 +17,21 @@ class ScrollableSprite : public Sprite
         Size screenSize;
         ScrollableSprite();
         ~ScrollableSprite();
-        static ScrollableSprite* create();
+        static ScrollableSprite* create(bool _shouldRepeat = true);
         void start();
         void stop();
         void setRate(float newRate);
-        void setResetPosition(Vec2 newResetPos);
+        void setInitPosition(Vec2 newInitPos);
+        void setEndPosition(Vec2 newEndPos);
+        void setShouldRepeat(bool newShouldRepeat);
         
     private:
         void initialSetup();
         void scrollSprite();
         float rate = 1.0f; 
-        Vec2 resetPosition = Vec2::ZERO;
-        float baseSpeed = 15.0f;
+        Vec2 initPosition = Vec2::ZERO;
+        Vec2 endPosition = Vec2::ZERO;
+        float baseSpeed = 10.0f;
+        bool shouldRepeat = true;
 };
 #endif 

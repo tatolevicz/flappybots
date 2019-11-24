@@ -33,9 +33,9 @@ void GameScene::setupScreen(Vec2 origin, Size visibleSize){
    
     auto spritecache = loadSpriteSheet();
 
-    auto sky = ScrollableSprite::create();
-    auto ground = ScrollableSprite::create();
-    auto trees = ScrollableSprite::create();
+    auto sky = ScrollableSprite::create(true);
+    auto ground = ScrollableSprite::create(true);
+    auto trees = ScrollableSprite::create(true);
 
     sky->initWithSpriteFrameName("sky_repeated.png");
     ground->initWithSpriteFrameName("ground.png");
@@ -49,17 +49,27 @@ void GameScene::setupScreen(Vec2 origin, Size visibleSize){
     auto treesRate = 1.3;
     auto groundRate = 1.8;
 
-    this->addChild(sky,-3);
-    this->addChild(trees,-2);
-    this->addChild(ground,-1);  
-
     sky->setRate(skyRate);
     ground->setRate(groundRate);
     trees->setRate(treesRate);
 
+    auto parallaxInitPos = Vec2(0,0);
+    auto parallaxEndPos = Vec2(-visibleSize.width,0);
+
+    sky->setInitPosition(parallaxInitPos);
+    sky->setEndPosition(parallaxEndPos);
+    ground->setInitPosition(parallaxInitPos);
+    ground->setEndPosition(parallaxEndPos);
+    trees->setInitPosition(parallaxInitPos);
+    trees->setEndPosition(parallaxEndPos);
+
     sky->start();
     ground->start();
     trees->start();
+
+    this->addChild(sky,-3);
+    this->addChild(trees,-2);
+    this->addChild(ground,-1);  
     
     auto player = Sprite::createWithSpriteFrameName("BirdHero0.png");
     Vector<SpriteFrame*> animFrames;
@@ -83,6 +93,7 @@ void GameScene::setupScreen(Vec2 origin, Size visibleSize){
 
     auto respawner = Respawner::create();
     respawner->setSceneNode(this);
+    respawner->setSpeed(1.8);
     respawner->start();
     this->addChild(respawner);
 }

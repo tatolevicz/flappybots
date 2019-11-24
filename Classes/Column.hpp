@@ -9,20 +9,20 @@
 #define Column_hpp
 
 #include "cocos2d.h"
+#include "ScrollableSprite.hpp"
 using namespace cocos2d;
 
-class Column : public Sprite
+class Column : public ScrollableSprite
 {
     public:
         Size screenSize;
         Column();
         ~Column();
-        static Column* create();
-        void randomizeHeight();
+        static Column* create(float _gapSize);
         void setGapSize(float newGapSize);
-        float getGapSize();
     private:
-        float gapSize = 17.0f;
+        void initialSetup();
+        float gapSize;
 };
 
 #endif 

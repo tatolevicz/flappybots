@@ -24,10 +24,10 @@ class Respawner : public Node
         void setSceneNode(Scene* sceneNodeRef);
         void start();
         void stop();
+        void setSpeed(float newSpeed);
     
     private:
         float respawnRate = 2.0f;
-        float gapSize = 17.0f;
         int poolSize = 5;
         float currentTime = 0.0f;
         bool shouldRespawn = false;
@@ -37,7 +37,12 @@ class Respawner : public Node
         void update(float dt);  
         void schedule();
         void unschedule();  
-        void respawn();       
+        void respawn();  
+        float randomizeHeight();
+
+        //column specifics
+        float gapSize = 130.0f;
+        float speed =  1.8f;    
 };
 
 #endif 
