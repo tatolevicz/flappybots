@@ -6,6 +6,7 @@
 //
 
 #include "Column.hpp"
+#include "Gamemanager.hpp"
 
 USING_NS_CC;
 
@@ -30,10 +31,16 @@ Column* Column::create(float _gapSize = 17.0f)
 }
 
 void Column::initialSetup(){
+    this->addSprites();
+    this->addPhysics();
+}
+
+void Column::addSprites(){
     this->screenSize = Director::getInstance()->getVisibleSize();;
-    auto spriteUp = Sprite::create("Sprites/column.png");
-    auto spriteDown = Sprite::create("Sprites/column.png");
-    auto scoreArea = Node::create();
+    this->spriteUp = Sprite::create("Sprites/column.png");
+    this->spriteDown = Sprite::create("Sprites/column.png");
+    this->scoreArea = Node::create();
+
     auto scoreAreaHeight = this->gapSize;
 
     spriteUp->setAnchorPoint(Vec2(0.5,0));
@@ -50,6 +57,25 @@ void Column::initialSetup(){
     this->addChild(scoreArea);
 }
 
+void Column::addPhysics(){
+    this->addPhysicsToNode(this->spriteUp);
+    this->addPhysicsToNode(this->spriteDown);
+    this->addPhysicsToNode(this->scoreArea,false);
+}
+
+void Column::addPhysicsToNode(Node* node,bool shouldCollide){
+    auto body = PhysicsBody::createBox(node->getContentSize(),PHYSICSBODY_MATERIAL_DEFAULT,Vec2::ZERO);
+    body->setDynamic(false);
+    body->setCategoryBitmask(GameManager::getInstance()->obstacle_bit_mask_category);
+    if(shouldCollide){
+        body->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
+    }
+    body->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
+
+    node->addComponent(body);
+}
+
 void Column::setGapSize(float newGapSize){
     this->gapSize = newGapSize;
 }
+

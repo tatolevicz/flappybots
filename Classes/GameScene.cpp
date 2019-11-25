@@ -165,7 +165,7 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
     }
 
     //bodies can collide
-    return true;
+    return false;
 }
 
 void GameScene::setupInput(){

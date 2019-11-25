@@ -56,8 +56,8 @@ void Player::addPhysics(){
     auto physicsBodyPlayer = PhysicsBody::createCircle(this->getContentSize().width*0.33,PHYSICSBODY_MATERIAL_DEFAULT);
     physicsBodyPlayer->setGravityEnable(false);
     physicsBodyPlayer->setCategoryBitmask(GameManager::getInstance()->player_bit_mask_category);
-    physicsBodyPlayer->setCollisionBitmask(GameManager::getInstance()->ground_bit_mask_category | GameManager::getInstance()->obstacle_bit_mask_category);
-    physicsBodyPlayer->setContactTestBitmask(GameManager::getInstance()->ground_bit_mask_category);
+    physicsBodyPlayer->setCollisionBitmask(GameManager::getInstance()->ground_bit_mask_category);
+    physicsBodyPlayer->setContactTestBitmask(GameManager::getInstance()->ground_bit_mask_category | GameManager::getInstance()->obstacle_bit_mask_category);
     this->setName(GameManager::getInstance()->player_name);
     this->setTag(GameManager::getInstance()->player_tag);
     this->addComponent(physicsBodyPlayer);

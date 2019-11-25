@@ -22,7 +22,13 @@ class Column : public ScrollableSprite
         void setGapSize(float newGapSize);
     private:
         void initialSetup();
+        void addSprites();
+        void addPhysics();
+        void addPhysicsToNode(Node* node,bool shouldCollide = true);
         float gapSize;
+        Sprite* spriteUp;
+        Sprite* spriteDown;
+        Node* scoreArea;
 };
 
 #endif 
