@@ -9,7 +9,9 @@
 #include "GameManager.hpp"
 
 Player::Player(){}
-Player::~Player(){}
+Player::~Player(){
+    unschedule();
+}
 
 Player* Player::create(){
 
@@ -29,6 +31,7 @@ void Player::initialSetup(){
     this->screenSize = Director::getInstance()->getVisibleSize();
     this->addAnimation();
     this->addPhysics();
+    this->schedule();
 }
 
 void Player::addAnimation(){
@@ -55,7 +58,10 @@ void Player::addAnimation(){
 void Player::addPhysics(){
     auto physicsBodyPlayer = PhysicsBody::createCircle(this->getContentSize().width*0.33,PHYSICSBODY_MATERIAL_DEFAULT);
     physicsBodyPlayer->setGravityEnable(false);
+    // physicsBodyPlayer->setRotationEnable(false);
     physicsBodyPlayer->setCategoryBitmask(GameManager::getInstance()->player_bit_mask_category);
+    physicsBodyPlayer->setCollisionBitmask(  GameManager::getInstance()->ground_bit_mask_category | 
+                                                GameManager::getInstance()->obstacle_bit_mask_category);
     physicsBodyPlayer->setContactTestBitmask(   GameManager::getInstance()->ground_bit_mask_category | 
                                                 GameManager::getInstance()->obstacle_bit_mask_category);
 
@@ -68,7 +74,8 @@ void Player::jump(){
     if(this->isDead)return;
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);
-    this->getPhysicsBody()->applyImpulse(Vec2(0,1)*GameManager::getInstance()->jumpForce);
+    auto direction = Vec2(-sinf(this->currentAngle*3.1416/180.0f),cosf(this->currentAngle*3.1416/180.0f));
+    this->getPhysicsBody()->applyImpulse(direction*GameManager::getInstance()->jumpForce);
     this->flap();
 }
 
@@ -86,6 +93,8 @@ void Player::die(){
     this->isDead = true;
     auto spriteSheet = SpriteFrameCache::getInstance();
     this->setSpriteFrame(spriteSheet->getSpriteFrameByName("BirdHero2.png"));
+    this->currentAngle = 0;
+    this->getPhysicsBody()->setEnabled(false);
 }
 
 void Player::reset(){
@@ -96,4 +105,31 @@ void Player::reset(){
     auto spriteSheet = SpriteFrameCache::getInstance();
     this->setSpriteFrame(spriteSheet->getSpriteFrameByName("BirdHero1.png"));
     this->setPosition(Vec2(300,this->screenSize.height/2));
+    this->getPhysicsBody()->setEnabled(true);
+}
+
+void Player::schedule(){
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "respawner");
+}
+
+void Player::unschedule(){
+    Director::getInstance()->getScheduler()->unschedule("respawner", this);
+}
+
+void Player::update(float dt){
+    if(this->isDead)return;
+    
+    auto currentPosition = this->getPosition().y;
+
+    if(lastYPosition > currentPosition){
+        //going down
+        this->currentAngle = clampf(this->currentAngle += dt+this->rotationRate/2,-this->maxAngle,this->maxAngle);
+    }
+    else if(lastYPosition < currentPosition){
+        //going up
+        this->currentAngle = clampf(this->currentAngle -= dt+this->rotationRate,-this->maxAngle,this->maxAngle);
+    }
+    this->setRotation(this->currentAngle);
+    this->lastYPosition = currentPosition;
+
 }

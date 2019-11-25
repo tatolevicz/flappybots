@@ -235,8 +235,8 @@ int GameScene::getState(){
 
 void GameScene::gameOver(){
     log("Player Died.");
-    this->player->die();
     this->stopScene();
+    this->player->die();
 }
 
 void GameScene::stopScene(){

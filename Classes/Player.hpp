@@ -32,6 +32,13 @@ USING_NS_CC;
       void addPhysics();
       void flap();
       bool isDead = false;
+      void schedule();
+      void unschedule();
+      void update(float dt);
+      float lastYPosition;
+      float currentAngle;
+      float rotationRate = 6.0f;
+      float maxAngle = 30.0f;
 };
 
 #endif
