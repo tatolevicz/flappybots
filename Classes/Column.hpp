@@ -24,7 +24,7 @@ class Column : public ScrollableSprite
         void initialSetup();
         void addSprites();
         void addPhysics();
-        void addPhysicsToNode(Node* node,bool shouldCollide = true);
+        void addPhysicsToNode(Node* node, int tag, const char* name, bool shouldCollide = true);
         float gapSize;
         Sprite* spriteUp;
         Sprite* spriteDown;

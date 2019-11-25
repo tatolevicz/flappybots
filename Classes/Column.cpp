@@ -58,20 +58,34 @@ void Column::addSprites(){
 }
 
 void Column::addPhysics(){
-    this->addPhysicsToNode(this->spriteUp);
-    this->addPhysicsToNode(this->spriteDown);
-    this->addPhysicsToNode(this->scoreArea,false);
+    this->addPhysicsToNode( this->spriteUp,
+                            GameManager::getInstance()->column_tag,
+                            GameManager::getInstance()->column_name
+                            );
+    this->addPhysicsToNode( this->spriteDown,
+                            GameManager::getInstance()->column_tag,
+                            GameManager::getInstance()->column_name
+                            );
+    this->addPhysicsToNode( this->scoreArea,
+                            GameManager::getInstance()->scoreArea_tag,
+                            GameManager::getInstance()->scoreArea_name,
+                            false
+                            );
 }
 
-void Column::addPhysicsToNode(Node* node,bool shouldCollide){
+void Column::addPhysicsToNode(Node* node, int tag,const char* name, bool shouldCollide){
     auto body = PhysicsBody::createBox(node->getContentSize(),PHYSICSBODY_MATERIAL_DEFAULT,Vec2::ZERO);
     body->setDynamic(false);
     body->setCategoryBitmask(GameManager::getInstance()->obstacle_bit_mask_category);
     if(shouldCollide){
         body->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
     }
+    else{
+        body->setCollisionBitmask(0);
+    }
     body->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
-
+    node->setName(name);
+    node->setTag(tag);
     node->addComponent(body);
 }
 

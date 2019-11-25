@@ -22,6 +22,8 @@ USING_NS_CC;
       void jump();
       void addAnimation();
       void stopAnimation();
+      void die();
+      void reset();
       
      private:
       Vector<SpriteFrame*> animFrames;
@@ -29,6 +31,7 @@ USING_NS_CC;
       void initialSetup();
       void addPhysics();
       void flap();
+      bool isDead = false;
 };
 
 #endif

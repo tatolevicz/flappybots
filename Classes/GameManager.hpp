@@ -18,17 +18,26 @@ class GameManager
         GameManager();
         ~GameManager();
         static GameManager* getInstance();
-        const int ground_bit_mask_category = 0x01;
-        const int player_bit_mask_category = 0x02;
-        const int obstacle_bit_mask_category = 0x03;
+
+        int state = 0;
+        static const int STARTING_STATE = 0;
+        static const int PLAYING_STATE = 1;
+        static const int FINISHED_STATE = 2;
+        static const int TRAINING_STATE = 3;
+
+        const int ground_bit_mask_category = 0x0001;
+        const int player_bit_mask_category = 0x0002;
+        const int obstacle_bit_mask_category = 0x0003;
 
         const int player_tag = 1;
         const int ground_tag = 2;
         const int column_tag = 3;
+        const int scoreArea_tag = 4;
 
         const char* player_name = "player";
         const char* ground_name = "ground";
         const char* column_name = "column";
+        const char* scoreArea_name = "scoreArea";
 
         float gravitySpeed = 3.0;
         float jumpForce = 10000.0;

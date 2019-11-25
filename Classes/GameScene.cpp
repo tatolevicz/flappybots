@@ -112,7 +112,7 @@ void GameScene::startButtonPressed(Ref* pSender){
      this->startButton->setVisible(false);
      this->player->stopAnimation();
      this->player->getPhysicsBody()->setGravityEnable(true);
-     this->player->jump();
+     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
 }
  
 void  GameScene::addPhysicsGround(){
@@ -128,7 +128,6 @@ void  GameScene::addPhysicsGround(){
     groundCollider->setTag(GameManager::getInstance()->ground_tag);
 
     physicsBodyGround->setCategoryBitmask(GameManager::getInstance()->ground_bit_mask_category);
-    physicsBodyGround->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
     physicsBodyGround->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
 
     groundCollider->addComponent(physicsBodyGround);
@@ -137,35 +136,79 @@ void  GameScene::addPhysicsGround(){
 }
 
 void GameScene::setPhysicsParameters(){
-    this->getPhysicsWorld()->setDebugDrawMask(GameManager::getInstance()->ground_bit_mask_category | GameManager::getInstance()->player_bit_mask_category);
+    this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category | 
+                                                GameManager::getInstance()->player_bit_mask_category |
+                                                GameManager::getInstance()->obstacle_bit_mask_category);
     this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->gravitySpeed);
 
-    auto contactListener = EventListenerPhysicsContact::create();
-    contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin,this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+    auto contactListenerIn = EventListenerPhysicsContact::create();
+    contactListenerIn->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin,this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListenerIn, this);
+
+    auto contactListenerOut = EventListenerPhysicsContact::create();
+    contactListenerOut->onContactSeparate = CC_CALLBACK_1(GameScene::onContactSeparate,this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListenerOut, this);
 }
 
 bool GameScene::onContactBegin(PhysicsContact& contact)
 {
+    if(this->getState() != GameManager::PLAYING_STATE){return false;}
+    auto nodeA = contact.getShapeA()->getBody()->getNode();
+    auto nodeB = contact.getShapeB()->getBody()->getNode();
+    if(!isPlayerContact(nodeA,nodeB)){return false;}
+
+    if (nodeA && nodeB)
+    {
+        auto result = this->checkCollision(nodeA, nodeB);
+        if(result){
+            this->gameOver();
+        }
+        return result;
+    }
+    return false;
+}
+
+void GameScene::onContactSeparate(PhysicsContact& contact){
+
+    if(this->getState() != GameManager::PLAYING_STATE){return;}
+
     auto nodeA = contact.getShapeA()->getBody()->getNode();
     auto nodeB = contact.getShapeB()->getBody()->getNode();
 
-    log("Contact: node A name: %s. node B name: %s",nodeA->getName().c_str(),nodeB->getName().c_str());
+    if(!isPlayerContact(nodeA,nodeB)){return;}
     if (nodeA && nodeB)
     {
-        // log("Contact 2: tag: %d", nodeB->getTag());
-        // if (nodeA->getTag() == 1)
-        // {
-        //     nodeB->removeFromParentAndCleanup(true);
-        // }
-        // else if (nodeB->getTag() == 1)
-        // {
-        //     nodeA->removeFromParentAndCleanup(true);
-        // }
+        auto result = this->checkCollision(nodeA, nodeB);
+        if(!result){
+            log("Player Scored.");
+        }
+    }
+}
+
+bool GameScene::checkCollision(Node* nodeA, Node* nodeB){
+          
+    if (nodeA->getTag() == GameManager::getInstance()->column_tag || nodeB->getTag() == GameManager::getInstance()->column_tag)
+    { 
+        return true;
     }
 
-    //bodies can collide
+    if (nodeA->getTag() == GameManager::getInstance()->ground_tag || nodeB->getTag() == GameManager::getInstance()->ground_tag)
+    {
+        return true;
+    }
+
+    if (nodeA->getTag() == GameManager::getInstance()->scoreArea_tag || nodeB->getTag() == GameManager::getInstance()->scoreArea_tag)
+    {
+        return false;
+    }
+    
     return false;
+}
+
+bool GameScene::isPlayerContact(Node* nodeA, Node* nodeB){
+    auto isPlayer = nodeA->getTag() == GameManager::getInstance()->player_tag || 
+                nodeB->getTag() == GameManager::getInstance()->player_tag;
+    return isPlayer;
 }
 
 void GameScene::setupInput(){
@@ -176,7 +219,42 @@ void GameScene::setupInput(){
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
-   log("You tap the screen");
-   this->player->jump();
-   return true;
+    if(this->getState() == GameManager::FINISHED_STATE) {
+        this->restartGame();
+        return true;
+    }
+//    log("You tap the screen");
+    this->player->jump();
+    return true;
+}
+
+int GameScene::getState(){
+    // log("GetState : %d", GameManager::getInstance()->state);
+    return GameManager::getInstance()->state;
+}
+
+void GameScene::gameOver(){
+    log("Player Died.");
+    this->player->die();
+    this->stopScene();
+}
+
+void GameScene::stopScene(){
+    this->respawner->stop();
+    for(int i = 0; i < this->getChildrenCount(); i++){
+        this->getChildren().at(i)->stopAllActions();
+    }
+    GameManager::getInstance()->state = GameManager::FINISHED_STATE;
+}
+
+void GameScene::restartGame(){
+    this->player->reset();
+    this->respawner->restart();
+    this->sky->setPosition(Vec2::ZERO);
+    this->ground->setPosition(Vec2::ZERO);
+    this->trees->setPosition(Vec2::ZERO);
+    this->sky->start();
+    this->ground->start();
+    this->trees->start();
+    GameManager::getInstance()->state = GameManager::PLAYING_STATE;
 }

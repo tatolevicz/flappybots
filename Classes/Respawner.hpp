@@ -25,6 +25,7 @@ class Respawner : public Node
         void start();
         void stop();
         void setSpeed(float newSpeed);
+        void restart();
     
     private:
         float respawnRate = 2.0f;
@@ -45,7 +46,8 @@ class Respawner : public Node
 
         //column specifics
         float gapSize = 130.0f;
-        float speed =  1.8f;    
+        float speed =  1.8f;  
+        Vec2 getInitialPosition();  
 };
 
 #endif 

@@ -26,6 +26,7 @@ class GameScene : public Scene
         SpriteFrameCache *spriteSheet;
         Respawner* respawner;
         bool onContactBegin(PhysicsContact& contact);
+        void onContactSeparate(PhysicsContact& contact);
         CREATE_FUNC(GameScene);
     
         //methods
@@ -56,5 +57,11 @@ class GameScene : public Scene
         void addPhysicsGround();
         void addPhysicsPlayer();
         void setPhysicsParameters();
+        bool checkCollision(Node* nodeA, Node* nodeB);
+        int getState();
+        bool isPlayerContact(Node* nodeA, Node* nodeB);
+        void gameOver();
+        void stopScene();
+        void restartGame();
 };
 #endif

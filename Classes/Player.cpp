@@ -56,14 +56,16 @@ void Player::addPhysics(){
     auto physicsBodyPlayer = PhysicsBody::createCircle(this->getContentSize().width*0.33,PHYSICSBODY_MATERIAL_DEFAULT);
     physicsBodyPlayer->setGravityEnable(false);
     physicsBodyPlayer->setCategoryBitmask(GameManager::getInstance()->player_bit_mask_category);
-    physicsBodyPlayer->setCollisionBitmask(GameManager::getInstance()->ground_bit_mask_category);
-    physicsBodyPlayer->setContactTestBitmask(GameManager::getInstance()->ground_bit_mask_category | GameManager::getInstance()->obstacle_bit_mask_category);
+    physicsBodyPlayer->setContactTestBitmask(   GameManager::getInstance()->ground_bit_mask_category | 
+                                                GameManager::getInstance()->obstacle_bit_mask_category);
+
     this->setName(GameManager::getInstance()->player_name);
     this->setTag(GameManager::getInstance()->player_tag);
     this->addComponent(physicsBodyPlayer);
 }
 
 void Player::jump(){
+    if(this->isDead)return;
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);
     this->getPhysicsBody()->applyImpulse(Vec2(0,1)*GameManager::getInstance()->jumpForce);
@@ -78,4 +80,20 @@ void Player::flap(){
     Animation* anim = Animation::createWithSpriteFrames(this->animFrames,0.15f);
     Animate* animate = Animate::create(anim);
     this->runAction(animate);
+}
+
+void Player::die(){
+    this->isDead = true;
+    auto spriteSheet = SpriteFrameCache::getInstance();
+    this->setSpriteFrame(spriteSheet->getSpriteFrameByName("BirdHero2.png"));
+}
+
+void Player::reset(){
+    this->isDead = false;
+    this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+    this->getPhysicsBody()->setAngularVelocity(0.0f);
+    this->setRotation(0);
+    auto spriteSheet = SpriteFrameCache::getInstance();
+    this->setSpriteFrame(spriteSheet->getSpriteFrameByName("BirdHero1.png"));
+    this->setPosition(Vec2(300,this->screenSize.height/2));
 }

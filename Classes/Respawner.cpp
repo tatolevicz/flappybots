@@ -60,7 +60,7 @@ void Respawner::unschedule(){
 
 void Respawner::initializePool(){
     pool->reserve(poolSize);
-    auto initPos = Vec2(this->screenSize.width + this->screenSize.width/2 , this->screenSize.height/2);
+    auto initPos = this->getInitialPosition();
     for(int i = 0; i < poolSize; i++){
         auto col = Column::create(this->gapSize);
         col->setPosition(initPos);
@@ -77,7 +77,7 @@ void Respawner::update(float dt){
     bool condition_3 = this->sceneNode;
 
     if(condition_1 && condition_2 && condition_3){
-        log("update called from respawner after %2.1f seconds.",currentTime);
+        // log("update called from respawner after %2.1f seconds.",currentTime);
         currentTime = 0.0f;
         this->respawn();
         return;
@@ -125,10 +125,29 @@ void Respawner::respawn(){
 float Respawner::randomizeHeight(){
     float random = ((float) rand()) / (float) RAND_MAX;
     float result = (this->screenSize.height*0.7)*random + this->screenSize.height*0.2;
-    log("random result %f", result);
+    // log("random result %f", result);
     return result;
 }
 
 void Respawner::setSpeed( float newSpeed){
     this->speed = newSpeed;
+}
+
+void Respawner::restart(){
+    if(pool->size() < poolSize){
+        log("pool probrably not initialized. Can't restart.");
+        return;
+    }
+    auto initPos = this->getInitialPosition();
+    for(int i = 0; i < poolSize; i++){
+        auto col = pool->at(i);
+        col->setPosition(initPos);
+    }
+    if(!this->shouldRespawn){
+        this->start();
+    }
+}
+
+Vec2 Respawner::getInitialPosition(){
+    return Vec2(this->screenSize.width + this->screenSize.width/2 , this->screenSize.height/2);
 }
