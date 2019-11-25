@@ -118,9 +118,13 @@ void Player::unschedule(){
 
 void Player::update(float dt){
     if(this->isDead)return;
-    
-    auto currentPosition = this->getPosition().y;
+    if(GameManager::getInstance()->state == GameManager::PLAYING_STATE){
+        this->rotate(dt);
+    }
+}
 
+void Player::rotate(float dt){
+    auto currentPosition = this->getPosition().y;
     if(lastYPosition > currentPosition){
         //going down
         this->currentAngle = clampf(this->currentAngle += dt+this->rotationRate/2,-this->maxAngle,this->maxAngle);
