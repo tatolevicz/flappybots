@@ -23,11 +23,10 @@ class GameManager
         static const int STARTING_STATE = 0;
         static const int PLAYING_STATE = 1;
         static const int FINISHED_STATE = 2;
-        static const int TRAINING_STATE = 3;
 
         const int ground_bit_mask_category = 0x0001;
         const int player_bit_mask_category = 0x0002;
-        const int obstacle_bit_mask_category = 0x0003;
+        const int obstacle_bit_mask_category = 0x0004;
 
         const int player_tag = 1;
         const int ground_tag = 2;

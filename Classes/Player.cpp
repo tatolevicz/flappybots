@@ -14,8 +14,6 @@ Player::~Player(){
 }
 
 Player* Player::create(){
-
-    log("CREATE PLAYER");
     Player* player = new Player();
 
     if(player && player->init()){
@@ -105,6 +103,7 @@ void Player::die(){
 
 void Player::reset(){
     this->isDead = false;
+    this->resetScore();
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);
     this->setRotation(0);
@@ -115,11 +114,11 @@ void Player::reset(){
 }
 
 void Player::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "respawner");
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "player");
 }
 
 void Player::unschedule(){
-    Director::getInstance()->getScheduler()->unschedule("respawner", this);
+    Director::getInstance()->getScheduler()->unschedule("player", this);
 }
 
 void Player::update(float dt){
@@ -142,4 +141,21 @@ void Player::rotate(float dt){
     this->setRotation(this->currentAngle);
     this->lastYPosition = currentPosition;
 
+}
+
+int Player::getTotalScore(){
+    return this->totalScore;
+}
+
+void Player::resetScore(){
+    this->totalScore = 0;
+}
+
+void Player::score(){
+    this->totalScore += 1;
+    log("Agent score: %d", this->totalScore);
+}
+
+bool Player::getIsDead(){
+    return this->isDead;
 }

@@ -6,6 +6,7 @@
 //
 
 #include "TrainingScene.hpp"
+#include "AcademyFlappyBots.hpp"
 
 USING_NS_CC;
 
@@ -29,12 +30,10 @@ bool TrainingScene::init()
 void TrainingScene::setupScreen(Vec2 origin){
     loadSpriteSheet();
     createParallax();
-    addPlayer();
     createRespawner();
     createUI();
     addPhysicsGround();
     setPhysicsParameters();
-    setupInput();
 }
 
 void TrainingScene::loadSpriteSheet(){
@@ -84,9 +83,9 @@ void TrainingScene::createParallax(){
     this->addChild(this->ground,-1);  
 }
 
-void TrainingScene::addPlayer(){
-    this->player = AgentFlappyBot::create();
-    this->addChild(player,1);
+void TrainingScene::addAcademy(){
+    auto academy = AcademyFlappyBots::getInstance();
+    academy->setScene(this);
 }
 
 void  TrainingScene::createRespawner(){
@@ -108,11 +107,10 @@ void TrainingScene::createUI(){
 }
 
 void TrainingScene::startButtonPressed(Ref* pSender){
-     this->respawner->start();
-     this->startButton->setVisible(false);
-     this->player->stopAnimation();
-     this->player->getPhysicsBody()->setGravityEnable(true);
-     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
+    this->respawner->start();
+    this->startButton->setVisible(false);
+    GameManager::getInstance()->state = GameManager::PLAYING_STATE;
+    addAcademy();
 }
  
 void  TrainingScene::addPhysicsGround(){
@@ -161,7 +159,12 @@ bool TrainingScene::onContactBegin(PhysicsContact& contact)
     {
         auto result = this->checkCollision(nodeA, nodeB);
         if(result){
-            this->gameOver();
+            if(nodeA->getTag() == GameManager::getInstance()->player_tag){
+                ((AgentFlappyBot*)(nodeA))->die();
+            }
+            else{
+                ((AgentFlappyBot*)(nodeB))->die();
+            }
         }
         return result;
     }
@@ -180,7 +183,12 @@ void TrainingScene::onContactSeparate(PhysicsContact& contact){
     {
         auto result = this->checkCollision(nodeA, nodeB);
         if(!result){
-            log("Player Scored.");
+            if(nodeA->getTag() == GameManager::getInstance()->player_tag){
+                ((AgentFlappyBot*)(nodeA))->score();
+            }
+            else{
+                ((AgentFlappyBot*)(nodeB))->score();
+            }
         }
     }
 }
@@ -211,32 +219,13 @@ bool TrainingScene::isPlayerContact(Node* nodeA, Node* nodeB){
     return isPlayer;
 }
 
-void TrainingScene::setupInput(){
-    auto touchListener = EventListenerTouchOneByOne::create();
-   touchListener->onTouchBegan = CC_CALLBACK_2(TrainingScene::onTouchBegan, this);
-   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-}
-
-bool TrainingScene::onTouchBegan(Touch* touch, Event* event)
-{
-    if(this->getState() == GameManager::FINISHED_STATE) {
-        this->restartGame();
-        return true;
-    }
-//    log("You tap the screen");
-    this->player->jump();
-    return true;
-}
-
 int TrainingScene::getState(){
     // log("GetState : %d", GameManager::getInstance()->state);
     return GameManager::getInstance()->state;
 }
 
 void TrainingScene::gameOver(){
-    log("Player Died.");
     this->stopScene();
-    this->player->die();
 }
 
 void TrainingScene::stopScene(){
@@ -248,7 +237,6 @@ void TrainingScene::stopScene(){
 }
 
 void TrainingScene::restartGame(){
-    this->player->reset();
     this->respawner->restart();
     this->sky->setPosition(Vec2::ZERO);
     this->ground->setPosition(Vec2::ZERO);

@@ -31,8 +31,11 @@ class TrainingScene : public Scene
     
         //methods
         void startButtonPressed(Ref* pSender);
-        void setupInput();
-        virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
+        // void setupInput();
+        // virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
+        void gameOver();
+        void stopScene();
+        void restartGame();
 
     private:
 
@@ -42,7 +45,6 @@ class TrainingScene : public Scene
         ScrollableSprite* ground; 
         ScrollableSprite* trees;
 
-        AgentFlappyBot* player;
         Sprite* groundCollider;
         
         //ui variables
@@ -51,7 +53,8 @@ class TrainingScene : public Scene
         void loadSpriteSheet();
         void setupScreen(Vec2 origin);
         void createParallax();
-        void addPlayer();
+        // void addPlayer();
+        void addAcademy();
         void createRespawner();
         void createUI();
         void addPhysicsGround();
@@ -60,8 +63,5 @@ class TrainingScene : public Scene
         bool checkCollision(Node* nodeA, Node* nodeB);
         int getState();
         bool isPlayerContact(Node* nodeA, Node* nodeB);
-        void gameOver();
-        void stopScene();
-        void restartGame();
 };
 #endif

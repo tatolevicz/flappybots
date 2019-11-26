@@ -10,23 +10,40 @@
 
 #include <stdio.h>
 #include "AgentFlappyBot.hpp"
+#include "TrainingScene.hpp"
 
 USING_NS_CC;
 
 class AcademyFlappyBots{
     private:
         static AcademyFlappyBots* instance;
-        void initialSetup();
+        void initAcademy();
         void initPool();
+
         void schedule();
         void unschedule();
         void update(float dt);
-        // void tempCalc()
+
+        void tempCalculate();
+
+        bool checkGenerationFinished();
+        bool checkTrainingFinished();
+        AgentFlappyBot* getBestAgent();
+        void setMutation(AgentFlappyBot* bestAgent);
+
+        void nextGeneration();
+
+        TrainingScene* scene;
+
     public:
         AcademyFlappyBots();
         ~AcademyFlappyBots();
         static AcademyFlappyBots* getInstance();
         Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
-        int poolSize = 10;
+        int generationSize = 10;
+        int numerOfNegerations = 20;
+        int currentGeneration = 1;
+
+        void setScene(TrainingScene* scene);
 };
 #endif /* AcademyFlappyBots_hpp */
