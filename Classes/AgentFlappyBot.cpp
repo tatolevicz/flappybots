@@ -6,6 +6,7 @@
 //
 
 #include "AgentFlappyBot.hpp"
+#include "GameManager.hpp"
 
 AgentFlappyBot::AgentFlappyBot(){
 
@@ -54,11 +55,6 @@ vector<float> AgentFlappyBot::collectObservations(){
 }
 
 void AgentFlappyBot::observe(){
-    int dist = 700;
-    auto direction = Vec2(1,0);
-    auto d = direction*dist;
-    Vec2 centerSprite = this->getPosition();
-    Vec2 point2 = centerSprite + d;
     
     if (this->drawNode)
     {
@@ -66,40 +62,74 @@ void AgentFlappyBot::observe(){
     }
     this->drawNode = DrawNode::create();
 
-    Vec2 points[2];
+    float dist = this->screenSize.width - this->getPosition().x*1.5f;
+
+    vector<float> directionsY;
+    directionsY.reserve(3);
+
+    directionsY.push_back(0);
+    directionsY.push_back(0.2);
+    directionsY.push_back(-0.2);
+    directionsY.push_back(0.4);
+    directionsY.push_back(-0.4);
+
+    //initializing comum values as defaults
+    Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
+
+    for(int i = 0; i<directionsY.size();i++){
+        PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist);
+        if(info.shape != nullptr){
+            auto node = info.shape->getBody()->getNode();
+            if(node->getTag() == GameManager::getInstance()->scoreArea_tag){
+                interestPosition = node->getPosition();
+                // log("Detectou %s", info.shape->getBody()->getNode()->getName().c_str());
+            }   
+        }
+    }
+    
+    auto scene = Director::getInstance()->getRunningScene();
+    scene->addChild(this->drawNode,10);
+    
+}
+
+PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance){
+    auto d = direction*distance;
+    Vec2 centerSprite = this->getPosition();
+    Vec2 point2 = centerSprite + d;
+    PhysicsRayCastInfo infoDetect = PhysicsRayCastInfo();
+    infoDetect.shape = nullptr;
+    
+    Vec2 points[5];
 
     int num = 0;
-    auto func = [&points, &num](PhysicsWorld& world,
+    auto func = [&points, &num,&infoDetect](PhysicsWorld& world,
         const PhysicsRayCastInfo& info, void* data)->bool
     {
-        if (num < 2)
+        if (num < 5)
         {
-            points[num++] = info.contact;
-            if(num > 1){
-                if(info.shape != nullptr){
-                    log("Seeing someone called: %s", info.shape->getBody()->getNode()->getName().c_str());   
-                }
+            if(info.shape != nullptr){  
+                points[num++] = info.contact;
+                infoDetect = info;
             }
         }
         return true;
     };
-
-    // for(int i = 0; i< 2; i++){
-
-    // }
-
-    //cheeting here just a little
     auto scene = Director::getInstance()->getRunningScene();
-    scene->getPhysicsWorld()->rayCast(func,centerSprite, point2,nullptr);
+    scene->getPhysicsWorld()->rayCast(func, centerSprite, point2, nullptr);
 
     this->drawNode->drawSegment(centerSprite, point2,1,Color4F::RED);
 
-    for(int i = 0; i < num;i++){
-        this->drawNode->drawDot(points[i],3,Color4F(1.0f, 1.0f, 1.0f, 1.0f));
+    // filter the closest point based on x
+    Vec2 dotPoint = Vec2(10000,0);
+    for(int i = 0; i < num ;i++){
+        if(points[i].x <= dotPoint.x){
+            dotPoint = points[i];
+        }
     }
 
-    scene->addChild(this->drawNode,10);
-    
+    this->drawNode->drawDot(dotPoint,3,Color4F(1.0f, 1.0f, 1.0f, 1.0f));
+
+    return infoDetect;
 }
 
 void AgentFlappyBot::action(float value){
