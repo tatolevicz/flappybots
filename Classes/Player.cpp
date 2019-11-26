@@ -8,6 +8,8 @@
 #include "Player.hpp"
 #include "GameManager.hpp"
 
+#define my_pi 3.14159265358979323846
+
 Player::Player(){}
 Player::~Player(){
     unschedule();
@@ -64,8 +66,10 @@ void Player::addPhysics(){
     physicsBodyPlayer->setGravityEnable(false);
     // physicsBodyPlayer->setRotationEnable(false);
     physicsBodyPlayer->setCategoryBitmask(GameManager::getInstance()->player_bit_mask_category);
+
     physicsBodyPlayer->setCollisionBitmask(  GameManager::getInstance()->ground_bit_mask_category | 
                                                 GameManager::getInstance()->obstacle_bit_mask_category);
+                                                
     physicsBodyPlayer->setContactTestBitmask(   GameManager::getInstance()->ground_bit_mask_category | 
                                                 GameManager::getInstance()->obstacle_bit_mask_category);
 
@@ -78,7 +82,7 @@ void Player::jump(){
     if(this->isDead)return;
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);
-    auto direction = Vec2(-sinf(this->currentAngle*3.1416/180.0f),cosf(this->currentAngle*3.1416/180.0f));
+    auto direction = Vec2(-sinf(this->currentAngle*my_pi/180.0f),cosf(this->currentAngle*my_pi/180.0f));
     this->getPhysicsBody()->applyImpulse(direction*GameManager::getInstance()->jumpForce);
     this->flap();
 }

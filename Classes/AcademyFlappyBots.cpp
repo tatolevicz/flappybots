@@ -79,7 +79,11 @@ void AcademyFlappyBots::tempCalculate(){
     }
     
     for(int i = 0; i< this->agentsPool->size(); i++){
+        
         auto agent = this->agentsPool->at(i);
+
+        if(agent->getIsDead()) continue;
+
         auto obs = agent->collectObservations();
         auto weights = agent->getWeights();
         float out = (obs.at(0)*weights.at(0) + obs.at(1)*weights.at(1)  + obs.at(2)*weights.at(2)/weights.size());
@@ -113,6 +117,9 @@ AgentFlappyBot* AcademyFlappyBots::getBestAgent(){
             bestAgent = agent;
         }
     }
+    auto weights = bestAgent->getWeights();
+    log("Best Agent: %3.2f\t3.2f\t3.2f",weights.at(0),weights.at(1),weights.at(2));
+    log("Score: %d",bestAgent->getTotalScore());
     return bestAgent;
 }
 
@@ -138,7 +145,7 @@ void AcademyFlappyBots::nextGeneration(){
     }
 
     //to preserve some percent agent with the bests weights from last generation
-    int remainAmount = (int)floor(this->generationSize*0.2);
+    int remainAmount = (int)floor(this->generationSize*0.01);
     // log("Remaning: %d",remainAmount);
 
     for(int i = 0; i< this->agentsPool->size(); i++){
@@ -150,7 +157,8 @@ void AcademyFlappyBots::nextGeneration(){
 }
 
 void AcademyFlappyBots::copyBestWeights(AgentFlappyBot* bestAgent,AgentFlappyBot* agent){
-    agent->setWeights(bestAgent->getWeights());
+    auto weights = bestAgent->getWeights();
+    agent->setWeights(weights);
 }
 
 void AcademyFlappyBots::update(float dt){

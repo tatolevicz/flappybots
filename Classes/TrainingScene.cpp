@@ -126,6 +126,7 @@ void  TrainingScene::addPhysicsGround(){
     groundCollider->setTag(GameManager::getInstance()->ground_tag);
 
     physicsBodyGround->setCategoryBitmask(GameManager::getInstance()->ground_bit_mask_category);
+    physicsBodyGround->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
     physicsBodyGround->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
 
     groundCollider->addComponent(physicsBodyGround);
@@ -153,8 +154,9 @@ bool TrainingScene::onContactBegin(PhysicsContact& contact)
     if(this->getState() != GameManager::PLAYING_STATE){return false;}
     auto nodeA = contact.getShapeA()->getBody()->getNode();
     auto nodeB = contact.getShapeB()->getBody()->getNode();
-    if(!isPlayerContact(nodeA,nodeB)){return false;}
 
+    if(!isPlayerContact(nodeA,nodeB)){return false;}
+    
     if (nodeA && nodeB)
     {
         auto result = this->checkCollision(nodeA, nodeB);
@@ -179,6 +181,7 @@ void TrainingScene::onContactSeparate(PhysicsContact& contact){
     auto nodeB = contact.getShapeB()->getBody()->getNode();
 
     if(!isPlayerContact(nodeA,nodeB)){return;}
+
     if (nodeA && nodeB)
     {
         auto result = this->checkCollision(nodeA, nodeB);
@@ -214,8 +217,12 @@ bool TrainingScene::checkCollision(Node* nodeA, Node* nodeB){
 }
 
 bool TrainingScene::isPlayerContact(Node* nodeA, Node* nodeB){
-    auto isPlayer = nodeA->getTag() == GameManager::getInstance()->player_tag || 
-                nodeB->getTag() == GameManager::getInstance()->player_tag;
+    auto cond1 = nodeA->getTag() == GameManager::getInstance()->player_tag && 
+                nodeB->getTag() != GameManager::getInstance()->player_tag;
+    
+    auto cond2 = nodeB->getTag() == GameManager::getInstance()->player_tag && 
+                nodeA->getTag() != GameManager::getInstance()->player_tag;
+    auto isPlayer = cond1 ^ cond2;
     return isPlayer;
 }
 

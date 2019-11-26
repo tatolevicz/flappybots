@@ -128,6 +128,7 @@ void  GameScene::addPhysicsGround(){
     groundCollider->setTag(GameManager::getInstance()->ground_tag);
 
     physicsBodyGround->setCategoryBitmask(GameManager::getInstance()->ground_bit_mask_category);
+    physicsBodyGround->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
     physicsBodyGround->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
 
     groundCollider->addComponent(physicsBodyGround);

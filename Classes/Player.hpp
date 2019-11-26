@@ -24,7 +24,7 @@ USING_NS_CC;
       void jump();
       void addAnimation();
       void stopAnimation();
-      void die();
+      virtual void die();
       void reset();
 
         int getTotalScore();

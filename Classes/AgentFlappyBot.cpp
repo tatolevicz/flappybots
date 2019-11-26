@@ -36,14 +36,14 @@ void AgentFlappyBot::initialSetup(){
 
 vector<float> AgentFlappyBot::collectObservations(){
 
-    this->observe();
-
+    auto scoreAreaPos = this->observe();
+    auto currentPos = this->getPosition();
     vector<float> resp;
     resp.reserve(3);
     //simulating distance x
-    float val1 = ((float) rand()) / (float) RAND_MAX;
+    float val1 = (scoreAreaPos.x - currentPos.x)/this->screenSize.width;
     //simulation distance y
-    float val2 = ((float) rand()) / (float) RAND_MAX;
+    float val2 = (scoreAreaPos.y - currentPos.y)/this->screenSize.height;
     //getting y position
     float val3 = this->getPosition().y/this->screenSize.height;
 
@@ -51,18 +51,20 @@ vector<float> AgentFlappyBot::collectObservations(){
     resp.push_back(val2);
     resp.push_back(val3);
 
+    // log("Obs: %3,2f\t%3,2f\t%3,2f",val1,val2,val3);
+
     return resp;
 }
 
-void AgentFlappyBot::observe(){
+Vec2 AgentFlappyBot::observe(){
     
     if (this->drawNode)
     {
-        this->drawNode->removeFromParentAndCleanup(this->drawNode);
+        this->drawNode->removeFromParentAndCleanup(true);
     }
     this->drawNode = DrawNode::create();
 
-    float dist = this->screenSize.width - this->getPosition().x*1.5f;
+    float dist = this->screenSize.width - this->getPosition().x*1.1f;
 
     vector<float> directionsY;
     directionsY.reserve(3);
@@ -82,14 +84,14 @@ void AgentFlappyBot::observe(){
             auto node = info.shape->getBody()->getNode();
             if(node->getTag() == GameManager::getInstance()->scoreArea_tag){
                 interestPosition = node->getPosition();
-                // log("Detectou %s", info.shape->getBody()->getNode()->getName().c_str());
             }   
         }
     }
     
     auto scene = Director::getInstance()->getRunningScene();
     scene->addChild(this->drawNode,10);
-    
+
+    return interestPosition;
 }
 
 PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance){
@@ -148,6 +150,14 @@ vector<float>  AgentFlappyBot::getWeights(){
     return this->weights;
 }
      
+void AgentFlappyBot::die(){
+    Player::die(); 
+    if(this->drawNode){
+        this->drawNode->removeFromParentAndCleanup(true);
+        this->drawNode = nullptr;
+    }
+}
+
         
 
 
