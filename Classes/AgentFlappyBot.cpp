@@ -34,6 +34,9 @@ void AgentFlappyBot::initialSetup(){
 }
 
 vector<float> AgentFlappyBot::collectObservations(){
+
+    this->observe();
+
     vector<float> resp;
     resp.reserve(3);
     //simulating distance x
@@ -50,8 +53,57 @@ vector<float> AgentFlappyBot::collectObservations(){
     return resp;
 }
 
+void AgentFlappyBot::observe(){
+    int dist = 700;
+    auto direction = Vec2(1,0);
+    auto d = direction*dist;
+    Vec2 centerSprite = this->getPosition();
+    Vec2 point2 = centerSprite + d;
+    
+    if (this->drawNode)
+    {
+        this->drawNode->removeFromParentAndCleanup(this->drawNode);
+    }
+    this->drawNode = DrawNode::create();
+
+    Vec2 points[2];
+
+    int num = 0;
+    auto func = [&points, &num](PhysicsWorld& world,
+        const PhysicsRayCastInfo& info, void* data)->bool
+    {
+        if (num < 2)
+        {
+            points[num++] = info.contact;
+            if(num > 1){
+                if(info.shape != nullptr){
+                    log("Seeing someone called: %s", info.shape->getBody()->getNode()->getName().c_str());   
+                }
+            }
+        }
+        return true;
+    };
+
+    // for(int i = 0; i< 2; i++){
+
+    // }
+
+    //cheeting here just a little
+    auto scene = Director::getInstance()->getRunningScene();
+    scene->getPhysicsWorld()->rayCast(func,centerSprite, point2,nullptr);
+
+    this->drawNode->drawSegment(centerSprite, point2,1,Color4F::RED);
+
+    for(int i = 0; i < num;i++){
+        this->drawNode->drawDot(points[i],3,Color4F(1.0f, 1.0f, 1.0f, 1.0f));
+    }
+
+    scene->addChild(this->drawNode,10);
+    
+}
+
 void AgentFlappyBot::action(float value){
-    log("Action: %3.2f",value);
+    // log("Action: %3.2f",value);
     if(value > 0.5f){
         this->jump();
     }
@@ -59,7 +111,7 @@ void AgentFlappyBot::action(float value){
 
 void AgentFlappyBot::setWeights(vector<float> newWeights){
     this->weights = newWeights;
-    log("SetWeights: %3.2f  %3.2f  %3.2f",this->weights.at(0),this->weights.at(1),this->weights.at(2));
+    // log("SetWeights: %3.2f  %3.2f  %3.2f",this->weights.at(0),this->weights.at(1),this->weights.at(2));
 }
 
 vector<float>  AgentFlappyBot::getWeights(){

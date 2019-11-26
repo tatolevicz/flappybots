@@ -139,7 +139,7 @@ void AcademyFlappyBots::nextGeneration(){
 
     //to preserve some percent agent with the bests weights from last generation
     int remainAmount = (int)floor(this->generationSize*0.2);
-    log("Remaning: %d",remainAmount);
+    // log("Remaning: %d",remainAmount);
 
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);

@@ -16,6 +16,7 @@ class AgentFlappyBot: public Player{
     private:
         void initialSetup();
         std::vector<float> weights;
+        float getObstacleDistance();
     public:
         AgentFlappyBot();
         virtual ~AgentFlappyBot();
@@ -25,6 +26,8 @@ class AgentFlappyBot: public Player{
         void action(float value = 1.0f);
         void setWeights(vector<float> newWeights);
         vector<float> getWeights();
+        DrawNode* drawNode;
+        void observe();
         
 };
 

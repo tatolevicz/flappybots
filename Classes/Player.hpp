@@ -43,7 +43,6 @@ USING_NS_CC;
       void unschedule();
       void update(float dt);
       float lastYPosition;
-      float currentAngle;
       float rotationRate = 6.0f;
       float maxAngle = 30.0f;
       void rotate(float dt);
@@ -52,6 +51,7 @@ USING_NS_CC;
 
       protected:
         Size screenSize;
+        float currentAngle;
     
 };
 
