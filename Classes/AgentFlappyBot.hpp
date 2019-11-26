@@ -17,6 +17,7 @@ class AgentFlappyBot: public Player{
     public:
         AgentFlappyBot();
         virtual ~AgentFlappyBot();
+        virtual bool initAgent();
         static AgentFlappyBot* create();
 };
 

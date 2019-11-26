@@ -16,7 +16,7 @@ AgentFlappyBot* AgentFlappyBot::create(){
     log("CREATE AgentFLAPPY");
     AgentFlappyBot* agent = new AgentFlappyBot();
  
-    if(agent && agent->init()){
+    if(agent && agent->initAgent()){
         agent->autorelease();
         return agent;
     }
@@ -24,6 +24,11 @@ AgentFlappyBot* AgentFlappyBot::create(){
     return NULL;
 }
 
+bool AgentFlappyBot::initAgent(){
+    this->init();
+    this->initialSetup();
+    return true;
+}
 
 void AgentFlappyBot::initialSetup(){
   
