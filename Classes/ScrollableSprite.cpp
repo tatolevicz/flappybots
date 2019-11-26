@@ -13,14 +13,19 @@ ScrollableSprite::~ScrollableSprite(){}
 ScrollableSprite* ScrollableSprite::create(bool shouldRepeate){
 
     ScrollableSprite *sclbSprite = new ScrollableSprite();
-    if(sclbSprite){
+    if(sclbSprite && sclbSprite->initScrollableSprite(shouldRepeate)){
         sclbSprite->autorelease();
-        sclbSprite->setShouldRepeat(shouldRepeate);
-        sclbSprite->initialSetup();
         return sclbSprite;
     }
     CC_SAFE_DELETE(sclbSprite);
     return NULL;
+}
+
+bool ScrollableSprite::initScrollableSprite(bool shouldRepeat){
+    this->init();
+    this->setShouldRepeat(shouldRepeat);
+    this->initialSetup();
+    return true;
 }
 
 void ScrollableSprite::initialSetup(){

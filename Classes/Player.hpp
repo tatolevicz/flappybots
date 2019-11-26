@@ -17,7 +17,9 @@ USING_NS_CC;
 
      public:
       Player();
-      ~Player();
+      virtual ~Player();
+      /* Initializes an player with animation and initial position. */
+      virtual bool init() override;
       static Player* create();
       void jump();
       void addAnimation();
@@ -40,6 +42,7 @@ USING_NS_CC;
       float rotationRate = 6.0f;
       float maxAngle = 30.0f;
       void rotate(float dt);
+    
 };
 
 #endif

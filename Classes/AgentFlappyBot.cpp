@@ -7,16 +7,26 @@
 
 #include "AgentFlappyBot.hpp"
 
-AgentFlappyBot::AgentFlappyBot(){}
+AgentFlappyBot::AgentFlappyBot(){
+
+}
 AgentFlappyBot::~AgentFlappyBot(){}
 
 AgentFlappyBot* AgentFlappyBot::create(){
     log("CREATE AgentFLAPPY");
     AgentFlappyBot* agent = new AgentFlappyBot();
-    if(agent){
+ 
+    if(agent && agent->init()){
         agent->autorelease();
         return agent;
     }
     CC_SAFE_DELETE(agent);
     return NULL;
 }
+
+
+void AgentFlappyBot::initialSetup(){
+  
+}
+
+

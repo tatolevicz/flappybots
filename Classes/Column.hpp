@@ -17,8 +17,9 @@ class Column : public ScrollableSprite
     public:
         Size screenSize;
         Column();
-        ~Column();
-        static Column* create(float _gapSize);
+        virtual ~Column();
+        virtual bool initColumn(float gapSize);
+        static Column* create(float gapSize);
         void setGapSize(float newGapSize);
     private:
         void initialSetup();

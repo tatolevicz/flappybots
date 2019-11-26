@@ -112,7 +112,7 @@ void Respawner::respawn(){
     column->setEndPosition(endPos);
 
     column->setRate(this->speed/2.0f);
-    column->setShouldRepeat(false);
+    // column->setShouldRepeat(false);
 
     column->start();
     

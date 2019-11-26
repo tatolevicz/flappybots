@@ -13,7 +13,7 @@
 #include "Respawner.hpp"
 #include "ScrollableSprite.hpp"
 #include "GameManager.hpp"
-#include "Player.hpp"
+#include "AgentFlappyBot.hpp"
 
 using namespace cocos2d;
 using namespace ui;
@@ -42,7 +42,7 @@ class TrainingScene : public Scene
         ScrollableSprite* ground; 
         ScrollableSprite* trees;
 
-        Player* player;
+        AgentFlappyBot* player;
         Sprite* groundCollider;
         
         //ui variables

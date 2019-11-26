@@ -14,15 +14,13 @@ Column::Column() {}
 
 Column::~Column() {}
 
-Column* Column::create(float _gapSize = 17.0f)
+Column* Column::create(float gapSize = 17.0f)
 {
     Column* container = new Column();
 
-    if (container)
+    if (container && container->initColumn(gapSize))
     {
         container->autorelease();
-        container->setGapSize(_gapSize);
-        container->initialSetup();
         return container;
     }
 
@@ -31,8 +29,15 @@ Column* Column::create(float _gapSize = 17.0f)
 }
 
 void Column::initialSetup(){
+    this->initScrollableSprite(false);
     this->addSprites();
     this->addPhysics();
+}
+
+bool Column::initColumn(float gapSize){
+    this->setGapSize(gapSize);
+    this->initialSetup();
+    return true;
 }
 
 void Column::addSprites(){

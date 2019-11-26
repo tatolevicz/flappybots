@@ -18,14 +18,19 @@ Player* Player::create(){
     log("CREATE PLAYER");
     Player* player = new Player();
 
-    if(player){
-        player->autorelease();
-        player->initialSetup();
+    if(player && player->init()){
+        player->autorelease();     
         return player;
     }
 
     CC_SAFE_DELETE(player);
     return NULL;    
+}
+
+bool Player::init()
+{
+    this->initialSetup();
+    return true;
 }
 
 void Player::initialSetup(){

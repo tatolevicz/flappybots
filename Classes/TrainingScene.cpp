@@ -85,7 +85,7 @@ void TrainingScene::createParallax(){
 }
 
 void TrainingScene::addPlayer(){
-    this->player = Player::create();
+    this->player = AgentFlappyBot::create();
     this->addChild(player,1);
 }
 

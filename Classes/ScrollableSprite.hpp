@@ -16,7 +16,8 @@ class ScrollableSprite : public Sprite
     public:
         Size screenSize;
         ScrollableSprite();
-        ~ScrollableSprite();
+        virtual ~ScrollableSprite();
+        virtual bool initScrollableSprite(bool shouldRepeat);
         static ScrollableSprite* create(bool _shouldRepeat = true);
         void start();
         void stop();

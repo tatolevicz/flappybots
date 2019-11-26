@@ -10,13 +10,14 @@
 
 #include <stdio.h>
 #include "Player.hpp"
-class AgentFlappyBot: Player{
-    private:
 
+class AgentFlappyBot: public Player{
+    private:
+        void initialSetup();
     public:
         AgentFlappyBot();
-        ~AgentFlappyBot();
-        AgentFlappyBot* create();
+        virtual ~AgentFlappyBot();
+        static AgentFlappyBot* create();
 };
 
 #endif /* AgentFlappyBot_hpp */
