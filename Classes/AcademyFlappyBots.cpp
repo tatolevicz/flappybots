@@ -118,7 +118,7 @@ AgentFlappyBot* AcademyFlappyBots::getBestAgent(){
         }
     }
     auto weights = bestAgent->getWeights();
-    log("Best Agent: %3.2f\t3.2f\t3.2f",weights.at(0),weights.at(1),weights.at(2));
+    log("Best Agent: %3.2f\t %3.2f\t %3.2f",weights.at(0),weights.at(1),weights.at(2));
     log("Score: %d",bestAgent->getTotalScore());
     return bestAgent;
 }

@@ -16,6 +16,7 @@ class AgentFlappyBot: public Player{
     private:
         void initialSetup();
         std::vector<float> weights;
+        int numberOfWeights = 3;
         float getObstacleDistance();
     public:
         virtual void die() override;
@@ -28,6 +29,7 @@ class AgentFlappyBot: public Player{
         void setWeights(vector<float> newWeights);
         vector<float> getWeights();
         DrawNode* drawNode = nullptr;
+        void clearDrawnNode();
         PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance);
         Vec2 observe();
         

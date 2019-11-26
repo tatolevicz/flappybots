@@ -42,7 +42,7 @@ class AcademyFlappyBots{
         ~AcademyFlappyBots();
         static AcademyFlappyBots* getInstance();
         Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
-        int generationSize = 100;
+        int generationSize = 20;
         int numerOfNegerations = 50;
         int currentGeneration = 1;
 

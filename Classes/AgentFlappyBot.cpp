@@ -57,23 +57,23 @@ vector<float> AgentFlappyBot::collectObservations(){
 }
 
 Vec2 AgentFlappyBot::observe(){
-    
-    if (this->drawNode)
-    {
-        this->drawNode->removeFromParentAndCleanup(true);
-    }
-    this->drawNode = DrawNode::create();
 
+    this->clearDrawnNode();
+    this->drawNode = DrawNode::create();
     float dist = this->screenSize.width - this->getPosition().x*1.1f;
 
     vector<float> directionsY;
-    directionsY.reserve(3);
+    directionsY.reserve(9);
 
     directionsY.push_back(0);
     directionsY.push_back(0.2);
     directionsY.push_back(-0.2);
     directionsY.push_back(0.4);
     directionsY.push_back(-0.4);
+    directionsY.push_back(0.6);
+    directionsY.push_back(-0.6);
+    directionsY.push_back(0.8);
+    directionsY.push_back(-0.8);
 
     //initializing comum values as defaults
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
@@ -101,23 +101,31 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance){
     PhysicsRayCastInfo infoDetect = PhysicsRayCastInfo();
     infoDetect.shape = nullptr;
     
-    Vec2 points[5];
+    Vec2 points[1];
 
     int num = 0;
     auto func = [&points, &num,&infoDetect](PhysicsWorld& world,
         const PhysicsRayCastInfo& info, void* data)->bool
     {
-        if (num < 5)
-        {
+        if(num < 1){
             if(info.shape != nullptr){  
-                points[num++] = info.contact;
-                infoDetect = info;
+                if(info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->scoreArea_tag){
+                     infoDetect = info;
+                     points[num++] = info.contact;
+                     return false;
+                }
+
+                if(info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->column_tag){
+                     return false;
+                }
+                
             }
-        }
+        } 
         return true;
     };
     auto scene = Director::getInstance()->getRunningScene();
     scene->getPhysicsWorld()->rayCast(func, centerSprite, point2, nullptr);
+    
 
     this->drawNode->drawSegment(centerSprite, point2,1,Color4F::RED);
 
@@ -152,11 +160,16 @@ vector<float>  AgentFlappyBot::getWeights(){
      
 void AgentFlappyBot::die(){
     Player::die(); 
+    this->clearDrawnNode();
+}
+
+void AgentFlappyBot::clearDrawnNode(){
     if(this->drawNode){
         this->drawNode->removeFromParentAndCleanup(true);
         this->drawNode = nullptr;
     }
 }
+
 
         
 

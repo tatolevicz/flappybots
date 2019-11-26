@@ -52,7 +52,7 @@ void Player::addAnimation(){
 
     this->runAction(RepeatForever::create(animate));
 
-    this->setPosition(Vec2(300,this->screenSize.height/2));
+    this->setPosition(Vec2(this->fixedX,this->screenSize.height/2));
     this->setScale(0.4);
 
     auto moveBy = MoveBy::create(1,Vec2(0,100));
@@ -150,7 +150,7 @@ void Player::rotate(float dt){
 
 void Player::checkLimit(){
     float clampedY = clampf(this->getPosition().y,0,this->screenSize.height*0.97f);
-    this->setPosition(Vec2(this->getPosition().x,clampedY));
+    this->setPosition(Vec2(this->fixedX,clampedY));
 }
 
 int Player::getTotalScore(){
@@ -163,7 +163,7 @@ void Player::resetScore(){
 
 void Player::score(){
     this->totalScore += 1;
-    log("Agent score: %d", this->totalScore);
+    // log("Agent score: %d", this->totalScore);
 }
 
 bool Player::getIsDead(){

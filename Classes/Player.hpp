@@ -31,6 +31,8 @@ USING_NS_CC;
         void resetScore();
         void score();
       
+      float fixedX = 300.0f;
+      
       bool getIsDead();
       
      private:
