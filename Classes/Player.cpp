@@ -15,6 +15,7 @@ Player::~Player(){
 
 Player* Player::create(){
 
+    log("CREATE PLAYER");
     Player* player = new Player();
 
     if(player){

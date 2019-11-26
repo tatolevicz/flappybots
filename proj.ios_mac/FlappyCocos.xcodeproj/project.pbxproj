@@ -23,6 +23,12 @@
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
+		4903BA2C238CA2B200A39FCB /* AcademyFlappyBots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA2A238CA2B200A39FCB /* AcademyFlappyBots.cpp */; };
+		4903BA2D238CA2B200A39FCB /* AcademyFlappyBots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA2A238CA2B200A39FCB /* AcademyFlappyBots.cpp */; };
+		4903BA30238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA2E238CA8F700A39FCB /* AgentFlappyBot.cpp */; };
+		4903BA31238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA2E238CA8F700A39FCB /* AgentFlappyBot.cpp */; };
+		4903BA34238CAB4C00A39FCB /* TrainingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */; };
+		4903BA35238CAB4C00A39FCB /* TrainingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */; };
 		496C426A238618FE0086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
 		496C426B238619110086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
 		496C42722387587F0086CE71 /* Respawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42702387587F0086CE71 /* Respawner.cpp */; };
@@ -124,6 +130,12 @@
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4903BA2A238CA2B200A39FCB /* AcademyFlappyBots.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AcademyFlappyBots.cpp; sourceTree = "<group>"; };
+		4903BA2B238CA2B200A39FCB /* AcademyFlappyBots.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AcademyFlappyBots.hpp; sourceTree = "<group>"; };
+		4903BA2E238CA8F700A39FCB /* AgentFlappyBot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AgentFlappyBot.cpp; sourceTree = "<group>"; };
+		4903BA2F238CA8F700A39FCB /* AgentFlappyBot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AgentFlappyBot.hpp; sourceTree = "<group>"; };
+		4903BA32238CAB4B00A39FCB /* TrainingScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrainingScene.hpp; sourceTree = "<group>"; };
+		4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrainingScene.cpp; sourceTree = "<group>"; };
 		496C4269238618FE0086CE71 /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 		496C42702387587F0086CE71 /* Respawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Respawner.cpp; sourceTree = "<group>"; };
 		496C42712387587F0086CE71 /* Respawner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Respawner.hpp; sourceTree = "<group>"; };
@@ -297,6 +309,10 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4903BA2E238CA8F700A39FCB /* AgentFlappyBot.cpp */,
+				4903BA2F238CA8F700A39FCB /* AgentFlappyBot.hpp */,
+				4903BA2A238CA2B200A39FCB /* AcademyFlappyBots.cpp */,
+				4903BA2B238CA2B200A39FCB /* AcademyFlappyBots.hpp */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				496C42882387630C0086CE71 /* GameScene.cpp */,
@@ -311,6 +327,8 @@
 				496C427D238758CF0086CE71 /* GameManager.hpp */,
 				496C4280238758F00086CE71 /* Column.cpp */,
 				496C4281238758F00086CE71 /* Column.hpp */,
+				4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */,
+				4903BA32238CAB4B00A39FCB /* TrainingScene.hpp */,
 				496C42842387590C0086CE71 /* Splash.cpp */,
 				496C42852387590C0086CE71 /* Splash.hpp */,
 			);
@@ -474,6 +492,7 @@
 			files = (
 				496C4276238758A00086CE71 /* Player.cpp in Sources */,
 				496C427E238758CF0086CE71 /* GameManager.cpp in Sources */,
+				4903BA2C238CA2B200A39FCB /* AcademyFlappyBots.cpp in Sources */,
 				496C427A238758B60086CE71 /* ScrollableSprite.cpp in Sources */,
 				496C42722387587F0086CE71 /* Respawner.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
@@ -481,7 +500,9 @@
 				496C428A2387630C0086CE71 /* GameScene.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
+				4903BA30238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */,
 				496C42862387590C0086CE71 /* Splash.cpp in Sources */,
+				4903BA34238CAB4C00A39FCB /* TrainingScene.cpp in Sources */,
 				496C4282238758F00086CE71 /* Column.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,11 +513,14 @@
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				4903BA2D238CA2B200A39FCB /* AcademyFlappyBots.cpp in Sources */,
 				496C42872387590C0086CE71 /* Splash.cpp in Sources */,
+				4903BA35238CAB4C00A39FCB /* TrainingScene.cpp in Sources */,
 				496C4277238758A00086CE71 /* Player.cpp in Sources */,
 				496C42732387587F0086CE71 /* Respawner.cpp in Sources */,
 				496C427F238758CF0086CE71 /* GameManager.cpp in Sources */,
 				496C4283238758F00086CE71 /* Column.cpp in Sources */,
+				4903BA31238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */,
 				496C428B2387630C0086CE71 /* GameScene.cpp in Sources */,
 				496C427B238758B60086CE71 /* ScrollableSprite.cpp in Sources */,
 			);

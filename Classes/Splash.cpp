@@ -7,6 +7,7 @@
 
 #include "Splash.hpp"
 #include "GameScene.hpp"
+#include "TrainingScene.hpp"
 
 USING_NS_CC;
 
@@ -36,7 +37,7 @@ void Splash::setupScreen(Vec2 origin, Size visibleSize){
     auto fadeIn = FadeIn::create(0.5f);
     auto delay = DelayTime::create(1.0f);
     auto callbackGoGame = CallFunc::create([](){
-        Director::getInstance()->replaceScene(GameScene::createScene());
+        Director::getInstance()->replaceScene(TrainingScene::createScene());
     });
     auto seq = Sequence::create(fadeIn,delay,fadeIn->reverse(),callbackGoGame,nullptr);
     splashImage->runAction(seq);
