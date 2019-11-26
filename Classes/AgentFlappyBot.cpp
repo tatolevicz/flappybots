@@ -33,35 +33,38 @@ void AgentFlappyBot::initialSetup(){
   
 }
 
-Vector<float>* AgentFlappyBot::collectObservations(){
-    // auto resp = new Vector<float>();
-    // //simulating distance x
-    // float val1 = ((float) rand()) / (float) RAND_MAX;
-    // //simulation distance y
-    // float val2 = ((float) rand()) / (float) RAND_MAX;
-    // //getting y position
-    // float val3 = this->getPosition().y;
+vector<float> AgentFlappyBot::collectObservations(){
+    vector<float> resp;
+    resp.reserve(3);
+    //simulating distance x
+    float val1 = ((float) rand()) / (float) RAND_MAX;
+    //simulation distance y
+    float val2 = ((float) rand()) / (float) RAND_MAX;
+    //getting y position
+    float val3 = this->getPosition().y/this->screenSize.height;
 
-    // resp->pushBack(val1);
-    // resp->pushBack(val2);
-    // resp->pushBack(val3);
+    resp.push_back(val1);
+    resp.push_back(val2);
+    resp.push_back(val3);
 
-    return nullptr;
+    return resp;
 }
 
 void AgentFlappyBot::action(float value){
+    log("Action: %3.2f",value);
     if(value > 0.5f){
         this->jump();
     }
 }
 
-// void AgentFlappyBot::setWeights(Vector<float> newWeights){
-//     this->weights = newWeights;
-// }
+void AgentFlappyBot::setWeights(vector<float> newWeights){
+    this->weights = newWeights;
+    log("SetWeights: %3.2f  %3.2f  %3.2f",this->weights.at(0),this->weights.at(1),this->weights.at(2));
+}
 
-// Vector<float> AgentFlappyBot::getWeights(){
-//     return this->weights;
-// }
+vector<float>  AgentFlappyBot::getWeights(){
+    return this->weights;
+}
      
         
 

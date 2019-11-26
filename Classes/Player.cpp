@@ -125,6 +125,7 @@ void Player::update(float dt){
     if(this->isDead)return;
     if(GameManager::getInstance()->state == GameManager::PLAYING_STATE){
         this->rotate(dt);
+        this->checkLimit();
     }
 }
 
@@ -141,6 +142,11 @@ void Player::rotate(float dt){
     this->setRotation(this->currentAngle);
     this->lastYPosition = currentPosition;
 
+}
+
+void Player::checkLimit(){
+    float clampedY = clampf(this->getPosition().y,0,this->screenSize.height*0.97f);
+    this->setPosition(Vec2(this->getPosition().x,clampedY));
 }
 
 int Player::getTotalScore(){

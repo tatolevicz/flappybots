@@ -35,7 +35,6 @@ USING_NS_CC;
       
      private:
       Vector<SpriteFrame*> animFrames;
-      Size screenSize;
       void initialSetup();
       void addPhysics();
       void flap();
@@ -48,7 +47,11 @@ USING_NS_CC;
       float rotationRate = 6.0f;
       float maxAngle = 30.0f;
       void rotate(float dt);
+      void checkLimit();
       int totalScore = 0;
+
+      protected:
+        Size screenSize;
     
 };
 

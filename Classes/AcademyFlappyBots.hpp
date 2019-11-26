@@ -29,9 +29,11 @@ class AcademyFlappyBots{
         bool checkGenerationFinished();
         bool checkTrainingFinished();
         AgentFlappyBot* getBestAgent();
+        void copyBestWeights(AgentFlappyBot* bestAgent,AgentFlappyBot* agent);
         void setMutation(AgentFlappyBot* bestAgent);
 
         void nextGeneration();
+        void initializeWeights(AgentFlappyBot* agent);
 
         TrainingScene* scene;
 
@@ -40,7 +42,7 @@ class AcademyFlappyBots{
         ~AcademyFlappyBots();
         static AcademyFlappyBots* getInstance();
         Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
-        int generationSize = 10;
+        int generationSize = 1;
         int numerOfNegerations = 20;
         int currentGeneration = 1;
 

@@ -47,7 +47,21 @@ void AcademyFlappyBots::initPool(){
         this->scene->addChild(agent);
         agent->stopAnimation();
         agent->getPhysicsBody()->setGravityEnable(true);
+        this->initializeWeights(agent);
+        this->setMutation(agent);
     }
+}
+
+void AcademyFlappyBots::initializeWeights(AgentFlappyBot* agent){
+    vector<float> resp;
+    float weight_1 = ((float) rand()) / (float) RAND_MAX;
+    float weight_2 = ((float) rand()) / (float) RAND_MAX;
+    float weight_3 = ((float) rand()) / (float) RAND_MAX;
+    resp.reserve(3);
+    resp.push_back(weight_1);
+    resp.push_back(weight_2);
+    resp.push_back(weight_3);
+    agent->setWeights(resp);
 }
 
 void AcademyFlappyBots::schedule(){
@@ -64,15 +78,13 @@ void AcademyFlappyBots::tempCalculate(){
         return;
     }
     
-    // for(int i = 0; i< this->agentsPool->size(); i++){
-    //     auto agent = this->agentsPool->at(i);
-    //     auto obs = agent->collectObservations();
-    //     float weight_1 = ((float) rand()) / (float) RAND_MAX;
-    //     float weight_2 = ((float) rand()) / (float) RAND_MAX;
-    //     float weight_3 = ((float) rand()) / (float) RAND_MAX;
-    //     float out = obs->at(0)*weight_1 + obs->at(1)*weight_2 + obs->at(2)*weight_3;
-    //     agent->action(out);
-    // }
+    for(int i = 0; i< this->agentsPool->size(); i++){
+        auto agent = this->agentsPool->at(i);
+        auto obs = agent->collectObservations();
+        auto weights = agent->getWeights();
+        float out = (obs.at(0)*weights.at(0) + obs.at(1)*weights.at(1)  + obs.at(2)*weights.at(2)/weights.size());
+        agent->action(out);
+    }
     
 }
 
@@ -81,13 +93,12 @@ bool AcademyFlappyBots::checkGenerationFinished(){
         auto agent = this->agentsPool->at(i);
         if(!agent->getIsDead()) return false;
     }
-
     return true;
 }
 
 bool AcademyFlappyBots::checkTrainingFinished(){
     this->currentGeneration += 1;
-    bool resp = this->currentGeneration > this->generationSize;
+    bool resp = this->currentGeneration > this->numerOfNegerations;
     return resp;
 }
 
@@ -105,16 +116,41 @@ AgentFlappyBot* AcademyFlappyBots::getBestAgent(){
     return bestAgent;
 }
 
-void AcademyFlappyBots::setMutation(AgentFlappyBot* bestAgent){
-    // auto weights = bestAgent->getWeights();
+void AcademyFlappyBots::setMutation(AgentFlappyBot* agent){
+    auto weights = agent->getWeights();
+    int randIdx = rand() % 3; 
+    bool isNegative = rand() % 2;
+    float newWeight = ((float) rand())/(float)RAND_MAX;
+    if(isNegative){
+        newWeight *= -1;
+    }
+    weights.at(randIdx) = newWeight;
+    agent->setWeights(weights);
 }
 
 void AcademyFlappyBots::nextGeneration(){
     auto bestAgent = this->getBestAgent();
+
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
         agent->reset();
+        this->copyBestWeights(bestAgent,agent);
     }
+
+    //to preserve some percent agent with the bests weights from last generation
+    int remainAmount = (int)floor(this->generationSize*0.2);
+    log("Remaning: %d",remainAmount);
+
+    for(int i = 0; i< this->agentsPool->size(); i++){
+        auto agent = this->agentsPool->at(i);
+        if(i >= remainAmount){
+            this->setMutation(agent);
+        }
+    }
+}
+
+void AcademyFlappyBots::copyBestWeights(AgentFlappyBot* bestAgent,AgentFlappyBot* agent){
+    agent->setWeights(bestAgent->getWeights());
 }
 
 void AcademyFlappyBots::update(float dt){
@@ -122,7 +158,6 @@ void AcademyFlappyBots::update(float dt){
 
     auto generationFinished = this->checkGenerationFinished();
     if(generationFinished){
-        // inform game over here
         if(this->checkTrainingFinished()){
             this->scene->gameOver();
             GameManager::getInstance()->state = GameManager::FINISHED_STATE;
@@ -132,10 +167,7 @@ void AcademyFlappyBots::update(float dt){
             this->scene->gameOver();
             this->nextGeneration();
             this->scene->restartGame();
-        }
-        // if true finish training
-        
-       
+        }        
     }
 
     this->tempCalculate();

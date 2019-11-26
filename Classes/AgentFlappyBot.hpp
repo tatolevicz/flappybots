@@ -11,19 +11,20 @@
 #include <stdio.h>
 #include "Player.hpp"
 
+using namespace std;
 class AgentFlappyBot: public Player{
     private:
         void initialSetup();
-        // Vector<float> weights;
+        std::vector<float> weights;
     public:
         AgentFlappyBot();
         virtual ~AgentFlappyBot();
         virtual bool initAgent();
         static AgentFlappyBot* create();
-        Vector<float>* collectObservations();
+        vector<float> collectObservations();
         void action(float value = 1.0f);
-        // void setWeights(Vector<float> newWeights);
-        // Vector<float> getWeights();
+        void setWeights(vector<float> newWeights);
+        vector<float> getWeights();
         
 };
 
