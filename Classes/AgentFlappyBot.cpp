@@ -67,15 +67,6 @@ Vec2 AgentFlappyBot::observe(){
     directionsY.reserve(1);
 
     directionsY.push_back(0);
-    // directionsY.push_back(0.2);
-    // directionsY.push_back(-0.2);
-    // directionsY.push_back(0.4);
-    // directionsY.push_back(-0.4);
-    // directionsY.push_back(0.6);
-    // directionsY.push_back(-0.6);
-    // directionsY.push_back(0.8);
-    // directionsY.push_back(-0.8);
-
     //initializing comum values as defaults
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
 
