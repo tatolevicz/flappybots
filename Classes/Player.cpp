@@ -118,11 +118,13 @@ void Player::reset(){
 }
 
 void Player::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "player");
+    scheduleUpdate();
+    //Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "player");
 }
 
 void Player::unschedule(){
-    Director::getInstance()->getScheduler()->unschedule("player", this);
+    unscheduleUpdate();
+//    Director::getInstance()->getScheduler()->unschedule("player", this);
 }
 
 void Player::update(float dt){
