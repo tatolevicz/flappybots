@@ -49,11 +49,11 @@ USING_NS_CC;
       float maxAngle = 30.0f;
       void rotate(float dt);
       void checkLimit();
-      int totalScore = 0;
 
       protected:
         Size screenSize;
         float currentAngle;
+        int totalScore = 0;
     
 };
 

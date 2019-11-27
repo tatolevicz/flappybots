@@ -32,7 +32,7 @@ class AgentFlappyBot: public Player{
         PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance,bool shouldDrawn = true);
         Vec2 observe();
         int numberOfWeights = 12;//connections not counting inputs
-        
+        void setTotalScore(int total);
 };
 
 #endif /* AgentFlappyBot_hpp */

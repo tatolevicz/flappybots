@@ -171,6 +171,9 @@ void AgentFlappyBot::clearDrawnNode(){
 }
 
 
+void AgentFlappyBot::setTotalScore(int total){
+    this->totalScore = total;
+}
         
 
 

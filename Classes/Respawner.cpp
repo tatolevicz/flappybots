@@ -6,6 +6,7 @@
 //
 
 #include "Respawner.hpp"
+#include "GameManager.hpp"
 
 USING_NS_CC;
 
@@ -23,8 +24,6 @@ Respawner* Respawner::create()
     Respawner* respawner = new Respawner();
     respawner->screenSize = visibleSize;
 
-    // Director::getInstance()->setNotificationNode(respawner);
-    // Director::getInstance()->getScheduler()->scheduleUpdateForTarget(respawner,0,false);
     respawner->schedule();
 
     if (respawner)
@@ -52,6 +51,7 @@ void Respawner::stop(){
 
 void Respawner::schedule(){
     Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Respawner::update, this), this, 1.0f / 60, false, "respawner");
+    this->respawnRate /= GameManager::getInstance()->worldSpeed;
 }
 
 void Respawner::unschedule(){
@@ -112,8 +112,6 @@ void Respawner::respawn(){
     column->setEndPosition(endPos);
 
     column->setRate(this->speed/2.0f);
-    // column->setShouldRepeat(false);
-
     column->start();
     
     nextColumnIdx++;
@@ -142,6 +140,7 @@ void Respawner::restart(){
     for(int i = 0; i < poolSize; i++){
         auto col = pool->at(i);
         col->setPosition(initPos);
+        col->stop();
     }
     if(!this->shouldRespawn){
         this->start();

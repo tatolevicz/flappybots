@@ -6,13 +6,15 @@
 //
 
 #include "Column.hpp"
-#include "Gamemanager.hpp"
+#include "GameManager.hpp"
 
 USING_NS_CC;
 
 Column::Column() {}
 
-Column::~Column() {}
+Column::~Column() {
+    this->unschedule();
+}
 
 Column* Column::create(float gapSize = 17.0f)
 {
@@ -29,9 +31,10 @@ Column* Column::create(float gapSize = 17.0f)
 }
 
 void Column::initialSetup(){
-    this->initScrollableSprite(false);
+    this->init();
     this->addSprites();
     this->addPhysics();
+    this->schedule();
 }
 
 bool Column::initColumn(float gapSize){
@@ -98,3 +101,43 @@ void Column::setGapSize(float newGapSize){
     this->gapSize = newGapSize;
 }
 
+void Column::setInitPosition(Vec2 initPos){
+    this->initPosition = initPos;
+}
+void Column::setEndPosition(Vec2 endPos){
+    this->endPosition = endPos;
+}
+void Column::setRate(float newRate){
+    this->rate = newRate;
+}
+void Column::start(){
+    //call movement
+    this->shouldMove = true;
+}
+void Column::stop(){
+    //stop movement
+    this->shouldMove = false;
+}
+
+void Column::schedule(){
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Column::update, this), this, 1.0f / 60, false, "column");
+}
+
+void Column::unschedule(){
+    Director::getInstance()->getScheduler()->unschedule("column", this);
+}
+
+void Column::update(float dt){
+    this->move(dt);
+}
+
+void Column::move(float dt){
+    if(!shouldMove)return;
+    auto currentPos = this->getPosition();
+    auto newPosition = Vec2(currentPos.x - dt*GameManager::getInstance()->speedObstacle*GameManager::getInstance()->worldSpeed,currentPos.y);
+    if(newPosition.x < endPosition.x){
+        this->shouldMove = false;
+        return;
+    }
+    this->setPosition(newPosition); 
+}

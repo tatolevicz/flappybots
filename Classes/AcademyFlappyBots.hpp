@@ -47,7 +47,7 @@ class AcademyFlappyBots{
         int generationSize = 100;
         int numerOfNegerations = 1000;
         int currentGeneration = 1;
-        float timeToCollect = 0.025;
+        float timeToCollect = 0.0;
         float currentTime = 0;
         void setScene(TrainingScene* scene);
         float activationFunction(float neuron);

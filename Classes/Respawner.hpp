@@ -28,8 +28,8 @@ class Respawner : public Node
         void restart();
     
     private:
-        float respawnRate = 2.0f;
-        int poolSize = 5;
+        float respawnRate = 3.0f;
+        int poolSize = 3;
         float currentTime = 0.0f;
         bool shouldRespawn = false;
         Scene* sceneNode;

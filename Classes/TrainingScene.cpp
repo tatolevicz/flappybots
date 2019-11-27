@@ -138,7 +138,7 @@ void TrainingScene::setPhysicsParameters(){
     // this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category | 
     //                                             GameManager::getInstance()->player_bit_mask_category |
     //                                             GameManager::getInstance()->obstacle_bit_mask_category);
-    this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->gravitySpeed);
+    this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->worldSpeed);
 
     auto contactListenerIn = EventListenerPhysicsContact::create();
     contactListenerIn->onContactBegin = CC_CALLBACK_1(TrainingScene::onContactBegin,this);

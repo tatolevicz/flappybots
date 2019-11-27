@@ -40,5 +40,11 @@ class GameManager
 
         float gravitySpeed = 3.0;
         float jumpForce = 10000.0;
+
+        float speedObstacle = 260.0f;
+
+        float worldSpeed = 10.0f;
+
+
 };
 #endif
