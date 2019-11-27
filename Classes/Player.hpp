@@ -43,7 +43,7 @@ USING_NS_CC;
       bool isDead = false;
       void schedule();
       void unschedule();
-      void update(float dt) override;
+      void update(float dt);
       float lastYPosition;
       float rotationRate = 6.0f;
       float maxAngle = 30.0f;
