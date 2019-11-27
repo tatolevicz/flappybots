@@ -35,6 +35,8 @@ class AcademyFlappyBots{
         void nextGeneration();
         void initializeWeights(AgentFlappyBot* agent);
 
+        float weightMagnitude = 2.0f;
+
         TrainingScene* scene;
 
     public:
@@ -42,8 +44,8 @@ class AcademyFlappyBots{
         ~AcademyFlappyBots();
         static AcademyFlappyBots* getInstance();
         Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
-        int generationSize = 20;
-        int numerOfNegerations = 50;
+        int generationSize = 40;
+        int numerOfNegerations = 1000;
         int currentGeneration = 1;
 
         void setScene(TrainingScene* scene);
