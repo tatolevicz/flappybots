@@ -38,13 +38,12 @@ class GameManager
         const char* column_name = "column";
         const char* scoreArea_name = "scoreArea";
 
-        float gravitySpeed = 3.0;
         float jumpForce = 10000.0;
 
-        float speedObstacle = 260.0f;
+        float speedObstacle = 200.0f;
 
-        float worldSpeed = 10.0f;
-
+        float worldSpeed = 3;
+        float gravitySpeed = 9; //3X world
 
 };
 #endif

@@ -7,6 +7,7 @@
 
 #include "AgentFlappyBot.hpp"
 #include "GameManager.hpp"
+#include "Column.hpp"
 
 AgentFlappyBot::AgentFlappyBot(){
 
@@ -63,17 +64,17 @@ Vec2 AgentFlappyBot::observe(){
     float dist = this->screenSize.width - this->getPosition().x*1.1f;
 
     vector<float> directionsY;
-    directionsY.reserve(9);
+    directionsY.reserve(1);
 
     directionsY.push_back(0);
-    directionsY.push_back(0.2);
-    directionsY.push_back(-0.2);
-    directionsY.push_back(0.4);
-    directionsY.push_back(-0.4);
-    directionsY.push_back(0.6);
-    directionsY.push_back(-0.6);
-    directionsY.push_back(0.8);
-    directionsY.push_back(-0.8);
+    // directionsY.push_back(0.2);
+    // directionsY.push_back(-0.2);
+    // directionsY.push_back(0.4);
+    // directionsY.push_back(-0.4);
+    // directionsY.push_back(0.6);
+    // directionsY.push_back(-0.6);
+    // directionsY.push_back(0.8);
+    // directionsY.push_back(-0.8);
 
     //initializing comum values as defaults
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
@@ -82,8 +83,9 @@ Vec2 AgentFlappyBot::observe(){
         PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist, false);
         if(info.shape != nullptr){
             auto node = info.shape->getBody()->getNode();
-            if(node->getTag() == GameManager::getInstance()->scoreArea_tag){
-                interestPosition = node->getPosition();
+            if(node->getTag() == GameManager::getInstance()->scoreArea_tag || 
+            node->getTag() == GameManager::getInstance()->column_tag){
+                interestPosition = ((Column*)(node->getParent()))->getPosition();
             }   
         }
     }
@@ -102,21 +104,18 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance, 
     infoDetect.shape = nullptr;
     
     Vec2 points[1];
-
     int num = 0;
     auto func = [&points, &num,&infoDetect](PhysicsWorld& world,
         const PhysicsRayCastInfo& info, void* data)->bool
     {
         if(num < 1){
             if(info.shape != nullptr){  
-                if(info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->scoreArea_tag){
-                     infoDetect = info;
-                     points[num++] = info.contact;
-                     return false;
-                }
-
-                if(info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->column_tag){
-                     return false;
+                if(info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->scoreArea_tag || 
+                info.shape->getBody()->getNode()->getTag() == GameManager::getInstance()->column_tag){
+                    
+                    infoDetect = info;
+                    points[num++] = info.contact;
+                    return false;
                 }  
             }
         } 
@@ -129,15 +128,15 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance, 
          return infoDetect;
     }
 
-    this->drawNode->drawSegment(centerSprite, point2,1,Color4F::RED);
+    this->drawNode->drawSegment(centerSprite, point2,0.5,Color4F::RED);
     // filter the closest point based on x
-    Vec2 dotPoint = Vec2(10000,0);
-    for(int i = 0; i < num ;i++){
-        if(points[i].x <= dotPoint.x){
-            dotPoint = points[i];
-        }
-    }
-    this->drawNode->drawDot(dotPoint,3,Color4F(1.0f, 1.0f, 1.0f, 1.0f));
+    // Vec2 dotPoint = Vec2(10000,0);
+    // for(int i = 0; i < num ;i++){
+    //     if(points[i].x <= dotPoint.x){
+    //         dotPoint = points[i];
+    //     }
+    // }
+    this->drawNode->drawDot(points[0],3,Color4F(1.0f, 1.0f, 1.0f, 1.0f));
 
     return infoDetect;
 }

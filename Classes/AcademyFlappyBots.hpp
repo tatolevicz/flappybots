@@ -34,6 +34,7 @@ class AcademyFlappyBots{
 
         void nextGeneration();
         void initializeWeights(AgentFlappyBot* agent);
+        void initializeBestWeights();
 
         float weightMagnitude = 1.0f;
 
@@ -45,7 +46,7 @@ class AcademyFlappyBots{
         static AcademyFlappyBots* getInstance();
         Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
         int generationSize = 100;
-        int numerOfNegerations = 1000;
+        int numerOfNegerations = 100000;
         int currentGeneration = 1;
         float timeToCollect = 0.0;
         float currentTime = 0;
@@ -53,5 +54,6 @@ class AcademyFlappyBots{
         float activationFunction(float neuron);
         AgentFlappyBot* lastBestAgent = nullptr;
         AgentFlappyBot*  permuteGenes(AgentFlappyBot* father, AgentFlappyBot* mother);
+        bool containsIdx(vector<int> vec,int idx);
 };
 #endif /* AcademyFlappyBots_hpp */

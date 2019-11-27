@@ -46,6 +46,7 @@ void AcademyFlappyBots::initPool(){
         this->scene->addChild(agent);
         agent->stopAnimation();
         agent->getPhysicsBody()->setGravityEnable(true);
+        this->initializeBestWeights();
         this->initializeWeights(agent);
         this->setMutation(agent);
     }
@@ -54,37 +55,47 @@ void AcademyFlappyBots::initPool(){
 void AcademyFlappyBots::initializeWeights(AgentFlappyBot* agent){
     vector<float> resp;
     resp.reserve(agent->numberOfWeights);
+    for(int i = 0; i <agent->numberOfWeights; i++){
+        float weight = ((float) rand()) / (float) RAND_MAX;
+        weight *= this->weightMagnitude;
+        bool isNegative = rand() % 2;
+        if(isNegative){
+            weight *= -1;
+        }
+        resp.push_back(weight);
+    }
+    agent->setWeights(resp);
+}
 
-    resp.push_back(-0.64);
-    resp.push_back(-0.01);
-    resp.push_back(-0.90);
-    resp.push_back(0.35);
-    resp.push_back(-0.04);
-    resp.push_back(-0.06);
-    resp.push_back(0.62);
-    resp.push_back(-0.50);
-    resp.push_back(-0.37);
-    resp.push_back(0.35);
-    resp.push_back(-0.11);
-    resp.push_back(-0.19);
 
+void AcademyFlappyBots::initializeBestWeights(){
+    // vector<float> resp;
+    // resp.reserve(12);
+    // resp.push_back(-0.46);
+    // resp.push_back(-0.16);
+    // resp.push_back(-0.69);
+    // resp.push_back(0.35);
+    // resp.push_back(-0.92);
+    // resp.push_back(0.30);
+    // resp.push_back(-0.65);
+    // resp.push_back(-0.50);
+    // resp.push_back(-0.94);
+    // resp.push_back(0.35);
+    // resp.push_back(-0.11);
+    // resp.push_back(-0.19);
+
+    // if(!this->lastBestAgent){
+    //     this->lastBestAgent = AgentFlappyBot::create();
+    //     this->lastBestAgent->retain();
+    //     this->lastBestAgent->setWeights(resp);
+    //     this->lastBestAgent->setTotalScore(6); 
+    // }
+    // this->lastBestAgent->setWeights(resp);
     if(!this->lastBestAgent){
         this->lastBestAgent = AgentFlappyBot::create();
         this->lastBestAgent->retain();
-        this->lastBestAgent->setWeights(resp);
-        this->lastBestAgent->setTotalScore(5); 
+        this->initializeWeights(this->lastBestAgent);
     }
-
-    // for(int i = 0; i <agent->numberOfWeights; i++){
-    //     float weight = ((float) rand()) / (float) RAND_MAX;
-    //     weight *= this->weightMagnitude;
-    //     bool isNegative = rand() % 2;
-    //     if(isNegative){
-    //         weight *= -1;
-    //     }
-    //     resp.push_back(weight);
-    // }
-    agent->setWeights(resp);
 }
 
 void AcademyFlappyBots::schedule(){
@@ -164,19 +175,40 @@ AgentFlappyBot* AcademyFlappyBots::getBestAgent(){
     return bestAgent;
 }
 
+bool AcademyFlappyBots::containsIdx(vector<int> vec,int idx){
+    for(int i = 0; i < vec.size(); i++){
+        if(vec.at(i) == idx){
+            return true;
+        }
+    }
+    return false;
+}
+
 void AcademyFlappyBots::setMutation(AgentFlappyBot* agent){
     auto weights = agent->getWeights();
-    int numberOfMutations = agent->numberOfWeights*0.1;
+    int numberOfMutations = agent->numberOfWeights*0.2;
+    vector<int> randVec;
+    randVec.reserve(numberOfMutations);
+    
+    int j = 0;
+    while(j < numberOfMutations){
+        int randIdx = rand() % agent->numberOfWeights;
+        if(!this->containsIdx(randVec,randIdx)){
+            randVec.push_back(randIdx);
+            j++;
+        }
+    } 
+
     for(int i = 0; i < numberOfMutations; i++){
-        int randIdx = rand() % agent->numberOfWeights; 
         bool isNegative = rand() % 2;
         float newWeight = ((float)rand())/(float)RAND_MAX;
         newWeight *= this->weightMagnitude;
         if(isNegative){
             newWeight *= -1;
         }
-        weights.at(randIdx) = newWeight;
-    } 
+        weights.at(randVec.at(i)) = newWeight;
+    }
+    
     agent->setWeights(weights);
 }
 
@@ -203,17 +235,17 @@ void AcademyFlappyBots::nextGeneration(){
     }
 
     //to preserve some percent agent with the bests weights from last generation
-    int remainAmount = (int)floor(this->generationSize*0.05);
+    // int remainAmount = (int)floor(this->generationSize*0.05);
     // log("Remaning: %d",remainAmount);
 
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
-        if(i >= remainAmount){
-            this->setMutation(agent);
-        }
-        else{
-            agent->setWeights(bestAgent->getWeights());
-        }
+        // if(i >= remainAmount){
+        this->setMutation(agent);
+        // }
+        // else{
+        //     agent->setWeights(bestAgent->getWeights());
+        // }
     }
 }
 
