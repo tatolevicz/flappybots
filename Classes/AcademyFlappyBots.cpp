@@ -147,7 +147,6 @@ void AcademyFlappyBots::setMutation(AgentFlappyBot* agent){
     bool isNegative = rand() % 2;
     float newWeight = ((float)rand())/(float)RAND_MAX;
     newWeight *= this->weightMagnitude;
-    newWeight *= 2;
     if(isNegative){
         newWeight *= -1;
     }

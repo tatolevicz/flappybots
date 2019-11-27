@@ -29,7 +29,7 @@ class AgentFlappyBot: public Player{
         vector<float> getWeights();
         DrawNode* drawNode = nullptr;
         void clearDrawnNode();
-        PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance);
+        PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance,bool shouldDrawn = true);
         Vec2 observe();
         int numberOfWeights = 9;
         
