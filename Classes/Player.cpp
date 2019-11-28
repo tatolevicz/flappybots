@@ -103,10 +103,12 @@ void Player::die(){
     this->setSpriteFrame(spriteSheet->getSpriteFrameByName("BirdHero2.png"));
     this->currentAngle = 0;
     this->getPhysicsBody()->setEnabled(false);
+    this->setVisible(false);
 }
 
 void Player::reset(){
     this->isDead = false;
+    this->setVisible(true);
     this->resetScore();
     this->getPhysicsBody()->setVelocity(Vec2::ZERO);
     this->getPhysicsBody()->setAngularVelocity(0.0f);

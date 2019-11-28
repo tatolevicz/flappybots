@@ -122,7 +122,7 @@ void Respawner::respawn(){
 
 float Respawner::randomizeHeight(){
     float random = ((float) rand()) / (float) RAND_MAX;
-    float result = (this->screenSize.height*0.7)*random + this->screenSize.height*0.2;
+    float result = (this->screenSize.height*0.60)*random + this->screenSize.height*0.25;
     // log("random result %f", result);
     return result;
 }

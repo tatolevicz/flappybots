@@ -71,26 +71,27 @@ void AcademyFlappyBots::initializeWeights(AgentFlappyBot* agent){
 void AcademyFlappyBots::initializeBestWeights(){
     // vector<float> resp;
     // resp.reserve(12);
-    // resp.push_back(-0.46);
-    // resp.push_back(-0.16);
-    // resp.push_back(-0.69);
-    // resp.push_back(0.35);
-    // resp.push_back(-0.92);
-    // resp.push_back(0.30);
-    // resp.push_back(-0.65);
-    // resp.push_back(-0.50);
-    // resp.push_back(-0.94);
-    // resp.push_back(0.35);
-    // resp.push_back(-0.11);
-    // resp.push_back(-0.19);
+    // resp.push_back(0.88);
+    // resp.push_back(0.16);
+    // resp.push_back(-0.43);
+    // resp.push_back(-0.37);
+    // resp.push_back(0.77);
+    // resp.push_back(0.59);
+    // resp.push_back(0.61);
+    // resp.push_back(-0.88);
+    // resp.push_back(0.23);
+    // resp.push_back(0.27);
+    // resp.push_back(0.33);
+    // resp.push_back(-0.60);
 
     // if(!this->lastBestAgent){
     //     this->lastBestAgent = AgentFlappyBot::create();
     //     this->lastBestAgent->retain();
     //     this->lastBestAgent->setWeights(resp);
-    //     this->lastBestAgent->setTotalScore(6); 
+    //     this->lastBestAgent->setTotalScore(28); 
     // }
     // this->lastBestAgent->setWeights(resp);
+
     if(!this->lastBestAgent){
         this->lastBestAgent = AgentFlappyBot::create();
         this->lastBestAgent->retain();
@@ -119,28 +120,59 @@ void AcademyFlappyBots::tempCalculate(){
         if(agent->getIsDead()) continue;
 
         auto obs = agent->collectObservations();
+// ################ 12 weights
         auto weights = agent->getWeights();
 
         float out1 = obs.at(0)*weights.at(0);
-        float out2 = obs.at(1)*weights.at(1);  
-        float out3 = obs.at(2)*weights.at(2);
+        float out2 = obs.at(1)*weights.at(1); 
 
-        float out10 = this->activationFunction(out1 + out2 + out3);
+        float out3 = obs.at(0)*weights.at(2);
+        float out4 = obs.at(1)*weights.at(3);
 
-        float out4 = obs.at(0)*weights.at(3);
-        float out5 = obs.at(1)*weights.at(4);  
-        float out6 = obs.at(2)*weights.at(5);
+        float out5 = obs.at(0)*weights.at(4);  
+        float out6 = obs.at(1)*weights.at(5);
 
-        float out11 = this->activationFunction(out4 + out5 + out6);
+        float out7 = obs.at(0)*weights.at(6);  
+        float out8 = obs.at(1)*weights.at(7);
 
-        float out7 = obs.at(0)*weights.at(6);
-        float out8 = obs.at(1)*weights.at(7);  
-        float out9 = obs.at(2)*weights.at(8);
+        float out9 = this->activationFunction(out1 + out2);
+        float out10 = this->activationFunction(out3 + out4);  
+        float out11 = this->activationFunction(out5 + out6);
+        float out12 = this->activationFunction(out7 + out8);
 
-        float out12 = this->activationFunction(out7 + out8 + out9);
+        float out = this->activationFunction(out9*weights.at(8) + out10*weights.at(9) + out11*weights.at(10) + + out12*weights.at(11));
 
-        float out = this->activationFunction((out10*weights.at(9) + out11*weights.at(10) + out12*weights.at(11)));
-        
+// ################ 12 weights 
+
+        // auto weights = agent->getWeights();
+
+        // float out1 = obs.at(0)*weights.at(0);
+        // float out2 = obs.at(1)*weights.at(1);  
+        // float out3 = obs.at(2)*weights.at(2);
+
+        // float out4 = obs.at(0)*weights.at(3);
+        // float out5 = obs.at(1)*weights.at(4);  
+        // float out6 = obs.at(2)*weights.at(5);
+
+        // float out7 = obs.at(0)*weights.at(6);
+        // float out8 = obs.at(1)*weights.at(7); 
+        // float out9 = obs.at(2)*weights.at(8);
+
+        // float out10 = obs.at(0)*weights.at(9);
+        // float out11 = obs.at(1)*weights.at(10);  
+        // float out12 = obs.at(2)*weights.at(11);
+
+        // float out13 = this->activationFunction((out1 + out2 + out3));
+        // float out14 = this->activationFunction((out4 + out5 + out6));
+        // float out15 = this->activationFunction((out7 + out8 + out9));
+        // float out16 = this->activationFunction((out10 + out11 + out12));
+
+        // float out17 = this->activationFunction(out13*weights.at(12) + out14*weights.at(13) + out15*weights.at(14) + out16*weights.at(15));
+        // float out18 = this->activationFunction(out13*weights.at(16) + out14*weights.at(17) + out15*weights.at(18) + out16*weights.at(19));
+        // float out19 = this->activationFunction(out13*weights.at(20) + out14*weights.at(21) + out15*weights.at(22) + out16*weights.at(23));
+
+        // float out = this->activationFunction((out17*weights.at(24) + out18*weights.at(25) + out18*weights.at(26)));
+
         agent->action(out);
     }
     
@@ -216,6 +248,12 @@ void AcademyFlappyBots::nextGeneration(){
     
     auto bestAgent = this->getBestAgent();
     AgentFlappyBot* sonAgent = this->permuteGenes(bestAgent,this->lastBestAgent);
+
+    //save score from de best agent of this generation
+    // if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
+    //     this->lastBestAgent->setTotalScore(bestAgent->getTotalScore());
+    // }
+    
     //save weights from de best agent of this generation
     if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
         this->lastBestAgent->setWeights(bestAgent->getWeights());
@@ -234,18 +272,18 @@ void AcademyFlappyBots::nextGeneration(){
         this->copyBestWeights(sonAgent,agent);
     }
 
-    //to preserve some percent agent with the bests weights from last generation
-    // int remainAmount = (int)floor(this->generationSize*0.05);
+    // to preserve some percent agent with the bests weights from last generation
+    int remainAmount = (int)floor(this->generationSize*0.05);
     // log("Remaning: %d",remainAmount);
 
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
-        // if(i >= remainAmount){
-        this->setMutation(agent);
-        // }
-        // else{
-        //     agent->setWeights(bestAgent->getWeights());
-        // }
+        if(i >= remainAmount){
+            this->setMutation(agent);
+        }
+        else{
+            agent->setWeights(bestAgent->getWeights());
+        }
     }
 }
 

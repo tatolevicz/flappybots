@@ -40,17 +40,17 @@ vector<float> AgentFlappyBot::collectObservations(){
     auto scoreAreaPos = this->observe();
     auto currentPos = this->getPosition();
     vector<float> resp;
-    resp.reserve(3);
+    resp.reserve(2);
     //simulating distance x
     float val1 = (scoreAreaPos.x - currentPos.x)/this->screenSize.width;
     //simulation distance y
     float val2 = (scoreAreaPos.y - currentPos.y)/this->screenSize.height;
     //getting y position
-    float val3 = this->getPosition().y/this->screenSize.height;
+    // float val3 = this->getPosition().y/this->screenSize.height;
 
     resp.push_back(val1);
     resp.push_back(val2);
-    resp.push_back(val3);
+    // resp.push_back(val3);
 
     // log("Obs: %3,2f\t%3,2f\t%3,2f",val1,val2,val3);
 
