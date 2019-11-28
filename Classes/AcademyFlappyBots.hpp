@@ -29,16 +29,21 @@ class AcademyFlappyBots{
         bool checkGenerationFinished();
         bool checkTrainingFinished();
         AgentFlappyBot* getBestAgent();
+        Vector<AgentFlappyBot*> getBestTwoAgents();
         void copyBestWeights(AgentFlappyBot* bestAgent,AgentFlappyBot* agent);
         void setMutation(AgentFlappyBot* bestAgent);
 
         void nextGeneration();
         void initializeWeights(AgentFlappyBot* agent);
-        void initializeBestWeights();
+        void initializeBestWeights(AgentFlappyBot* agent);
+
+        void initializetLastBestAgent();
 
         float weightMagnitude = 1.0f;
-
         TrainingScene* scene;
+
+        //if false need to have at least 2 as generationSize
+        bool inferenceModeOn = false;
 
     public:
         AcademyFlappyBots();

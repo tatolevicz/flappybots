@@ -30,6 +30,7 @@ public:
     Vec2 endPosition;
     float rate;
     bool shouldMove = false;
+    Vec2 getScoreAreaPosition();
     
     
 private:

@@ -45,6 +45,8 @@
 		496C42872387590C0086CE71 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42842387590C0086CE71 /* Splash.cpp */; };
 		496C428A2387630C0086CE71 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42882387630C0086CE71 /* GameScene.cpp */; };
 		496C428B2387630C0086CE71 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42882387630C0086CE71 /* GameScene.cpp */; };
+		49DBEA672390372900F8A7FA /* NeuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49DBEA652390372900F8A7FA /* NeuralNetwork.cpp */; };
+		49DBEA682390372900F8A7FA /* NeuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49DBEA652390372900F8A7FA /* NeuralNetwork.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10517EB98FF00D1A890 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 503AE10317EB98FF00D1A890 /* main.cpp */; };
 		503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11A17EB9C5A00D1A890 /* IOKit.framework */; };
@@ -151,6 +153,8 @@
 		496C42852387590C0086CE71 /* Splash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Splash.hpp; sourceTree = "<group>"; };
 		496C42882387630C0086CE71 /* GameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		496C42892387630C0086CE71 /* GameScene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameScene.hpp; sourceTree = "<group>"; };
+		49DBEA652390372900F8A7FA /* NeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetwork.cpp; sourceTree = "<group>"; };
+		49DBEA662390372900F8A7FA /* NeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NeuralNetwork.hpp; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE10317EB98FF00D1A890 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = mac/main.cpp; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 				496C42882387630C0086CE71 /* GameScene.cpp */,
 				496C42892387630C0086CE71 /* GameScene.hpp */,
 				496C42702387587F0086CE71 /* Respawner.cpp */,
+				49DBEA652390372900F8A7FA /* NeuralNetwork.cpp */,
+				49DBEA662390372900F8A7FA /* NeuralNetwork.hpp */,
 				496C42712387587F0086CE71 /* Respawner.hpp */,
 				496C4274238758A00086CE71 /* Player.cpp */,
 				496C4275238758A00086CE71 /* Player.hpp */,
@@ -504,6 +510,7 @@
 				496C42862387590C0086CE71 /* Splash.cpp in Sources */,
 				4903BA34238CAB4C00A39FCB /* TrainingScene.cpp in Sources */,
 				496C4282238758F00086CE71 /* Column.cpp in Sources */,
+				49DBEA672390372900F8A7FA /* NeuralNetwork.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				49DBEA682390372900F8A7FA /* NeuralNetwork.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				4903BA2D238CA2B200A39FCB /* AcademyFlappyBots.cpp in Sources */,
 				496C42872387590C0086CE71 /* Splash.cpp in Sources */,

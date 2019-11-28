@@ -61,7 +61,7 @@ Vec2 AgentFlappyBot::observe(){
 
     this->clearDrawnNode();
     this->drawNode = DrawNode::create();
-    float dist = this->screenSize.width - this->getPosition().x*1.1f;
+    float dist = this->screenSize.width - this->getPosition().x*2.7f;
 
     vector<float> directionsY;
     directionsY.reserve(1);
@@ -76,7 +76,7 @@ Vec2 AgentFlappyBot::observe(){
             auto node = info.shape->getBody()->getNode();
             if(node->getTag() == GameManager::getInstance()->scoreArea_tag || 
             node->getTag() == GameManager::getInstance()->column_tag){
-                interestPosition = ((Column*)(node->getParent()))->getPosition();
+                interestPosition = ((Column*)(node->getParent()))->getScoreAreaPosition();
             }   
         }
     }
@@ -114,6 +114,10 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance, 
     };
     auto scene = Director::getInstance()->getRunningScene();
     scene->getPhysicsWorld()->rayCast(func, centerSprite, point2, nullptr);
+
+    if(infoDetect.shape){
+        this->drawNode->drawDot(((Column*)infoDetect.shape->getBody()->getNode()->getParent())->getScoreAreaPosition(),3,Color4F::YELLOW);
+    }
     
     if(!shouldDrawn){
          return infoDetect;

@@ -21,7 +21,7 @@ using namespace ui;
 class GameScene : public Scene
 {
     public:
-        static cocos2d::Scene* createScene();
+        static Scene* createScene();
         virtual bool init();
         SpriteFrameCache *spriteSheet;
         Respawner* respawner;

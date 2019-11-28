@@ -141,3 +141,7 @@ void Column::move(float dt){
     }
     this->setPosition(newPosition); 
 }
+
+Vec2 Column::getScoreAreaPosition(){
+    return Vec2(this->scoreArea->getPositionX() + this->getPositionX(),this->scoreArea->getPositionY() + this->getPositionY());
+}

@@ -46,9 +46,14 @@ void AcademyFlappyBots::initPool(){
         this->scene->addChild(agent);
         agent->stopAnimation();
         agent->getPhysicsBody()->setGravityEnable(true);
-        this->initializeBestWeights();
-        this->initializeWeights(agent);
-        this->setMutation(agent);
+        if(inferenceModeOn){
+            this->initializeBestWeights(agent); 
+        }
+        else{
+            this->initializeWeights(agent);
+            this->initializetLastBestAgent();
+            this->setMutation(agent);
+        }
     }
 }
 
@@ -67,36 +72,41 @@ void AcademyFlappyBots::initializeWeights(AgentFlappyBot* agent){
     agent->setWeights(resp);
 }
 
+void AcademyFlappyBots::initializetLastBestAgent(){
+    if(!this->lastBestAgent){
+        this->lastBestAgent = AgentFlappyBot::create();
+        this->lastBestAgent->retain();  
+        initializeBestWeights(this->lastBestAgent); 
+    }
+}
 
-void AcademyFlappyBots::initializeBestWeights(){
-    // vector<float> resp;
-    // resp.reserve(12);
-    // resp.push_back(0.88);
-    // resp.push_back(0.16);
-    // resp.push_back(-0.43);
-    // resp.push_back(-0.37);
-    // resp.push_back(0.77);
-    // resp.push_back(0.59);
-    // resp.push_back(0.61);
-    // resp.push_back(-0.88);
-    // resp.push_back(0.23);
-    // resp.push_back(0.27);
-    // resp.push_back(0.33);
-    // resp.push_back(-0.60);
+
+void AcademyFlappyBots::initializeBestWeights(AgentFlappyBot* agent){
+
+    vector<float> resp;
+
+    resp.reserve(12);
+
+    resp.push_back(-0.04);
+    resp.push_back(0.09);
+    resp.push_back(-0.90);
+    resp.push_back(0.49);
+    resp.push_back(-0.68);
+    resp.push_back(0.58);
+    resp.push_back(0.63);
+    resp.push_back(-0.75);
+    resp.push_back(0.61);
+    resp.push_back(-0.58);
+    resp.push_back(0.47);
+    resp.push_back(-0.50);
+
+    agent->setWeights(resp);
 
     // if(!this->lastBestAgent){
     //     this->lastBestAgent = AgentFlappyBot::create();
     //     this->lastBestAgent->retain();
-    //     this->lastBestAgent->setWeights(resp);
-    //     this->lastBestAgent->setTotalScore(28); 
+    //     this->initializeWeights(this->lastBestAgent);
     // }
-    // this->lastBestAgent->setWeights(resp);
-
-    if(!this->lastBestAgent){
-        this->lastBestAgent = AgentFlappyBot::create();
-        this->lastBestAgent->retain();
-        this->initializeWeights(this->lastBestAgent);
-    }
 }
 
 void AcademyFlappyBots::schedule(){
@@ -246,8 +256,49 @@ void AcademyFlappyBots::setMutation(AgentFlappyBot* agent){
 
 void AcademyFlappyBots::nextGeneration(){
     
-    auto bestAgent = this->getBestAgent();
-    AgentFlappyBot* sonAgent = this->permuteGenes(bestAgent,this->lastBestAgent);
+    // auto bestAgent = this->getBestAgent();
+    // AgentFlappyBot* sonAgent = this->permuteGenes(bestAgent,this->lastBestAgent);
+
+    // //save score from de best agent of this generation
+    // // if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
+    // //     this->lastBestAgent->setTotalScore(bestAgent->getTotalScore());
+    // // }
+    
+    // //save weights from de best agent of this generation
+    // if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
+    //     this->lastBestAgent->setWeights(bestAgent->getWeights());
+    //     this->lastBestAgent->setTotalScore(bestAgent->getTotalScore());
+    //     auto weights = bestAgent->getWeights();
+    //     log("Best Agent:");
+    //     for(int i = 0; i < bestAgent->numberOfWeights; i++){
+    //         log("%3.2f",weights.at(i));
+    //     }
+    //     log("Score: %d",bestAgent->getTotalScore());
+    // }
+    
+    // for(int i = 0; i< this->agentsPool->size(); i++){
+    //     auto agent = this->agentsPool->at(i);
+    //     agent->reset();
+    //     this->copyBestWeights(sonAgent,agent);
+    // }
+
+    // // to preserve some percent agent with the bests weights from last generation
+    // int remainAmount = (int)floor(this->generationSize*0.05);
+    // // log("Remaning: %d",remainAmount);
+
+    // for(int i = 0; i< this->agentsPool->size(); i++){
+    //     auto agent = this->agentsPool->at(i);
+    //     if(i >= remainAmount){
+    //         this->setMutation(agent);
+    //     }
+    //     else{
+    //         agent->setWeights(bestAgent->getWeights());
+    //     }
+    // }
+
+    //########## teste
+    auto bestAgents = this->getBestTwoAgents();
+    AgentFlappyBot* sonAgent = this->permuteGenes(bestAgents.at(0),bestAgents.at(1));
 
     //save score from de best agent of this generation
     // if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
@@ -255,7 +306,9 @@ void AcademyFlappyBots::nextGeneration(){
     // }
     
     //save weights from de best agent of this generation
-    if(this->lastBestAgent->getTotalScore() <= bestAgent->getTotalScore()){
+    auto bestAgent = bestAgents.at(0);
+
+    if(this->lastBestAgent->getTotalScore() < bestAgent->getTotalScore()){
         this->lastBestAgent->setWeights(bestAgent->getWeights());
         this->lastBestAgent->setTotalScore(bestAgent->getTotalScore());
         auto weights = bestAgent->getWeights();
@@ -285,6 +338,52 @@ void AcademyFlappyBots::nextGeneration(){
             agent->setWeights(bestAgent->getWeights());
         }
     }
+
+    //###########
+}
+
+Vector<AgentFlappyBot*> AcademyFlappyBots::getBestTwoAgents(){
+    int firstBestScore = 0;
+    int secondBestScore = 0;
+
+    Vector<AgentFlappyBot*> agents;
+    agents.reserve(2);
+
+    AgentFlappyBot* firstAgent;
+    AgentFlappyBot* secondAgent;
+
+    for(int i = 0; i< this->agentsPool->size(); i++){
+        auto agent = this->agentsPool->at(i);
+        auto agentScore = agent->getTotalScore();
+        if(agentScore >= firstBestScore){
+            firstBestScore = agentScore;
+            firstAgent = agent;
+        }
+    }
+
+    auto firstWeights = firstAgent->getWeights();
+    firstAgent->setWeights(firstWeights);
+
+    for(int i = 0; i< this->agentsPool->size(); i++){
+        auto agent = this->agentsPool->at(i);
+        auto agentScore = agent->getTotalScore();
+        if(agentScore >= secondBestScore && agent != firstAgent){
+            secondBestScore = agentScore;
+            secondAgent = agent;
+        }
+    }
+    
+    auto secondWeights = secondAgent->getWeights();
+    secondAgent->setWeights(secondWeights);
+
+    // if(this->lastBestAgent->getTotalScore() > secondBestScore && 
+    // this->lastBestAgent->getTotalScore() > firstBestScore){
+    //     secondAgent->setWeights(this->lastBestAgent->getWeights());
+    // }
+    
+    agents.pushBack(firstAgent);
+    agents.pushBack(secondAgent);
+    return agents;
 }
 
 AgentFlappyBot* AcademyFlappyBots::permuteGenes(AgentFlappyBot* father, AgentFlappyBot* mother){
@@ -332,7 +431,15 @@ void AcademyFlappyBots::update(float dt){
         }
         else{
             this->scene->gameOver();
-            this->nextGeneration();
+            if(!inferenceModeOn){
+                this->nextGeneration();
+            }
+            else{
+                for(int i = 0; i< this->agentsPool->size(); i++){
+                    auto agent = this->agentsPool->at(i);
+                    agent->reset();
+                }
+            }
             this->scene->restartGame();
         }        
     }

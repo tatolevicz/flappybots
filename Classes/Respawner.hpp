@@ -28,8 +28,8 @@ class Respawner : public Node
         void restart();
     
     private:
-        float respawnRate = 3.0f;
-        int poolSize = 3;
+        float respawnRate = 1.7f;
+        int poolSize = 10;
         float currentTime = 0.0f;
         bool shouldRespawn = false;
         Scene* sceneNode;
@@ -45,7 +45,7 @@ class Respawner : public Node
         float randomizeHeight();
 
         //column specifics
-        float gapSize = 130.0f;
+        float gapSize = 140.0f;
         float speed =  1.8f;  
         Vec2 getInitialPosition();  
 };
