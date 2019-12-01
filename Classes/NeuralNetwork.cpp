@@ -68,6 +68,9 @@ void NeuralNetwork::setupNeuralNetwork(){
 
     //initiale weights to all layers
     this->randomizeWeights();
+
+    //initalize total connections variable
+    this->setTotalConnections();
 }
 
 void NeuralNetwork::allocNeurons(NN_Layer *layer, int size){
@@ -81,6 +84,16 @@ void NeuralNetwork::makeNeuronConnections(NN_Layer *layer, int numOfConnections)
         layer->neurons[j].weight = (float*)malloc(sizeof(float)*numOfConnections);
         for(int i = 0; i < numOfConnections; i++){
             layer->neurons[j].weight[i] = 1.0f;
+        }
+    }
+}
+void NeuralNetwork::setTotalConnections(){
+    this->totalConnections = 0;
+     for(int i = 1; i < this->totalNumberOfLayers; i++){
+        for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
+            for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
+                this->totalConnections++;
+            }
         }
     }
 }
@@ -113,8 +126,8 @@ void NeuralNetwork::randomizeWeights(){
     for(int i = 1; i < this->totalNumberOfLayers; i++){
         for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
             for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
-                // this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
-                this->layers[i]->neurons[j].weight[k] = resp.at(contIdx);
+                this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
+                // this->layers[i]->neurons[j].weight[k] = resp.at(contIdx);
                 log("Number of time weghts: %d",k);
                 contIdx++;
             }
@@ -164,4 +177,30 @@ std::vector<float> NeuralNetwork::getOutput(std::vector<float> inputs){
 float NeuralNetwork::activationFunction(float value){
     float resp = 1/(1 + expf(-value));
     return resp;
+}
+
+std::vector<float> NeuralNetwork::getWeightsAsVector(){
+    std::vector<float> resp;
+    resp.reserve(this->totalConnections);
+
+    for(int i = 1; i < this->totalNumberOfLayers; i++){
+        for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
+            for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
+                resp.push_back(this->layers[i]->neurons[j].weight[k]);
+            }
+        }
+    }
+    
+    return resp;
+}
+void NeuralNetwork::setWeightsFromVector(std::vector<float> newWeights){
+    int contIdx = 0;
+    for(int i = 1; i < this->totalNumberOfLayers; i++){
+        for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
+            for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
+                this->layers[i]->neurons[j].weight[k] = newWeights.at(contIdx);
+                contIdx++;
+            }
+        }
+    }
 }

@@ -33,12 +33,15 @@ private:
     int numberOfOutputs;
     int* hiddenLayersSizes;
     int totalNumberOfLayers;
+    int totalConnections;
     void setupNeuralNetwork();
     float activationFunction(float value);
     void allocNeurons(NN_Layer *layer, int size);
     void makeNeuronConnections(NN_Layer *layer, int numOfConnections);
     void setLayersReference();
+    void setTotalConnections();
     void randomizeWeights();
+    
 
 public:
     CREATE_FUNC(NeuralNetwork);
@@ -50,6 +53,9 @@ public:
                         int* hiddenLayersSizes,
                         int numberOfOutputs);
     std::vector<float> getOutput(std::vector<float> inputs);
+    std::vector<float> getWeightsAsVector();
+    void setWeightsFromVector(std::vector<float> newWeights);
+
 };
 
 #endif /* NeuralNetwork_hpp */
