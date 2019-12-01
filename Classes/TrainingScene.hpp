@@ -14,7 +14,6 @@
 #include "ScrollableSprite.hpp"
 #include "GameManager.hpp"
 #include "AgentFlappyBot.hpp"
-#include "NeuralNetwork.hpp"
 
 using namespace cocos2d;
 using namespace ui;
@@ -64,7 +63,5 @@ class TrainingScene : public Scene
         bool checkCollision(Node* nodeA, Node* nodeB);
         int getState();
         bool isPlayerContact(Node* nodeA, Node* nodeB);
-        void initIA();
-        NeuralNetwork* nn;
 };
 #endif

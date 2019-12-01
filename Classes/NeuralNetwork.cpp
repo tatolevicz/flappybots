@@ -65,6 +65,9 @@ void NeuralNetwork::setupNeuralNetwork(){
         //layer connections
         this->makeNeuronConnections(this->layers[i],this->layers[i-1]->numberOfNeurons);
     }
+
+    //initiale weights to all layers
+    this->randomizeWeights();
 }
 
 void NeuralNetwork::allocNeurons(NN_Layer *layer, int size){
@@ -89,6 +92,16 @@ void NeuralNetwork::setLayersReference(){
         this->layers[i+1] = &this->hiddenLayers[i];
     }
     this->layers[this->totalNumberOfLayers-1] = &this->outputLayer;
+}
+
+void NeuralNetwork::randomizeWeights(){
+    for(int i = 1; i < this->totalNumberOfLayers; i++){
+        for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
+            for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
+                this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
+            }
+        }
+    }
 }
 
 std::vector<float> NeuralNetwork::getOutput(std::vector<float> inputs){

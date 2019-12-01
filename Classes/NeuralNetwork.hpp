@@ -38,6 +38,7 @@ private:
     void allocNeurons(NN_Layer *layer, int size);
     void makeNeuronConnections(NN_Layer *layer, int numOfConnections);
     void setLayersReference();
+    void randomizeWeights();
 
 public:
     CREATE_FUNC(NeuralNetwork);

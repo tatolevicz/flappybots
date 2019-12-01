@@ -35,7 +35,6 @@ void TrainingScene::setupScreen(Vec2 origin){
     createUI();
     addPhysicsGround();
     setPhysicsParameters();
-    initIA();
 }
 
 void TrainingScene::loadSpriteSheet(){
@@ -256,22 +255,4 @@ void TrainingScene::restartGame(){
     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
 }
 
-void TrainingScene::initIA(){
-    this->nn = NeuralNetwork::create();
-    this->nn->retain();
-    int numberOfHiddenLayers = 3;
-    int hiddenLayerSize[3] = {4,4,3};
-    vector<float> outputs; 
-    if(nn->init(2,numberOfHiddenLayers,hiddenLayerSize,1)){
-        log("Parece que deu certo.");
-        vector<float> inputs;
-        inputs.reserve(2);
-        inputs.push_back(2.5);
-        inputs.push_back(1.5);
-        outputs = nn->getOutput(inputs);
-    }
 
-    for(int i = 0; i < outputs.size(); i++){
-        log("Saidas da rede: %3.2f", outputs.at(i));
-    }
-}

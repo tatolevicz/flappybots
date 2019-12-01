@@ -36,6 +36,7 @@ void AcademyFlappyBots::setScene(TrainingScene* scene){
 void AcademyFlappyBots::initAcademy(){
     this->initPool();
     this->schedule();
+    this->initIA();
 }
 
 void AcademyFlappyBots::initPool(){
@@ -182,8 +183,8 @@ void AcademyFlappyBots::tempCalculate(){
         // float out19 = this->activationFunction(out13*weights.at(20) + out14*weights.at(21) + out15*weights.at(22) + out16*weights.at(23));
 
         // float out = this->activationFunction((out17*weights.at(24) + out18*weights.at(25) + out18*weights.at(26)));
-
-        agent->action(out);
+        vector<float> out_NN = this->nn->getOutput(obs);
+        agent->action(out_NN.at(0));
     }
     
 }
@@ -450,6 +451,17 @@ void AcademyFlappyBots::update(float dt){
 float AcademyFlappyBots::activationFunction(float neuron){
     float resp = 1/(1 + expf(-neuron));
     return resp;
+}
+
+void AcademyFlappyBots::initIA(){
+    this->nn = NeuralNetwork::create();
+    this->nn->retain();
+    int numberOfHiddenLayers = 1;
+    int hiddenLayerSize[1] = {4};
+    vector<float> outputs; 
+    if(nn->init(2,numberOfHiddenLayers,hiddenLayerSize,1)){
+        log("NeuralNetwork innitialized need randomize weights");
+    }
 }
 
 

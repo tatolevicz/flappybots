@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "AgentFlappyBot.hpp"
 #include "TrainingScene.hpp"
+#include "NeuralNetwork.hpp"
 
 USING_NS_CC;
 
@@ -44,6 +45,8 @@ class AcademyFlappyBots{
 
         //if false need to have at least 2 as generationSize
         bool inferenceModeOn = false;
+        NeuralNetwork* nn;
+        void initIA();
 
     public:
         AcademyFlappyBots();
