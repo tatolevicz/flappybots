@@ -14,35 +14,41 @@
 typedef struct neuron{
     float *weight;
     int numberOfConnections;
-} Neuron;
+    float out;
+} NN_Neuron;
 
 typedef struct layer{
-    Neuron* neurons;
+    NN_Neuron* neurons;
     int numberOfNeurons;
-} Layer;
+} NN_Layer;
 
-class NeuralNetwork : cocos2d::Ref {
+class NeuralNetwork : public  cocos2d::Ref {
 private:
-    Layer inputLayer;
-    Layer* hiddenLayers;
-    Layer outputLayer;
+    NN_Layer inputLayer;
+    NN_Layer* hiddenLayers;
+    NN_Layer outputLayer;
+    NN_Layer** layers;
     int numberOfHiddenLayers;
     int numberOfInputs;
     int numberOfOutputs;
     int* hiddenLayersSizes;
+    int totalNumberOfLayers;
     void setupNeuralNetwork();
-    
+    float activationFunction(float value);
+    void allocNeurons(NN_Layer *layer, int size);
+    void makeNeuronConnections(NN_Layer *layer, int numOfConnections);
+    void setLayersReference();
 
 public:
+    CREATE_FUNC(NeuralNetwork);
+    NeuralNetwork();
+    ~NeuralNetwork();
     virtual bool init();
     virtual bool init(  int numberOfInputs,
                         int numberOfHiddenLayers,
                         int* hiddenLayersSizes,
                         int numberOfOutputs);
-    CREATE_FUNC(NeuralNetwork);
-    
-private:
-    
+    std::vector<float> getOutput(std::vector<float> inputs);
 };
 
 #endif /* NeuralNetwork_hpp */
