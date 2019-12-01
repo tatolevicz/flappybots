@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "Player.hpp"
+#include "NeuralNetwork.hpp"
 
 using namespace std;
 class AgentFlappyBot: public Player{
@@ -33,6 +34,8 @@ class AgentFlappyBot: public Player{
         Vec2 observe();
         int numberOfWeights = 12;//connections not counting inputs
         void setTotalScore(int total);
+        NeuralNetwork* nn;
+        void initIA();
 };
 
 #endif /* AgentFlappyBot_hpp */

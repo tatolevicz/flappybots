@@ -45,8 +45,8 @@ class AcademyFlappyBots{
 
         //if false need to have at least 2 as generationSize
         bool inferenceModeOn = false;
-        NeuralNetwork* nn;
-        void initIA();
+
+        
 
     public:
         AcademyFlappyBots();
@@ -63,5 +63,11 @@ class AcademyFlappyBots{
         AgentFlappyBot* lastBestAgent = nullptr;
         AgentFlappyBot*  permuteGenes(AgentFlappyBot* father, AgentFlappyBot* mother);
         bool containsIdx(vector<int> vec,int idx);
+
+        //Neural Networks infos
+        int numberOfInputs = 2;
+        int numberOfHiddenLayers = 1;
+        int hiddenLayersSize = 4;
+        int numberOfOutputs = 1;
 };
 #endif /* AcademyFlappyBots_hpp */

@@ -99,6 +99,7 @@ void NeuralNetwork::randomizeWeights(){
         for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
             for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
                 this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
+                log("Number of time weghts: %d",k);
             }
         }
     }

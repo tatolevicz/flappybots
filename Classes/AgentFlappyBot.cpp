@@ -8,6 +8,7 @@
 #include "AgentFlappyBot.hpp"
 #include "GameManager.hpp"
 #include "Column.hpp"
+#include "AcademyFlappyBots.hpp"
 
 AgentFlappyBot::AgentFlappyBot(){
 
@@ -32,7 +33,7 @@ bool AgentFlappyBot::initAgent(){
 }
 
 void AgentFlappyBot::initialSetup(){
-  
+    this->initIA();
 }
 
 vector<float> AgentFlappyBot::collectObservations(){
@@ -164,10 +165,23 @@ void AgentFlappyBot::clearDrawnNode(){
     }
 }
 
-
 void AgentFlappyBot::setTotalScore(int total){
     this->totalScore = total;
 }
-        
+
+void AgentFlappyBot::initIA(){
+    this->nn = NeuralNetwork::create();
+    this->nn->retain();
+
+    int numberOfHiddenLayers = AcademyFlappyBots::getInstance()->numberOfHiddenLayers;
+    int hiddenLayerSize[1] = {AcademyFlappyBots::getInstance()->hiddenLayersSize};
+    int numberOfInputs = AcademyFlappyBots::getInstance()->numberOfInputs;
+    int numberOfOutputs = AcademyFlappyBots::getInstance()->numberOfOutputs;
+
+    vector<float> outputs; 
+    if(nn->init(numberOfInputs,numberOfHiddenLayers,hiddenLayerSize,numberOfOutputs)){
+        // log("NeuralNetwork initialized");
+    }
+}    
 
 
