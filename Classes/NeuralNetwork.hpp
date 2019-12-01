@@ -11,10 +11,34 @@
 #include <stdio.h>
 #include "cocos2d.h"
 
+typedef struct neuron{
+    float *weight;
+    int numberOfConnections;
+} Neuron;
+
+typedef struct layer{
+    Neuron* neurons;
+    int numberOfNeurons;
+} Layer;
+
 class NeuralNetwork : cocos2d::Ref {
-//    static NeuralNetwork* createNeuralNetwork();
+private:
+    Layer inputLayer;
+    Layer* hiddenLayers;
+    Layer outputLayer;
+    int numberOfHiddenLayers;
+    int numberOfInputs;
+    int numberOfOutputs;
+    int* hiddenLayersSizes;
+    void setupNeuralNetwork();
+    
+
 public:
     virtual bool init();
+    virtual bool init(  int numberOfInputs,
+                        int numberOfHiddenLayers,
+                        int* hiddenLayersSizes,
+                        int numberOfOutputs);
     CREATE_FUNC(NeuralNetwork);
     
 private:

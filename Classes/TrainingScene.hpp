@@ -63,5 +63,6 @@ class TrainingScene : public Scene
         bool checkCollision(Node* nodeA, Node* nodeB);
         int getState();
         bool isPlayerContact(Node* nodeA, Node* nodeB);
+        void initIA();
 };
 #endif

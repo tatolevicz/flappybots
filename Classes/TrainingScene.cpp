@@ -7,6 +7,7 @@
 
 #include "TrainingScene.hpp"
 #include "AcademyFlappyBots.hpp"
+#include "NeuralNetwork.hpp"
 
 USING_NS_CC;
 
@@ -252,4 +253,12 @@ void TrainingScene::restartGame(){
     this->ground->start();
     this->trees->start();
     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
+}
+
+void TrainingScene::initIA(){
+    auto nn = NeuralNetwork::create();
+    int hiddenLayerSize[1] = {4};
+    if(nn->init(2,1,hiddenLayerSize,1)){
+        
+    }
 }
