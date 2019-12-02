@@ -24,6 +24,7 @@ private:
     void copyBestWeights(AgentFlappyBot* fromAgent,AgentFlappyBot* toAgent);
     bool containsIdx(vector<int> vec,int idx);
     bool isInitialized = false;
+    AgentFlappyBot* bestAgentOfAllTime;
     
 public:
     GeneticAlgorithm();

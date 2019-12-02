@@ -43,19 +43,12 @@ vector<float> AgentFlappyBot::collectObservations(){
     auto currentPos = this->getPosition();
     vector<float> resp;
     resp.reserve(2);
-    //simulating distance x
     float val1 = (scoreAreaPos.x - currentPos.x)/this->screenSize.width;
-    //simulation distance y
     float val2 = (scoreAreaPos.y - currentPos.y)/this->screenSize.height;
-    //getting y position
-    // float val3 = this->getPosition().y/this->screenSize.height;
 
     resp.push_back(val1);
     resp.push_back(val2);
-    // resp.push_back(val3);
-
-    // log("Obs: %3,2f\t%3,2f\t%3,2f",val1,val2,val3);
-
+ 
     return resp;
 }
 
@@ -63,12 +56,12 @@ Vec2 AgentFlappyBot::observe(){
     this->clearDrawnNode();
     this->drawNode = DrawNode::create();
 
-    float dist = this->screenSize.width - this->getPosition().x*2.7f;
+    float dist = this->screenSize.width - this->screenSize.width*0.75;
 
     vector<float> directionsY;
     directionsY.reserve(1);
-
     directionsY.push_back(0);
+
     //initializing comum values as defaults
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
 
@@ -181,6 +174,10 @@ void AgentFlappyBot::initIA(){
     if(nn->init(numberOfInputs,numberOfHiddenLayers,hiddenLayerSize,numberOfOutputs)){
         // log("NeuralNetwork initialized");
     }
-}    
+}
+
+int AgentFlappyBot::getNumberOfWeights(){
+    return this->nn->getNumberOfConnections();
+}
 
 

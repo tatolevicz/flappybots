@@ -55,6 +55,7 @@ public:
     std::vector<float> getOutput(std::vector<float> inputs);
     std::vector<float> getWeightsAsVector();
     void setWeightsFromVector(std::vector<float> newWeights);
+    int getNumberOfConnections();
 
 };
 

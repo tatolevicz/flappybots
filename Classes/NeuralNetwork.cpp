@@ -70,7 +70,7 @@ void NeuralNetwork::setupNeuralNetwork(){
         this->makeNeuronConnections(this->layers[i],this->layers[i-1]->numberOfNeurons);
     }
 
-    //initiale weights to all layers
+    //initialize weights to all layers
     this->randomizeWeights();
 
     //initalize total connections variable
@@ -207,4 +207,8 @@ void NeuralNetwork::setWeightsFromVector(std::vector<float> newWeights){
             }
         }
     }
+}
+
+int NeuralNetwork::getNumberOfConnections(){
+    return this->totalConnections;
 }

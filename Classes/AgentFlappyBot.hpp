@@ -32,10 +32,9 @@ class AgentFlappyBot: public Player{
         void clearDrawnNode();
         PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance,bool shouldDrawn = true);
         Vec2 observe();
-        int numberOfWeights = 12;//connections not counting inputs
         void setTotalScore(int total);
         NeuralNetwork* nn;
         void initIA();
+        int getNumberOfWeights();
 };
-
 #endif /* AgentFlappyBot_hpp */

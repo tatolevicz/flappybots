@@ -25,17 +25,21 @@ void GeneticAlgorithm::initPool(){
         agent->getPhysicsBody()->setGravityEnable(true);
         this->setMutation(agent);
     }
+
+    bestAgentOfAllTime = AgentFlappyBot::create();
+    this->bestAgentOfAllTime->retain();
+    bestAgentOfAllTime->stopAnimation();
 }
 
 void GeneticAlgorithm::setMutation(AgentFlappyBot* agent){
     auto weights = agent->getWeights();
-    int numberOfMutations = agent->numberOfWeights*0.2;
+    int numberOfMutations = agent->getNumberOfWeights()*0.2;
     vector<int> randVec;
     randVec.reserve(numberOfMutations);
     
     int j = 0;
     while(j < numberOfMutations){
-        int randIdx = rand() % agent->numberOfWeights;
+        int randIdx = rand() % agent->getNumberOfWeights();
         if(!this->containsIdx(randVec,randIdx)){
             randVec.push_back(randIdx);
             j++;
@@ -59,9 +63,9 @@ AgentFlappyBot* GeneticAlgorithm::permuteGenes(AgentFlappyBot* father, AgentFlap
     auto fatherWeights = father->getWeights();
     auto motherWeights = mother->getWeights();
     vector<float> sonWeights;
-    sonWeights.reserve(father->numberOfWeights);
+    sonWeights.reserve(father->getNumberOfWeights());
     int parOuImpar = rand() % 2;
-    for(int i = 0; i < father->numberOfWeights; i++){
+    for(int i = 0; i < father->getNumberOfWeights(); i++){
         if(i%2 == parOuImpar){
             sonWeights.push_back(father->getWeights().at(i));
         }
@@ -135,9 +139,21 @@ Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
             secondAgent = agent;
         }
     }
-    
+
     auto secondWeights = secondAgent->getWeights();
     secondAgent->setWeights(secondWeights);
+
+    //save score from de best agent of this generation
+    if(this->bestAgentOfAllTime->getTotalScore() <= firstAgent->getTotalScore()){
+        this->bestAgentOfAllTime->setWeights(firstAgent->getWeights());
+        this->bestAgentOfAllTime->setTotalScore(firstAgent->getTotalScore());
+    }
+
+    if(bestAgentOfAllTime->getTotalScore() > secondBestScore &&  bestAgentOfAllTime->getTotalScore() > firstBestScore){
+        firstAgent->setWeights(bestAgentOfAllTime->getWeights());
+        firstAgent->setTotalScore(bestAgentOfAllTime->getTotalScore());
+    }
+    
     agents.pushBack(firstAgent);
     agents.pushBack(secondAgent);
     
