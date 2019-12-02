@@ -60,8 +60,6 @@ vector<float> AgentFlappyBot::collectObservations(){
 }
 
 Vec2 AgentFlappyBot::observe(){
-    if(this->getIsDead())return;
-    
     this->clearDrawnNode();
     this->drawNode = DrawNode::create();
 

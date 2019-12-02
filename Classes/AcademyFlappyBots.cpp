@@ -133,8 +133,9 @@ void AcademyFlappyBots::tempCalculate(){
 //    }
     
     for(int i = 0; i< this->ga->agentsPool->size(); i++){
-        
         auto agent = this->ga->agentsPool->at(i);
+        
+        if(agent->getIsDead())continue;
 //
 //        if(agent->getIsDead()) continue;
 //
