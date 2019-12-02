@@ -9,9 +9,13 @@
 
 USING_NS_CC;
 
-NeuralNetwork::NeuralNetwork(){printf("Constructor NN called.\n");};
+NeuralNetwork::NeuralNetwork(){
+    //printf("Constructor NN called.\n")
+;};
 //TODO:: implement the destructor
-NeuralNetwork::~NeuralNetwork(){printf("Destructor NN called.\n");};
+NeuralNetwork::~NeuralNetwork(){
+    printf("Destructor NN called.\n");
+};
 
 bool NeuralNetwork::init(){
     return true;
@@ -128,7 +132,7 @@ void NeuralNetwork::randomizeWeights(){
             for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
                 this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
                 // this->layers[i]->neurons[j].weight[k] = resp.at(contIdx);
-                log("Number of time weghts: %d",k);
+//                log("Number of time weghts: %d",k);
                 contIdx++;
             }
         }

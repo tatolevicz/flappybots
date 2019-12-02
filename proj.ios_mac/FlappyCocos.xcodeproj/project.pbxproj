@@ -29,6 +29,8 @@
 		4903BA31238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA2E238CA8F700A39FCB /* AgentFlappyBot.cpp */; };
 		4903BA34238CAB4C00A39FCB /* TrainingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */; };
 		4903BA35238CAB4C00A39FCB /* TrainingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */; };
+		496086D323947F990017F3B1 /* GeneticAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496086D123947F990017F3B1 /* GeneticAlgorithm.cpp */; };
+		496086D423947F990017F3B1 /* GeneticAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496086D123947F990017F3B1 /* GeneticAlgorithm.cpp */; };
 		496C426A238618FE0086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
 		496C426B238619110086CE71 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = 496C4269238618FE0086CE71 /* Sprites */; };
 		496C42722387587F0086CE71 /* Respawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496C42702387587F0086CE71 /* Respawner.cpp */; };
@@ -138,6 +140,8 @@
 		4903BA2F238CA8F700A39FCB /* AgentFlappyBot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AgentFlappyBot.hpp; sourceTree = "<group>"; };
 		4903BA32238CAB4B00A39FCB /* TrainingScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrainingScene.hpp; sourceTree = "<group>"; };
 		4903BA33238CAB4B00A39FCB /* TrainingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrainingScene.cpp; sourceTree = "<group>"; };
+		496086D123947F990017F3B1 /* GeneticAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GeneticAlgorithm.cpp; sourceTree = "<group>"; };
+		496086D223947F990017F3B1 /* GeneticAlgorithm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GeneticAlgorithm.hpp; sourceTree = "<group>"; };
 		496C4269238618FE0086CE71 /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 		496C42702387587F0086CE71 /* Respawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Respawner.cpp; sourceTree = "<group>"; };
 		496C42712387587F0086CE71 /* Respawner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Respawner.hpp; sourceTree = "<group>"; };
@@ -323,6 +327,8 @@
 				496C42892387630C0086CE71 /* GameScene.hpp */,
 				496C42702387587F0086CE71 /* Respawner.cpp */,
 				49DBEA652390372900F8A7FA /* NeuralNetwork.cpp */,
+				496086D123947F990017F3B1 /* GeneticAlgorithm.cpp */,
+				496086D223947F990017F3B1 /* GeneticAlgorithm.hpp */,
 				49DBEA662390372900F8A7FA /* NeuralNetwork.hpp */,
 				496C42712387587F0086CE71 /* Respawner.hpp */,
 				496C4274238758A00086CE71 /* Player.cpp */,
@@ -507,6 +513,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				4903BA30238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */,
+				496086D323947F990017F3B1 /* GeneticAlgorithm.cpp in Sources */,
 				496C42862387590C0086CE71 /* Splash.cpp in Sources */,
 				4903BA34238CAB4C00A39FCB /* TrainingScene.cpp in Sources */,
 				496C4282238758F00086CE71 /* Column.cpp in Sources */,
@@ -529,6 +536,7 @@
 				496C427F238758CF0086CE71 /* GameManager.cpp in Sources */,
 				496C4283238758F00086CE71 /* Column.cpp in Sources */,
 				4903BA31238CA8F700A39FCB /* AgentFlappyBot.cpp in Sources */,
+				496086D423947F990017F3B1 /* GeneticAlgorithm.cpp in Sources */,
 				496C428B2387630C0086CE71 /* GameScene.cpp in Sources */,
 				496C427B238758B60086CE71 /* ScrollableSprite.cpp in Sources */,
 			);

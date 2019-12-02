@@ -136,9 +136,9 @@ void  TrainingScene::addPhysicsGround(){
 }
 
 void TrainingScene::setPhysicsParameters(){
-    // this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category | 
-    //                                             GameManager::getInstance()->player_bit_mask_category |
-    //                                             GameManager::getInstance()->obstacle_bit_mask_category);
+     this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category |
+                                                 GameManager::getInstance()->player_bit_mask_category |
+                                                 GameManager::getInstance()->obstacle_bit_mask_category);
     this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->gravitySpeed);
 
     auto contactListenerIn = EventListenerPhysicsContact::create();

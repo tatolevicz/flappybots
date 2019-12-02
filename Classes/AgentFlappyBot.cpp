@@ -34,6 +34,7 @@ bool AgentFlappyBot::initAgent(){
 
 void AgentFlappyBot::initialSetup(){
     this->initIA();
+    this->weights = this->nn->getWeightsAsVector();
 }
 
 vector<float> AgentFlappyBot::collectObservations(){
@@ -59,9 +60,11 @@ vector<float> AgentFlappyBot::collectObservations(){
 }
 
 Vec2 AgentFlappyBot::observe(){
-
+    if(this->getIsDead())return;
+    
     this->clearDrawnNode();
     this->drawNode = DrawNode::create();
+
     float dist = this->screenSize.width - this->getPosition().x*2.7f;
 
     vector<float> directionsY;
@@ -72,7 +75,7 @@ Vec2 AgentFlappyBot::observe(){
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
 
     for(int i = 0; i<directionsY.size();i++){
-        PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist, false);
+        PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist, true);
         if(info.shape != nullptr){
             auto node = info.shape->getBody()->getNode();
             if(node->getTag() == GameManager::getInstance()->scoreArea_tag || 
@@ -176,9 +179,7 @@ void AgentFlappyBot::initIA(){
     int numberOfHiddenLayers = AcademyFlappyBots::getInstance()->numberOfHiddenLayers;
     int hiddenLayerSize[1] = {AcademyFlappyBots::getInstance()->hiddenLayersSize};
     int numberOfInputs = AcademyFlappyBots::getInstance()->numberOfInputs;
-    int numberOfOutputs = AcademyFlappyBots::getInstance()->numberOfOutputs;
-
-    vector<float> outputs; 
+    int numberOfOutputs = AcademyFlappyBots::getInstance()->numberOfOutputs; 
     if(nn->init(numberOfInputs,numberOfHiddenLayers,hiddenLayerSize,numberOfOutputs)){
         // log("NeuralNetwork initialized");
     }
