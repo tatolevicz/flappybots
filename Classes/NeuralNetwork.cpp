@@ -112,28 +112,10 @@ void NeuralNetwork::setLayersReference(){
 }
 
 void NeuralNetwork::randomizeWeights(){
-    int contIdx = 0;
-    std::vector<float> resp;
-    resp.push_back(-0.94);
-    resp.push_back(-0.87);
-    resp.push_back(0.98);
-    resp.push_back(-0.81);
-    resp.push_back(0.47);
-    resp.push_back(-0.76);
-    resp.push_back(0.13);
-    resp.push_back(0.68);
-    resp.push_back(-0.26);
-    resp.push_back(-0.12);
-    resp.push_back(-0.57);
-    resp.push_back(0.92);
-
     for(int i = 1; i < this->totalNumberOfLayers; i++){
         for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
             for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
-                this->layers[i]->neurons[j].weight[k] = ((float)rand())/(float)RAND_MAX;
-                // this->layers[i]->neurons[j].weight[k] = resp.at(contIdx);
-//                log("Number of time weghts: %d",k);
-                contIdx++;
+                this->layers[i]->neurons[j].weight[k] = ((((float)rand())/(float)RAND_MAX) - 0.7);
             }
         }
     }
