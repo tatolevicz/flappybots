@@ -99,40 +99,68 @@ void  TrainingScene::createRespawner(){
 
 void TrainingScene::createUI(){
     auto startLabel = Label::createWithTTF("Start training", "fonts/Marker Felt.ttf", 64);
+    auto watchLabel = Label::createWithTTF("Watch best player", "fonts/Marker Felt.ttf", 64);
     auto stopLabel = Label::createWithTTF("Finish", "fonts/Marker Felt.ttf", 48);
     startLabel->enableShadow();
+    watchLabel->enableShadow();
     stopLabel->enableShadow();
     auto callbackStart = [&](Ref* sender){
          this->startButtonPressed(this->startButton);
+    };
+    auto callbackWatch = [&](Ref* sender){
+         this->watchButtonPressed(this->watchButton);
     };
     auto callbackStop = [&](Ref* sender){
          this->stopTrainingPressed(this->stopButton);
     };
     auto startButtonItem  = MenuItemLabel::create(startLabel,callbackStart);
+    auto watchButtonItem  = MenuItemLabel::create(watchLabel,callbackWatch);
     auto stopButtonItem = MenuItemLabel::create(stopLabel,callbackStop);
+
     this->startButton = Menu::createWithItem(startButtonItem); 
-    this->stopButton = Menu::createWithItem(stopButtonItem); 
+    this->watchButton = Menu::createWithItem(watchButtonItem);
+    this->stopButton = Menu::createWithItem(stopButtonItem);
+
+    this->watchButton->setPosition(Vec2(this->screenSize.width/2,this->screenSize.height*0.3 - watchLabel->getContentSize().height));
     this->stopButton->setPosition(Vec2(this->screenSize.width*0.95 - stopLabel->getContentSize().width,this->screenSize.height*0.95 - stopLabel->getContentSize().height));
+
     this->stopButton->setVisible(false);
+
     this->addChild(this->startButton,10);
     this->addChild(this->stopButton,10);
+    this->addChild(this->watchButton,10);
 }
 
 void TrainingScene::startButtonPressed(Ref* pSender){
+    this->gameOver();
+    auto academy = AcademyFlappyBots::getInstance();
+    academy->startTraining();
     this->respawner->start();
     this->startButton->setVisible(false);
+    this->watchButton->setVisible(false);
     this->stopButton->setVisible(true);
-    GameManager::getInstance()->state = GameManager::PLAYING_STATE;
+    this->restartGame();
 }
 
 void TrainingScene::stopTrainingPressed(Ref* pSender){
     auto academy = AcademyFlappyBots::getInstance();
     academy->stopTraining();
     this->startButton->setVisible(true);
+    this->watchButton->setVisible(true);
     this->stopButton->setVisible(false);
     this->gameOver();
 }
  
+void TrainingScene::watchButtonPressed(Ref* pSender){
+    this->gameOver();
+    auto academy = AcademyFlappyBots::getInstance();
+    academy->startInference();
+    this->respawner->start();
+    this->startButton->setVisible(false);
+    this->watchButton->setVisible(false);
+    this->stopButton->setVisible(true);
+    this->restartGame();
+}
 void  TrainingScene::addPhysicsGround(){
     auto sizeBodyGround = Size(this->screenSize.width,this->screenSize.height*0.10);
     auto physicsBodyGround = PhysicsBody::createBox(sizeBodyGround,PHYSICSBODY_MATERIAL_DEFAULT);
@@ -155,9 +183,9 @@ void  TrainingScene::addPhysicsGround(){
 }
 
 void TrainingScene::setPhysicsParameters(){
-     this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category |
-                                                 GameManager::getInstance()->player_bit_mask_category |
-                                                 GameManager::getInstance()->obstacle_bit_mask_category);
+    //  this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category |
+    //                                              GameManager::getInstance()->player_bit_mask_category |
+    //                                              GameManager::getInstance()->obstacle_bit_mask_category);
     this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->gravitySpeed);
 
     auto contactListenerIn = EventListenerPhysicsContact::create();

@@ -26,10 +26,10 @@ class AcademyFlappyBots{
         void unschedule();
         void update(float dt);
         void tempCalculate();
+        void infere();
         TrainingScene* scene;
 
     GeneticAlgorithm *ga;
-    void addAgentsToScene();
     
     public:
         AcademyFlappyBots();
@@ -38,16 +38,23 @@ class AcademyFlappyBots{
         float timeToCollect = 0.0;
         float currentTime = 0;
         void setScene(TrainingScene* scene);
+        void addAgentsToScene();
+        void removeAgentsFromScene();
 
         //Neural Networks infos
         int numberOfInputs = 2;
         int numberOfHiddenLayers = 1;
         int numberOfOutputs = 1;
         //TODO:change this to be an vector
-        int hiddenLayersSize = 2;
+        int hiddenLayersSize = 4;
 
         void saveBestAgent();
         nlohmann::json loadBestAgent();
         void stopTraining();
+        void startTraining();
+        void startInference();
+        AgentFlappyBot* inferenceBird;
+        bool inferenceModeOn = false;
+        
 };
 #endif /* AcademyFlappyBots_hpp */

@@ -31,6 +31,8 @@ class TrainingScene : public Scene
     
         //methods
         void startButtonPressed(Ref* pSender);
+        void watchButtonPressed(Ref* pSender);
+        void stopTrainingPressed(Ref* pSender);
         // void setupInput();
         // virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
         void gameOver();
@@ -49,6 +51,7 @@ class TrainingScene : public Scene
         
         //ui variables
         Menu* startButton;
+        Menu* watchButton;
         Menu* stopButton;
 
         void loadSpriteSheet();
@@ -64,6 +67,6 @@ class TrainingScene : public Scene
         bool checkCollision(Node* nodeA, Node* nodeB);
         int getState();
         bool isPlayerContact(Node* nodeA, Node* nodeB);
-        void stopTrainingPressed(Ref* pSender);
+        
 };
 #endif
