@@ -7,7 +7,6 @@
 
 #include "AcademyFlappyBots.hpp"
 #include "GameManager.hpp"
-#include "json.hpp"
 
 using json = nlohmann::json;
 
@@ -33,7 +32,8 @@ void AcademyFlappyBots::setScene(TrainingScene* scene){
     else{
         log("Academy not initialized. Null Training scene.");
     }
-    loadBestAgent();
+    auto json = loadBestAgent();
+    log(json.dump().c_str());
 }
 
 void AcademyFlappyBots::initAcademy(){
@@ -100,7 +100,7 @@ void AcademyFlappyBots::update(float dt){
     this->tempCalculate();
 }
 
-void AcademyFlappyBots::loadBestAgent(){
+json AcademyFlappyBots::loadBestAgent(){
 
     auto fileUtils = FileUtils::getInstance();
     auto path = fileUtils->getWritablePath() + "/Estudos/TCC/FlappyCocos/bestAgent.txt";
@@ -109,19 +109,19 @@ void AcademyFlappyBots::loadBestAgent(){
     if(f != NULL){
         fseek(f,0,SEEK_END);
         int size = ftell(f);
+        rewind (f);
         char* textJson = (char*)malloc(sizeof(char)*size);
         fread(textJson, sizeof(char), size, f);
-        // auto j = json::parse(textJson);
+        auto j = json::parse(textJson);
         // log("Readed json: %s",j.dump().c_str());
-        log(textJson);
+        fclose (f);
+        free(textJson);
+        return j;
     }
     else
     {
         log("there is no agent file to load.");
     }
-
-    
-
 }
 
 void AcademyFlappyBots::saveBestAgent(){

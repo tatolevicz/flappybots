@@ -13,6 +13,7 @@
 #include "TrainingScene.hpp"
 #include "NeuralNetwork.hpp"
 #include "GeneticAlgorithm.hpp"
+#include "json.hpp"
 
 USING_NS_CC;
 
@@ -46,7 +47,7 @@ class AcademyFlappyBots{
         int hiddenLayersSize = 2;
 
         void saveBestAgent();
-        void loadBestAgent();
+        nlohmann::json loadBestAgent();
         void stopTraining();
 };
 #endif /* AcademyFlappyBots_hpp */
