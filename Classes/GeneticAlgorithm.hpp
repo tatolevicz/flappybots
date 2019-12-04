@@ -38,6 +38,7 @@ public:
     Vector<AgentFlappyBot*> *agentsPool = new Vector<AgentFlappyBot*>();
     bool getIsInitialized();
     void setIsInitialized(bool val);
+    AgentFlappyBot* getBestAgent();
     
 };
 

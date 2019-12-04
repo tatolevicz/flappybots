@@ -189,3 +189,7 @@ bool GeneticAlgorithm::getIsInitialized(){
 void GeneticAlgorithm::setIsInitialized(bool val){
     this->isInitialized = val;
 }
+
+AgentFlappyBot* GeneticAlgorithm::getBestAgent(){
+    return this->bestAgentOfAllTime;
+}

@@ -41,7 +41,10 @@ class AcademyFlappyBots{
         //Neural Networks infos
         int numberOfInputs = 2;
         int numberOfHiddenLayers = 1;
-        int hiddenLayersSize = 2;
         int numberOfOutputs = 1;
+        //TODO:change this to be an vector
+        int hiddenLayersSize = 2;
+
+        void saveBestAgent(AgentFlappyBot* agent);
 };
 #endif /* AcademyFlappyBots_hpp */

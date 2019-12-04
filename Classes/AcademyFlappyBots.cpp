@@ -7,6 +7,9 @@
 
 #include "AcademyFlappyBots.hpp"
 #include "GameManager.hpp"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 AcademyFlappyBots::AcademyFlappyBots(){};
 AcademyFlappyBots::~AcademyFlappyBots(){
@@ -89,6 +92,7 @@ void AcademyFlappyBots::update(float dt){
         else{
             this->scene->gameOver();
             this->ga->nextGeneration();
+            this->saveBestAgent(this->ga->getBestAgent());
             this->scene->restartGame();
         }        
     }
@@ -96,4 +100,54 @@ void AcademyFlappyBots::update(float dt){
     this->tempCalculate();
 }
 
+void AcademyFlappyBots::saveBestAgent(AgentFlappyBot* agent){
+
+    auto fileUtils = FileUtils::getInstance();
+    auto path = fileUtils->getWritablePath() + "/Estudos/TCC/FlappyCocos/bestAgent.txt";
+//    log(path.c_str());
+
+    // FILE* f = fopen(path.c_str(), "rb");
+
+    // if(f == NULL){
+    // //do stuff to create the empty data
+    // }
+    // else
+    // {
+    //     int count;
+    //     fread(&count, sizeof(int), 1, f);
+    //     for(int i = 0; i < count; i++)
+    //     {
+    //         my_struct p;
+    //         fread(&p, sizeof(my_struct), 1, f);
+    //         vector.push_back(p);  //vector of my_struct
+    //     }
+    // }
+    json j;
+    
+    j["numberOfInputs"] = this->numberOfInputs;
+    j["numberOfHiddenLayers"] = this->numberOfHiddenLayers;
+    j["numberOfOutputs"] = this->numberOfOutputs;
+
+    json hiddenLayersArr = json::array();
+    for(int i = 0; i < this->numberOfHiddenLayers; i++){
+        hiddenLayersArr.push_back(this->hiddenLayersSize);
+    }
+    j["hiddenLayersSize"] = hiddenLayersArr;
+
+    j["weights"] = agent->nn->getWeightsAsVector();
+
+
+    FILE* f;
+    
+    f = fopen(path.c_str(),"wb");
+    if(f != NULL)
+    {
+        log("fwrite");
+        fwrite(j.dump().c_str(),j.dump().size(),sizeof(char),f);   
+        fclose(f);
+    }
+    else{
+        log("best agent file not created: -> NULL");
+    }
+}
 
