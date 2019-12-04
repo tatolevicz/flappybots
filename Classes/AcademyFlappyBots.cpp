@@ -33,6 +33,7 @@ void AcademyFlappyBots::setScene(TrainingScene* scene){
     else{
         log("Academy not initialized. Null Training scene.");
     }
+    loadBestAgent();
 }
 
 void AcademyFlappyBots::initAcademy(){
@@ -99,29 +100,34 @@ void AcademyFlappyBots::update(float dt){
     this->tempCalculate();
 }
 
+void AcademyFlappyBots::loadBestAgent(){
+
+    auto fileUtils = FileUtils::getInstance();
+    auto path = fileUtils->getWritablePath() + "/Estudos/TCC/FlappyCocos/bestAgent.txt";
+    FILE* f = fopen(path.c_str(), "rb");
+    
+    if(f != NULL){
+        fseek(f,0,SEEK_END);
+        int size = ftell(f);
+        char* textJson = (char*)malloc(sizeof(char)*size);
+        fread(textJson, sizeof(char), size, f);
+        // auto j = json::parse(textJson);
+        // log("Readed json: %s",j.dump().c_str());
+        log(textJson);
+    }
+    else
+    {
+        log("there is no agent file to load.");
+    }
+
+    
+
+}
+
 void AcademyFlappyBots::saveBestAgent(){
 
     auto fileUtils = FileUtils::getInstance();
     auto path = fileUtils->getWritablePath() + "/Estudos/TCC/FlappyCocos/bestAgent.txt";
-//    log(path.c_str());
-
-    // FILE* f = fopen(path.c_str(), "rb");
-
-    // if(f == NULL){
-    // //do stuff to create the empty data
-    // }
-    // else
-    // {
-    //     int count;
-    //     fread(&count, sizeof(int), 1, f);
-    //     for(int i = 0; i < count; i++)
-    //     {
-    //         my_struct p;
-    //         fread(&p, sizeof(my_struct), 1, f);
-    //         vector.push_back(p);  //vector of my_struct
-    //     }
-    // }
-
     auto bestAgent = this->ga->getBestAgent();
     json j;
     
@@ -144,7 +150,7 @@ void AcademyFlappyBots::saveBestAgent(){
         fclose(f);
     }
     else{
-        log("best agent file not created: -> NULL");
+        log("best agent file not created.");
     }
 }
 

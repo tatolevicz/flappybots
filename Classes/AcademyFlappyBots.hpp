@@ -46,6 +46,7 @@ class AcademyFlappyBots{
         int hiddenLayersSize = 2;
 
         void saveBestAgent();
+        void loadBestAgent();
         void stopTraining();
 };
 #endif /* AcademyFlappyBots_hpp */
