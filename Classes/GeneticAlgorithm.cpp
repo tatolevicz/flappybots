@@ -191,5 +191,5 @@ void GeneticAlgorithm::setIsInitialized(bool val){
 }
 
 AgentFlappyBot* GeneticAlgorithm::getBestAgent(){
-    return this->bestAgentOfAllTime;
+    return this->getBestTwoAgents().at(0);
 }

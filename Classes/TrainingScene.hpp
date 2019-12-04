@@ -49,6 +49,7 @@ class TrainingScene : public Scene
         
         //ui variables
         Menu* startButton;
+        Menu* stopButton;
 
         void loadSpriteSheet();
         void setupScreen(Vec2 origin);
@@ -63,5 +64,6 @@ class TrainingScene : public Scene
         bool checkCollision(Node* nodeA, Node* nodeB);
         int getState();
         bool isPlayerContact(Node* nodeA, Node* nodeB);
+        void stopTrainingPressed(Ref* pSender);
 };
 #endif

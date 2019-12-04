@@ -92,7 +92,6 @@ void AcademyFlappyBots::update(float dt){
         else{
             this->scene->gameOver();
             this->ga->nextGeneration();
-            this->saveBestAgent(this->ga->getBestAgent());
             this->scene->restartGame();
         }        
     }
@@ -100,7 +99,7 @@ void AcademyFlappyBots::update(float dt){
     this->tempCalculate();
 }
 
-void AcademyFlappyBots::saveBestAgent(AgentFlappyBot* agent){
+void AcademyFlappyBots::saveBestAgent(){
 
     auto fileUtils = FileUtils::getInstance();
     auto path = fileUtils->getWritablePath() + "/Estudos/TCC/FlappyCocos/bestAgent.txt";
@@ -122,6 +121,8 @@ void AcademyFlappyBots::saveBestAgent(AgentFlappyBot* agent){
     //         vector.push_back(p);  //vector of my_struct
     //     }
     // }
+
+    auto bestAgent = this->ga->getBestAgent();
     json j;
     
     j["numberOfInputs"] = this->numberOfInputs;
@@ -133,21 +134,22 @@ void AcademyFlappyBots::saveBestAgent(AgentFlappyBot* agent){
         hiddenLayersArr.push_back(this->hiddenLayersSize);
     }
     j["hiddenLayersSize"] = hiddenLayersArr;
+    j["weights"] = bestAgent->nn->getWeightsAsVector();
 
-    j["weights"] = agent->nn->getWeightsAsVector();
-
-
-    FILE* f;
-    
+    FILE* f;    
     f = fopen(path.c_str(),"wb");
     if(f != NULL)
     {
-        log("fwrite");
         fwrite(j.dump().c_str(),j.dump().size(),sizeof(char),f);   
         fclose(f);
     }
     else{
         log("best agent file not created: -> NULL");
     }
+}
+
+void AcademyFlappyBots::stopTraining(){
+    GameManager::getInstance()->state = GameManager::FINISHED_STATE;
+    this->saveBestAgent();
 }
 

@@ -35,6 +35,7 @@ void TrainingScene::setupScreen(Vec2 origin){
     createUI();
     addPhysicsGround();
     setPhysicsParameters();
+    addAcademy();
 }
 
 void TrainingScene::loadSpriteSheet(){
@@ -97,21 +98,39 @@ void  TrainingScene::createRespawner(){
 }
 
 void TrainingScene::createUI(){
-    auto startLabel = Label::createWithTTF("Tap to start", "fonts/Marker Felt.ttf", 64);
+    auto startLabel = Label::createWithTTF("Start training", "fonts/Marker Felt.ttf", 64);
+    auto stopLabel = Label::createWithTTF("Finish", "fonts/Marker Felt.ttf", 48);
     startLabel->enableShadow();
+    stopLabel->enableShadow();
     auto callbackStart = [&](Ref* sender){
          this->startButtonPressed(this->startButton);
     };
+    auto callbackStop = [&](Ref* sender){
+         this->stopTrainingPressed(this->stopButton);
+    };
     auto startButtonItem  = MenuItemLabel::create(startLabel,callbackStart);
+    auto stopButtonItem = MenuItemLabel::create(stopLabel,callbackStop);
     this->startButton = Menu::createWithItem(startButtonItem); 
+    this->stopButton = Menu::createWithItem(stopButtonItem); 
+    this->stopButton->setPosition(Vec2(this->screenSize.width*0.95 - stopLabel->getContentSize().width,this->screenSize.height*0.95 - stopLabel->getContentSize().height));
+    this->stopButton->setVisible(false);
     this->addChild(this->startButton,10);
+    this->addChild(this->stopButton,10);
 }
 
 void TrainingScene::startButtonPressed(Ref* pSender){
     this->respawner->start();
     this->startButton->setVisible(false);
+    this->stopButton->setVisible(true);
     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
-    addAcademy();
+}
+
+void TrainingScene::stopTrainingPressed(Ref* pSender){
+    auto academy = AcademyFlappyBots::getInstance();
+    academy->stopTraining();
+    this->startButton->setVisible(true);
+    this->stopButton->setVisible(false);
+    this->gameOver();
 }
  
 void  TrainingScene::addPhysicsGround(){

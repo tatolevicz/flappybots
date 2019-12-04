@@ -45,6 +45,7 @@ class AcademyFlappyBots{
         //TODO:change this to be an vector
         int hiddenLayersSize = 2;
 
-        void saveBestAgent(AgentFlappyBot* agent);
+        void saveBestAgent();
+        void stopTraining();
 };
 #endif /* AcademyFlappyBots_hpp */
