@@ -14,6 +14,7 @@
 #include "ScrollableSprite.hpp"
 #include "GameManager.hpp"
 #include "AgentFlappyBot.hpp"
+#include "ControlPanel.hpp"
 
 using namespace cocos2d;
 using namespace ui;
@@ -40,7 +41,6 @@ class TrainingScene : public Scene
         void restartGame();
 
     private:
-
         Size screenSize;
         //game variables
         ScrollableSprite* sky;
@@ -53,7 +53,10 @@ class TrainingScene : public Scene
         Menu* startButton;
         Menu* watchButton;
         Menu* stopButton;
-
+    
+        //control panel
+        ControlPanel* controlPanel;
+    
         void loadSpriteSheet();
         void setupScreen(Vec2 origin);
         void createParallax();

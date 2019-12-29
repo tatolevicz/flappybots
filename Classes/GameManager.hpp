@@ -45,5 +45,7 @@ class GameManager
         float worldSpeed = 2;
         float gravitySpeed = 6; //3X world
 
+        float heightLimityGame = 512;
+
 };
 #endif

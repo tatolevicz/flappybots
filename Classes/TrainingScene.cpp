@@ -98,6 +98,10 @@ void  TrainingScene::createRespawner(){
 }
 
 void TrainingScene::createUI(){
+    
+    controlPanel = ControlPanel::create();
+    this->addChild(controlPanel,100);
+    
     auto startLabel = Label::createWithTTF("Start training", "fonts/Marker Felt.ttf", 64);
     auto watchLabel = Label::createWithTTF("Watch best player", "fonts/Marker Felt.ttf", 64);
     auto stopLabel = Label::createWithTTF("Finish", "fonts/Marker Felt.ttf", 48);

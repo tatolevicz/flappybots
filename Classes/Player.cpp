@@ -153,7 +153,7 @@ void Player::rotate(float dt){
 }
 
 void Player::checkLimit(){
-    float clampedY = clampf(this->getPosition().y,0,this->screenSize.height*0.97f);
+    float clampedY = clampf(this->getPosition().y,0,GameManager::getInstance()->heightLimityGame*0.97);
     this->setPosition(Vec2(this->fixedX,clampedY));
 }
 

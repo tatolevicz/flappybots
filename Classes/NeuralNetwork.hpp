@@ -41,8 +41,6 @@ private:
     void setLayersReference();
     void setTotalConnections();
     void randomizeWeights();
-    
-
 public:
     CREATE_FUNC(NeuralNetwork);
     NeuralNetwork();
@@ -56,7 +54,5 @@ public:
     std::vector<float> getWeightsAsVector();
     void setWeightsFromVector(std::vector<float> newWeights);
     int getNumberOfConnections();
-
 };
-
 #endif /* NeuralNetwork_hpp */
