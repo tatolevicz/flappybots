@@ -19,6 +19,8 @@ private:
     cocos2d::DrawNode* nnViewerPanel = nullptr;
     cocos2d::DrawNode* parametersViewerPanel = nullptr;
     cocos2d::DrawNode* initialPanel = nullptr;
+
+    cocos2d::Sprite* base_nn = nullptr;
     
 protected:
     bool init() override;
