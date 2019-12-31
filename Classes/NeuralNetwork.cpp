@@ -22,7 +22,12 @@ bool NeuralNetwork::init(){
 }
 
 bool NeuralNetwork::init(int numberOfInputs,int numberOfHiddenLayers,int* hiddenLayersSizes,int numberOfOutputs){
-    
+    //just to finish the work to viewer
+    currentOutputs.reserve(7);
+    for(int i = 0; i < 7; i++){
+        currentOutputs.push_back(0);
+    }
+
     //do some simple check
     if(numberOfInputs < 1){
        log("Something went wrong: number of the inputs less than 1.");
@@ -134,7 +139,7 @@ std::vector<float> NeuralNetwork::getOutput(std::vector<float> inputs){
     
     //copy the inputs to the neural network
     for(int i = 0; i < this->inputLayer.numberOfNeurons; i++){
-        this->inputLayer.neurons[i].out = inputs.at(i);
+        this->inputLayer.neurons[i].out = this->activationFunction(inputs.at(i));
     }
 
     //do the feedfoward math
@@ -154,6 +159,15 @@ std::vector<float> NeuralNetwork::getOutput(std::vector<float> inputs){
     for(int i = 0; i < this->outputLayer.numberOfNeurons; i++){
         outputs.push_back(this->outputLayer.neurons[i].out);
     }
+
+    //just to finish the work to viewer
+    currentOutputs.at(0) = this->layers[0]->neurons[0].out;
+    currentOutputs.at(1) = this->layers[0]->neurons[1].out;
+    currentOutputs.at(2) = this->layers[1]->neurons[0].out;
+    currentOutputs.at(3) = this->layers[1]->neurons[1].out;
+    currentOutputs.at(4) = this->layers[1]->neurons[2].out;
+    currentOutputs.at(5) = this->layers[1]->neurons[3].out;
+    currentOutputs.at(6) = this->layers[2]->neurons[0].out;
 
     return outputs;
 

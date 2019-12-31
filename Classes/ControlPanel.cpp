@@ -84,7 +84,9 @@ void ControlPanel::unschedule(){
 
 void ControlPanel::update(float dt){  
     if(AcademyFlappyBots::getInstance()->inferenceModeOn){
-        log("ta la nois update");
+       for(int i = 0 ; i < 7; i++){
+            activeNeurons.at(i)->setVisible(AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i) > 0.5);
+       }
     }
 }
 

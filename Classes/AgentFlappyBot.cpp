@@ -45,19 +45,17 @@ vector<float> AgentFlappyBot::collectObservations(){
     resp.reserve(2);
     float val1 = (scoreAreaPos.x - currentPos.x)/this->screenSize.width;
     float val2 = (scoreAreaPos.y - currentPos.y)/this->screenSize.height;
-
+    this->dx = val1;
+    this->dy = val2;
     resp.push_back(val1);
     resp.push_back(val2);
- 
     return resp;
 }
 
 Vec2 AgentFlappyBot::observe(){
     this->clearDrawnNode();
     this->drawNode = DrawNode::create();
-
     float dist = this->screenSize.width - this->screenSize.width*0.75;
-
     vector<float> directionsY;
     directionsY.reserve(1);
     directionsY.push_back(0);

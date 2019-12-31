@@ -54,5 +54,7 @@ public:
     std::vector<float> getWeightsAsVector();
     void setWeightsFromVector(std::vector<float> newWeights);
     int getNumberOfConnections();
+
+    std::vector<float> currentOutputs;
 };
 #endif /* NeuralNetwork_hpp */

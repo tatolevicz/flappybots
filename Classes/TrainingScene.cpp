@@ -126,7 +126,7 @@ void TrainingScene::createUI(){
     this->stopButton = Menu::createWithItem(stopButtonItem);
 
     this->watchButton->setPosition(Vec2(this->screenSize.width/2,this->screenSize.height*0.3 - watchLabel->getContentSize().height));
-    this->stopButton->setPosition(Vec2(this->screenSize.width*0.95 - stopLabel->getContentSize().width,this->screenSize.height*0.95 - stopLabel->getContentSize().height));
+    this->stopButton->setPosition(Vec2(this->screenSize.width*0.97 - stopLabel->getContentSize().width,this->screenSize.height*0.65 - stopLabel->getContentSize().height));
 
     this->stopButton->setVisible(false);
 

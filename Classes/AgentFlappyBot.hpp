@@ -36,5 +36,10 @@ class AgentFlappyBot: public Player{
         NeuralNetwork* nn;
         void initIA();
         int getNumberOfWeights();
+
+        //just to finish the work
+        float dx = 0;
+        float dy = 0;
+        
 };
 #endif /* AgentFlappyBot_hpp */
