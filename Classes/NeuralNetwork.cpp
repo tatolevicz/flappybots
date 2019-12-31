@@ -92,7 +92,7 @@ void NeuralNetwork::makeNeuronConnections(NN_Layer *layer, int numOfConnections)
         layer->neurons[j].numberOfConnections = numOfConnections;
         layer->neurons[j].weight = (float*)malloc(sizeof(float)*numOfConnections);
         for(int i = 0; i < numOfConnections; i++){
-            layer->neurons[j].weight[i] = 1.0f;
+            layer->neurons[j].weight[i] = 0.0f;
         }
     }
 }
@@ -120,7 +120,14 @@ void NeuralNetwork::randomizeWeights(){
     for(int i = 1; i < this->totalNumberOfLayers; i++){
         for(int j = 0; j < this->layers[i]->numberOfNeurons; j++){
             for(int k = 0; k < this->layers[i]->neurons[j].numberOfConnections; k++){
-                this->layers[i]->neurons[j].weight[k] = ((((float)rand())/(float)RAND_MAX) - 0.7);
+                bool isNegative = rand() % 2;
+                float newWeight = ((float)rand())/(float)RAND_MAX;
+                if(isNegative){
+                    newWeight *= -1;
+                }
+                this->layers[i]->neurons[j].weight[k] = newWeight;
+//                this->layers[i]->neurons[j].weight[k] = ((((float)rand())/(float)RAND_MAX) - 0.5);
+                log("weight print: %3.2f",this->layers[i]->neurons[j].weight[k]);
             }
         }
     }

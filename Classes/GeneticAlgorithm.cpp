@@ -23,7 +23,6 @@ void GeneticAlgorithm::initPool(){
         this->agentsPool->pushBack(agent);
         agent->stopAnimation();
         agent->getPhysicsBody()->setGravityEnable(true);
-        this->setMutation(agent);
     }
 
     bestAgentOfAllTime = AgentFlappyBot::create();
@@ -54,7 +53,6 @@ void GeneticAlgorithm::setMutation(AgentFlappyBot* agent){
         }
         weights.at(randVec.at(i)) = newWeight;
     }
-    
     agent->setWeights(weights);
 }
 
@@ -110,8 +108,8 @@ void GeneticAlgorithm::nextGeneration(){
 }
 
 Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
-    int firstBestScore = 0;
-    int secondBestScore = 0;
+    int firstBestScore = -100;
+    int secondBestScore = -100;
 
     Vector<AgentFlappyBot*> agents;
     agents.reserve(2);

@@ -34,6 +34,7 @@ void TrainingScene::setupScreen(Vec2 origin){
     createRespawner();
     createUI();
     addPhysicsGround();
+    addPhysicsCeiling();
     setPhysicsParameters();
     addAcademy();
 }
@@ -166,7 +167,7 @@ void TrainingScene::watchButtonPressed(Ref* pSender){
     this->restartGame();
 }
 void  TrainingScene::addPhysicsGround(){
-    auto sizeBodyGround = Size(this->screenSize.width,this->screenSize.height*0.10);
+    auto sizeBodyGround = Size(this->screenSize.width,this->screenSize.height*0.065);
     auto physicsBodyGround = PhysicsBody::createBox(sizeBodyGround,PHYSICSBODY_MATERIAL_DEFAULT);
     physicsBodyGround->setDynamic(false);
 
@@ -186,10 +187,33 @@ void  TrainingScene::addPhysicsGround(){
     this->addChild(this->groundCollider);
 }
 
+void  TrainingScene::addPhysicsCeiling(){
+    auto sizeBodyCeiling= Size(this->screenSize.width,5);
+    auto physicsBodyCeiling = PhysicsBody::createBox(sizeBodyCeiling,PHYSICSBODY_MATERIAL_DEFAULT);
+    physicsBodyCeiling->setDynamic(false);
+
+    this->ceilingCollider = Sprite::create();
+    ceilingCollider->setAnchorPoint(Vec2(0,1));
+    ceilingCollider->setContentSize(sizeBodyCeiling);
+
+    ceilingCollider->setName(GameManager::getInstance()->ground_name);
+    ceilingCollider->setTag(GameManager::getInstance()->ground_tag);
+
+    physicsBodyCeiling->setCategoryBitmask(GameManager::getInstance()->ground_bit_mask_category);
+    physicsBodyCeiling->setCollisionBitmask(GameManager::getInstance()->player_bit_mask_category);
+    physicsBodyCeiling->setContactTestBitmask(GameManager::getInstance()->player_bit_mask_category);
+
+    ceilingCollider->addComponent(physicsBodyCeiling);
+
+    ceilingCollider->setPosition(Vec2(0,512));
+
+    this->addChild(this->ceilingCollider);
+}
+
 void TrainingScene::setPhysicsParameters(){
-    //  this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category |
-    //                                              GameManager::getInstance()->player_bit_mask_category |
-    //                                              GameManager::getInstance()->obstacle_bit_mask_category);
+     this->getPhysicsWorld()->setDebugDrawMask(  GameManager::getInstance()->ground_bit_mask_category |
+                                                 GameManager::getInstance()->player_bit_mask_category |
+                                                 GameManager::getInstance()->obstacle_bit_mask_category);
     this->getPhysicsWorld()->setSpeed(GameManager::getInstance()->gravitySpeed);
 
     auto contactListenerIn = EventListenerPhysicsContact::create();

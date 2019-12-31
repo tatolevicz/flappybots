@@ -64,7 +64,7 @@ Vec2 AgentFlappyBot::observe(){
     Vec2 interestPosition = Vec2(this->screenSize.width,this->screenSize.height/2);
 
     for(int i = 0; i<directionsY.size();i++){
-        PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist, false);
+        PhysicsRayCastInfo info = applyRayCast(Vec2(1,directionsY.at(i)),dist, true);
         if(info.shape != nullptr){
             auto node = info.shape->getBody()->getNode();
             if(node->getTag() == GameManager::getInstance()->scoreArea_tag || 
@@ -86,6 +86,8 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance, 
     Vec2 point2 = centerSprite + d;
     PhysicsRayCastInfo infoDetect = PhysicsRayCastInfo();
     infoDetect.shape = nullptr;
+    
+    if(this->getIsDead()) return infoDetect;
     
     Vec2 points[1];
     int num = 0;
@@ -112,7 +114,7 @@ PhysicsRayCastInfo AgentFlappyBot::applyRayCast(Vec2 direction, float distance, 
          return infoDetect;
     }
 
-     if(infoDetect.shape){
+    if(infoDetect.shape){
         this->drawNode->drawDot(((Column*)infoDetect.shape->getBody()->getNode()->getParent())->getScoreAreaPosition(),3,Color4F::YELLOW);
     }
 
@@ -141,6 +143,8 @@ vector<float>  AgentFlappyBot::getWeights(){
      
 void AgentFlappyBot::die(){
     Player::die(); 
+    //penalizing dead
+    this->totalScore -= dx + dy;
     this->clearDrawnNode();
 }
 

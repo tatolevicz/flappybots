@@ -15,8 +15,8 @@
 class GeneticAlgorithm : public cocos2d::Ref{
     
 private:
-    int generationSize = 30;
-    int numerOfNegerations = 1000;
+    int generationSize = 80;
+    int numerOfNegerations = 10000;
     int currentGeneration = 1;
     void initPool();
     Vector<AgentFlappyBot*> getBestTwoAgents();

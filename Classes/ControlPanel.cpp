@@ -71,6 +71,58 @@ void ControlPanel::initialSetup(){
     activeNeurons.at(5)->setPosition(Vec2(236,812 - 253));
     activeNeurons.at(6)->setPosition(Vec2(399,812 - 133));
 
+    //poputale active neurons vector
+    labelsWeights.reserve(12);
+    for(int i = 0; i < 12; i++){
+        auto label = Label::createWithTTF("0.00", "fonts/arial.ttf", 12);
+        label->setTextColor(Color4B::BLACK);
+        label->setAnchorPoint(Vec2(0,1));
+        labelsWeights.pushBack(label);
+        this->addChild(label);
+    }
+    labelsWeights.at(0)->setPosition(Vec2(721,812 - 61));
+    labelsWeights.at(1)->setPosition(Vec2(721,812 - 84));
+    labelsWeights.at(2)->setPosition(Vec2(721,812 - 106));
+    labelsWeights.at(3)->setPosition(Vec2(721,812 - 128));
+    labelsWeights.at(4)->setPosition(Vec2(721,812 - 150));
+    labelsWeights.at(5)->setPosition(Vec2(721,812 - 173));
+    labelsWeights.at(6)->setPosition(Vec2(721,812 - 195));
+    labelsWeights.at(7)->setPosition(Vec2(721,812 - 217));
+    labelsWeights.at(8)->setPosition(Vec2(810,812 - 106));
+    labelsWeights.at(9)->setPosition(Vec2(810,812 - 128));
+    labelsWeights.at(10)->setPosition(Vec2(810,812 - 150));
+    labelsWeights.at(11)->setPosition(Vec2(810,812 - 173));
+
+
+    //poputale active neurons vector
+    labelsOutputs.reserve(7);
+    for(int i = 0; i < 7; i++){
+        auto label = Label::createWithTTF("0.00", "fonts/arial.ttf", 12);
+        label->setTextColor(Color4B::BLACK);
+        label->setAnchorPoint(Vec2(0,1));
+        labelsOutputs.pushBack(label);
+        this->addChild(label);
+    }
+    labelsOutputs.at(0)->setPosition(Vec2(938,812 - 61));
+    labelsOutputs.at(1)->setPosition(Vec2(938,812 - 84));
+    labelsOutputs.at(2)->setPosition(Vec2(938,812 - 106));
+    labelsOutputs.at(3)->setPosition(Vec2(938,812 - 128));
+    labelsOutputs.at(4)->setPosition(Vec2(938,812 - 150));
+    labelsOutputs.at(5)->setPosition(Vec2(938,812 - 173));
+    labelsOutputs.at(6)->setPosition(Vec2(938,812 - 217));
+
+    dxLabel = Label::createWithTTF("0.00", "fonts/arial.ttf", 12);
+    dxLabel->setTextColor(Color4B::BLACK);
+    dxLabel->setAnchorPoint(Vec2(0,1));
+    dxLabel->setPosition(Vec2(606,812 - 61));
+    this->addChild(dxLabel);
+
+    dyLabel = Label::createWithTTF("0.00", "fonts/arial.ttf", 12);
+    dyLabel->setTextColor(Color4B::BLACK);
+    dyLabel->setAnchorPoint(Vec2(0,1));
+    dyLabel->setPosition(Vec2(606,812 - 87));
+    this->addChild(dyLabel);
+
     this->schedule();
 }
 
@@ -84,9 +136,40 @@ void ControlPanel::unschedule(){
 
 void ControlPanel::update(float dt){  
     if(AcademyFlappyBots::getInstance()->inferenceModeOn){
-       for(int i = 0 ; i < 7; i++){
-            activeNeurons.at(i)->setVisible(AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i) > 0.5);
-       }
+        for(int i = 0 ; i < 7; i++){
+            float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
+            activeNeurons.at(i)->setVisible(output > 0.5);
+            float val = output;
+            stringstream ss (stringstream::in | stringstream::out);
+            ss.precision(3);
+            ss << val;
+            string test = ss.str();
+            labelsOutputs.at(i)->setString(test);
+        }
+
+        auto weights = AcademyFlappyBots::getInstance()->inferenceBird->nn->getWeightsAsVector();
+        for(int i = 0 ; i < 12; i++){
+            float val =  weights.at(i);;
+            stringstream ss (stringstream::in | stringstream::out);
+            ss.precision(3);
+            ss << val;
+            string test = ss.str();
+            labelsWeights.at(i)->setString(test);
+        }
+
+        float val = AcademyFlappyBots::getInstance()->inferenceBird->dx;
+        stringstream ss (stringstream::in | stringstream::out);
+        ss.precision(3);
+        ss << val;
+        string dxStr = ss.str();
+        dxLabel->setString(dxStr);
+
+        val = AcademyFlappyBots::getInstance()->inferenceBird->dy;
+        stringstream ss2 (stringstream::in | stringstream::out);
+        ss2.precision(3);
+        ss2 << val;
+        string dyStr = ss2.str();
+        dyLabel->setString(dyStr);
     }
 }
 
@@ -96,4 +179,10 @@ void ControlPanel::startTrainingPressed(){
 void ControlPanel::watchBestPlayerPressed(){
     log("watchBestPlayerPressed");
 }
+
+// template <typename T> string tostr(const T& t){ 
+//    ostringstream os; 
+//    os<<t; 
+//    return os.str(); 
+// } 
 

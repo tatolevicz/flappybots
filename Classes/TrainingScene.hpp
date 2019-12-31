@@ -48,6 +48,7 @@ class TrainingScene : public Scene
         ScrollableSprite* trees;
 
         Sprite* groundCollider;
+        Sprite* ceilingCollider;
         
         //ui variables
         Menu* startButton;
@@ -65,6 +66,7 @@ class TrainingScene : public Scene
         void createRespawner();
         void createUI();
         void addPhysicsGround();
+        void addPhysicsCeiling();
         void addPhysicsPlayer();
         void setPhysicsParameters();
         bool checkCollision(Node* nodeA, Node* nodeB);
