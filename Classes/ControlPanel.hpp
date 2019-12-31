@@ -10,8 +10,12 @@
 #include <stdio.h>
 #include "cocos2d.h"
 
+
 class ControlPanel: public cocos2d::Node{
 private:
+    void schedule();
+    void unschedule();
+    void update(float dt);
     void initialSetup();
     void startTrainingPressed();
     void watchBestPlayerPressed();
@@ -21,6 +25,7 @@ private:
     cocos2d::DrawNode* initialPanel = nullptr;
 
     cocos2d::Sprite* base_nn = nullptr;
+    cocos2d::Vector<cocos2d::Sprite*> activeNeurons;
     
 protected:
     bool init() override;

@@ -6,6 +6,7 @@
 //
 
 #include "ControlPanel.hpp"
+#include "AcademyFlappyBots.hpp"
 
 USING_NS_CC;
 
@@ -51,9 +52,41 @@ void ControlPanel::initialSetup(){
     base_nn->setPosition(0,512);
     base_nn->setAnchorPoint(Vec2(0,0));
     this->addChild(base_nn);
-    
+
+    //poputale active neurons vector
+    activeNeurons.reserve(7);
+    for(int i = 0; i < 7; i++){
+        auto neuronSprite = Sprite::create("Sprites/active_neuron.png");
+        neuronSprite->setScale(0.5);
+        neuronSprite->setAnchorPoint(Vec2(0,1));
+        activeNeurons.pushBack(neuronSprite);
+        neuronSprite->setVisible(false);
+        this->addChild(neuronSprite);
+    }
+    activeNeurons.at(0)->setPosition(Vec2(80,812 - 98));
+    activeNeurons.at(1)->setPosition(Vec2(80,812 - 178));   
+    activeNeurons.at(2)->setPosition(Vec2(236,812 - 13));  
+    activeNeurons.at(3)->setPosition(Vec2(236,812 - 93)); 
+    activeNeurons.at(4)->setPosition(Vec2(236,812 - 173));
+    activeNeurons.at(5)->setPosition(Vec2(236,812 - 253));
+    activeNeurons.at(6)->setPosition(Vec2(399,812 - 133));
+
+    this->schedule();
 }
 
+void ControlPanel::schedule(){
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
+}
+
+void ControlPanel::unschedule(){
+    Director::getInstance()->getScheduler()->unschedule("controlPanel", this);
+}
+
+void ControlPanel::update(float dt){  
+    if(AcademyFlappyBots::getInstance()->inferenceModeOn){
+        log("ta la nois update");
+    }
+}
 
 void ControlPanel::startTrainingPressed(){
     log("startTrainingPressed pressed");
