@@ -21,22 +21,32 @@ private:
     void startTrainingPressed();
     void watchBestPlayerPressed();
     
+    std::string toStr(float val);
+
     cocos2d::DrawNode* nnViewerPanel = nullptr;
     cocos2d::DrawNode* parametersViewerPanel = nullptr;
+    cocos2d::DrawNode* backGroundPanel = nullptr;
     cocos2d::DrawNode* initialPanel = nullptr;
 
     cocos2d::Sprite* base_nn = nullptr;
+    cocos2d::Sprite* base_parameters = nullptr;
     cocos2d::Vector<cocos2d::Sprite*> activeNeurons;
     cocos2d::Vector<cocos2d::Label*> labelsOutputs;
     cocos2d::Vector<cocos2d::Label*> labelsWeights;
+    cocos2d::Vector<cocos2d::Label*> labelsOutputsNames;
+    cocos2d::Vector<cocos2d::Label*> labelsWeightsNames;
     cocos2d::Label* dxLabel = nullptr;
     cocos2d::Label* dyLabel = nullptr;
+    cocos2d::Label* dxLabelName = nullptr;
+    cocos2d::Label* dyLabelName = nullptr;
     
 protected:
     bool init() override;
     
 public:
     CREATE_FUNC(ControlPanel);
+    void setTrainingMode();
+    void setInferenceMode();
 };
 
 #endif /*  ControlPanel_hpp */

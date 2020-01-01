@@ -126,8 +126,6 @@ void NeuralNetwork::randomizeWeights(){
                     newWeight *= -1;
                 }
                 this->layers[i]->neurons[j].weight[k] = newWeight;
-//                this->layers[i]->neurons[j].weight[k] = ((((float)rand())/(float)RAND_MAX) - 0.5);
-                log("weight print: %3.2f",this->layers[i]->neurons[j].weight[k]);
             }
         }
     }
