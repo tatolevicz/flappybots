@@ -162,8 +162,14 @@ void ControlPanel::initialSetup(){
     dyLabelName->setPosition(Vec2(50,backGroundPanel->getContentSize().height - 65));
     parametersViewerPanel->addChild(dyLabelName);
 
-    // setTrainingMode();
-    setInferenceMode();
+
+    graphTrainingMode = DrawNode::create();
+    graphTrainingMode->setContentSize(Size(initialPanel->getContentSize().width,initialPanel->getContentSize().height));
+    graphTrainingMode->drawSolidRect(Vec2::ZERO, Vec2(graphTrainingMode->getContentSize().width,graphTrainingMode->getContentSize().height),Color4F::BLACK);
+    graphTrainingMode->setPosition(Vec2::ZERO);
+    initialPanel->addChild(graphTrainingMode);
+
+    this->setNoMode();
     this->schedule();
 }
 
@@ -176,6 +182,9 @@ void ControlPanel::unschedule(){
 }
 
 void ControlPanel::update(float dt){  
+
+    if(!isActive) return;
+
     if(AcademyFlappyBots::getInstance()->inferenceModeOn){
         for(int i = 0 ; i < 7; i++){
             float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
@@ -193,6 +202,12 @@ void ControlPanel::update(float dt){
         dxLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dx));
         dyLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dy));
     }
+    else{
+        auto orig = lastPoint;
+        auto dest = Vec2(AcademyFlappyBots::getInstance()->getCurrentGeneration(),AcademyFlappyBots::getInstance()->cumulatedReward);
+        graphTrainingMode->drawLine(orig, dest, Color4F::GREEN);
+        lastPoint = dest;
+    }
 }
 
 void ControlPanel::startTrainingPressed(){
@@ -206,12 +221,24 @@ void ControlPanel::setTrainingMode(){
     nnViewerPanel->setVisible(false);
     parametersViewerPanel->setVisible(false);
     initialPanel->setVisible(true);
+    // graphTrainingMode->setVisible(true);
+    isActive = true;
 }
 
 void ControlPanel::setInferenceMode(){
     initialPanel->setVisible(false);
     nnViewerPanel->setVisible(true);
     parametersViewerPanel->setVisible(true);
+    // graphTrainingMode->setVisible(false);
+    isActive = true;
+}
+
+void ControlPanel::setNoMode(){
+    initialPanel->setVisible(false);
+    nnViewerPanel->setVisible(false);
+    parametersViewerPanel->setVisible(false);
+    // graphTrainingMode->setVisible(false);
+    isActive = false;
 }
 
 // template <typename T> string tostr(const T& t){ 

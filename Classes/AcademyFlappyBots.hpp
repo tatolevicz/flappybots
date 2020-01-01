@@ -29,7 +29,7 @@ class AcademyFlappyBots{
         void infere();
         TrainingScene* scene;
 
-    GeneticAlgorithm *ga;
+        GeneticAlgorithm *ga;
     
     public:
         AcademyFlappyBots();
@@ -55,6 +55,8 @@ class AcademyFlappyBots{
         void startInference();
         AgentFlappyBot* inferenceBird;
         bool inferenceModeOn = false;
-        
+
+        int getCurrentGeneration();
+        float cumulatedReward = 0;
 };
 #endif /* AcademyFlappyBots_hpp */

@@ -28,6 +28,9 @@ private:
     cocos2d::DrawNode* backGroundPanel = nullptr;
     cocos2d::DrawNode* initialPanel = nullptr;
 
+    cocos2d::DrawNode* graphTrainingMode = nullptr;
+    cocos2d::Vec2 lastPoint = cocos2d::Vec2::ZERO;
+
     cocos2d::Sprite* base_nn = nullptr;
     cocos2d::Sprite* base_parameters = nullptr;
     cocos2d::Vector<cocos2d::Sprite*> activeNeurons;
@@ -39,6 +42,8 @@ private:
     cocos2d::Label* dyLabel = nullptr;
     cocos2d::Label* dxLabelName = nullptr;
     cocos2d::Label* dyLabelName = nullptr;
+
+    bool isActive = false;
     
 protected:
     bool init() override;
@@ -47,6 +52,7 @@ public:
     CREATE_FUNC(ControlPanel);
     void setTrainingMode();
     void setInferenceMode();
+    void setNoMode();
 };
 
 #endif /*  ControlPanel_hpp */

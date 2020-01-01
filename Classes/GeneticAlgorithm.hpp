@@ -39,6 +39,7 @@ public:
     bool getIsInitialized();
     void setIsInitialized(bool val);
     AgentFlappyBot* getBestAgent();
+    int getCurrentGeneration();
     
 };
 

@@ -145,6 +145,7 @@ void TrainingScene::startButtonPressed(Ref* pSender){
     this->watchButton->setVisible(false);
     this->stopButton->setVisible(true);
     this->restartGame();
+    this->controlPanel->setTrainingMode();
 }
 
 void TrainingScene::stopTrainingPressed(Ref* pSender){
@@ -154,6 +155,7 @@ void TrainingScene::stopTrainingPressed(Ref* pSender){
     this->watchButton->setVisible(true);
     this->stopButton->setVisible(false);
     this->gameOver();
+    this->controlPanel->setNoMode();
 }
  
 void TrainingScene::watchButtonPressed(Ref* pSender){
@@ -165,6 +167,7 @@ void TrainingScene::watchButtonPressed(Ref* pSender){
     this->watchButton->setVisible(false);
     this->stopButton->setVisible(true);
     this->restartGame();
+    this->controlPanel->setInferenceMode();
 }
 void  TrainingScene::addPhysicsGround(){
     auto sizeBodyGround = Size(this->screenSize.width,this->screenSize.height*0.065);

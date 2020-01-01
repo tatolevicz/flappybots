@@ -109,6 +109,11 @@ void AcademyFlappyBots::update(float dt){
             return;
         }
         else{
+            float countScore = 0;
+            for(int i = 0; i < ga->agentsPool->size();i++){
+                countScore+= ga->agentsPool->at(i)->getTotalScore();
+            }
+            this->cumulatedReward += countScore/ga->agentsPool->size();
             this->scene->gameOver();
             this->ga->nextGeneration();
             this->scene->restartGame();
@@ -212,4 +217,10 @@ void AcademyFlappyBots::startInference(){
     this->scene->addChild(this->inferenceBird);
     inferenceModeOn = true;
 }
+
+
+int AcademyFlappyBots::getCurrentGeneration(){
+    ga->getCurrentGeneration();
+}
+
 

@@ -191,3 +191,8 @@ void GeneticAlgorithm::setIsInitialized(bool val){
 AgentFlappyBot* GeneticAlgorithm::getBestAgent(){
     return this->getBestTwoAgents().at(0);
 }
+
+
+int GeneticAlgorithm::getCurrentGeneration(){
+    return this->currentGeneration;
+}
