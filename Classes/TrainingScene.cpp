@@ -334,5 +334,3 @@ void TrainingScene::restartGame(){
     this->trees->start();
     GameManager::getInstance()->state = GameManager::PLAYING_STATE;
 }
-
-

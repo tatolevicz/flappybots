@@ -186,47 +186,39 @@ void ControlPanel::initialSetup(){
     initialPanel->addChild(graphBase);
 
     this->setNoMode();
-    // this->schedule();
+    this->schedule();
 }
 
 void ControlPanel::schedule(){
-//    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
+   Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
 }
 
 void ControlPanel::unschedule(){
-//    Director::getInstance()->getScheduler()->unschedule("controlPanel", this);
+   Director::getInstance()->getScheduler()->unschedule("controlPanel", this);
 }
 
-// void ControlPanel::update(float dt){  
+void ControlPanel::update(float dt){  
 
-//     if(!isActive) return;
+    if(!isActive) return;
 
-//     if(AcademyFlappyBots::getInstance()->inferenceModeOn){
-//         for(int i = 0 ; i < 7; i++){
-//             float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
-//             activeNeurons.at(i)->setOpacity(output*400);
-//             if(i == 0 || i == 1 || i == 6){
-//                 activeNeurons.at(i)->setVisible(output > 0.5);
-//             }
+    if(AcademyFlappyBots::getInstance()->inferenceModeOn){
+        for(int i = 0 ; i < 7; i++){
+            float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
+            activeNeurons.at(i)->setOpacity(output*400);
+            if(i == 0 || i == 1 || i == 6){
+                activeNeurons.at(i)->setVisible(output > 0.5);
+            }
             
-//             labelsOutputs.at(i)->setString(this->toStr(output));
-//         }
-//         auto weights = AcademyFlappyBots::getInstance()->inferenceBird->nn->getWeightsAsVector();
-//         for(int i = 0 ; i < 12; i++){
-//             labelsWeights.at(i)->setString(this->toStr(weights.at(i)));
-//         }
-//         dxLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dx));
-//         dyLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dy));
-//     }
-//     else{
-//         timePlot += dt;
-//         // log("Gen: %d",AcademyFlappyBots::getInstance()->getCurrentGeneration());
-//         // log("Rewards: %3.4f",AcademyFlappyBots::getInstance()->cumulatedReward);
-//         auto pX = timePlot + graphOffSetX + AcademyFlappyBots::getInstance()->getCurrentGeneration() * graphScaleX;
-//         auto pY = graphOffSetY + AcademyFlappyBots::getInstance()->cumulatedReward * graphScaleY;
-//         drawLineTo(Vec2(pX,pY));
-//     }
-// }
+            labelsOutputs.at(i)->setString(this->toStr(output));
+        }
+        auto weights = AcademyFlappyBots::getInstance()->inferenceBird->nn->getWeightsAsVector();
+        for(int i = 0 ; i < 12; i++){
+            labelsWeights.at(i)->setString(this->toStr(weights.at(i)));
+        }
+        dxLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dx));
+        dyLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dy));
+    }
+}
 
 
 void ControlPanel::startTrainingPressed(){

@@ -16,7 +16,7 @@ class GeneticAlgorithm : public cocos2d::Ref{
     
 private:
     int generationSize = 80;
-    int numerOfNegerations = 190;
+    int numerOfNegerations = 150;
     int currentGeneration = 1;
     void initPool();
     Vector<AgentFlappyBot*> getBestTwoAgents();
@@ -39,7 +39,7 @@ public:
     bool getIsInitialized();
     void setIsInitialized(bool val);
     AgentFlappyBot* getBestAgent();
-    AgentFlappyBot* getBestAgentCurrentGeneration();
+    float getTimeCurrentGeneration();
     int getCurrentGeneration();
     AgentFlappyBot* bestAgentOfAllTime;
     

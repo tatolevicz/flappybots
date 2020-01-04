@@ -157,6 +157,10 @@ void AgentFlappyBot::setTotalScore(int total){
     this->totalScore = total;
 }
 
+void AgentFlappyBot::setLifeTime(float total){
+    this->totalLifeTime = total;
+}
+
 void AgentFlappyBot::initIA(){
     this->nn = NeuralNetwork::create();
     this->nn->retain();

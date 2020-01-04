@@ -33,6 +33,7 @@ class AgentFlappyBot: public Player{
         PhysicsRayCastInfo applyRayCast(Vec2 direction, float distance,bool shouldDrawn = true);
         Vec2 observe();
         void setTotalScore(int total);
+        void setLifeTime(float total);
         NeuralNetwork* nn;
         void initIA();
         int getNumberOfWeights();

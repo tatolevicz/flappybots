@@ -10,23 +10,24 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "GameManager.hpp"
 
 
 class ControlPanel: public cocos2d::Node{
 private:
     static ControlPanel* instance;
 
-    float graphScaleX = 5;
-    float graphScaleY = 2.5;
+    float graphScaleX = 6.15;
+    float graphScaleY = 0.20 * GameManager::getInstance()->worldSpeed;
 
-    float graphOffSetX = 35;
-    float graphOffSetY = 33; 
+    float graphOffSetX = 30;
+    float graphOffSetY = 31;
 
     float timePlot = 0;
 
     void schedule();
     void unschedule();
-//    void update(float dt);
+   void update(float dt);
     void initialSetup();
     void startTrainingPressed();
     void watchBestPlayerPressed();

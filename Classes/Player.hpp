@@ -35,13 +35,14 @@ USING_NS_CC;
       float fixedX = 300.0f;
       
       bool getIsDead();
+     
+       bool isDead = false;
       
     private:
       Vector<SpriteFrame*> animFrames;
       void initialSetup();
       void addPhysics();
       void flap();
-      bool isDead = false;
       void schedule();
       void unschedule();
       void update(float dt);

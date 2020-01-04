@@ -172,6 +172,9 @@ void Player::resetScore(){
 
 void Player::score(){
     this->totalScore += 1;
+    if(this->totalScore >= 100){
+        this->die();
+    }
 }
 
 bool Player::getIsDead(){
