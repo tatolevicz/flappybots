@@ -7,6 +7,7 @@
 
 #include "AcademyFlappyBots.hpp"
 #include "GameManager.hpp"
+#include "ControlPanel.hpp"
 
 using json = nlohmann::json;
 
@@ -109,13 +110,17 @@ void AcademyFlappyBots::update(float dt){
             return;
         }
         else{
-            float countScore = 0;
-            for(int i = 0; i < ga->agentsPool->size();i++){
-                countScore+= ga->agentsPool->at(i)->getTotalScore();
-            }
-            this->cumulatedReward += countScore/ga->agentsPool->size();
+            // float countScore = 0;
+            // for(int i = 0; i < ga->agentsPool->size();i++){
+            //     countScore += ga->agentsPool->at(i)->getTotalScore();
+            // }
+            // this->cumulatedReward += countScore/ga->agentsPool->size();
+           
+            this->cumulatedReward = ga->getBestAgentCurrentGeneration()->getLifeTime();
+            log("Time bestAgent: %3.2f ", this->cumulatedReward);
             this->scene->gameOver();
             this->ga->nextGeneration();
+            ControlPanel::getInstance()->plot();
             this->scene->restartGame();
         }        
     }
@@ -220,7 +225,7 @@ void AcademyFlappyBots::startInference(){
 
 
 int AcademyFlappyBots::getCurrentGeneration(){
-    ga->getCurrentGeneration();
+   return  ga->getCurrentGeneration();
 }
 
 

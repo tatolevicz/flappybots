@@ -81,7 +81,6 @@ void GeneticAlgorithm::copyBestWeights(AgentFlappyBot* fromAgent,AgentFlappyBot*
 }
     
 void GeneticAlgorithm::nextGeneration(){
-    
     auto bestAgents = this->getBestTwoAgents();
     AgentFlappyBot* sonAgent = this->permuteGenes(bestAgents.at(0),bestAgents.at(1));
     for(int i = 0; i< this->agentsPool->size(); i++){
@@ -105,6 +104,8 @@ void GeneticAlgorithm::nextGeneration(){
        agent->nn->setWeightsFromVector(agent->getWeights());
     }
     //################
+
+    this->currentGeneration += 1;
 }
 
 Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
@@ -165,7 +166,6 @@ bool GeneticAlgorithm::checkGenerationFinished(){
     return true;
 }
 bool GeneticAlgorithm::checkTrainingFinished(){
-    this->currentGeneration += 1;
     bool resp = this->currentGeneration > this->numerOfNegerations;
     return resp;
 }
@@ -189,8 +189,22 @@ void GeneticAlgorithm::setIsInitialized(bool val){
 }
 
 AgentFlappyBot* GeneticAlgorithm::getBestAgent(){
-    return this->getBestTwoAgents().at(0);
+    return this->getBestTwoAgents().at(1);
 }
+
+AgentFlappyBot* GeneticAlgorithm::getBestAgentCurrentGeneration(){
+    AgentFlappyBot* resp = nullptr;
+    float time = 0;
+    for(int i = 0; i < agentsPool->size();i++){
+        float agentTime = agentsPool->at(i)->getLifeTime();
+        if(agentTime >= time){
+            resp = agentsPool->at(i);
+            time = agentTime;
+        }
+    }
+    return resp;
+}
+
 
 
 int GeneticAlgorithm::getCurrentGeneration(){

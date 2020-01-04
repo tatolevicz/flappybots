@@ -16,6 +16,16 @@ bool ControlPanel::init(){
     return true;
 }
 
+ControlPanel* ControlPanel::instance = 0;
+
+ControlPanel* ControlPanel::getInstance(){
+
+    if(instance == 0){
+        instance = ControlPanel::create();
+    } 
+    return instance;
+}
+
 void ControlPanel::initialSetup(){
     //set the current node size
     this->setContentSize(Size(1024,300));
@@ -33,8 +43,8 @@ void ControlPanel::initialSetup(){
     //create the training panel
     initialPanel = DrawNode::create();
     auto initialColor = Color4F(0.4627,0.4627,0.4627,1.0);
-    initialPanel->drawSolidRect(Vec2::ZERO, Vec2(this->getContentSize().width - 2*fakeStrokeSize,300 - 2*fakeStrokeSize), initialColor);
-    initialPanel->setPosition(Vec2(fakeStrokeSize,512 + fakeStrokeSize));
+    initialPanel->drawSolidRect(Vec2::ZERO, Vec2(this->getContentSize().width - 2,300), initialColor);
+    initialPanel->setPosition(Vec2(0,512));
     initialPanel->setContentSize(this->getContentSize());
     this->addChild(initialPanel);
 
@@ -168,47 +178,56 @@ void ControlPanel::initialSetup(){
     graphTrainingMode->drawSolidRect(Vec2::ZERO, Vec2(graphTrainingMode->getContentSize().width,graphTrainingMode->getContentSize().height),Color4F::BLACK);
     graphTrainingMode->setPosition(Vec2::ZERO);
     initialPanel->addChild(graphTrainingMode);
+    graphTrainingMode->setLineWidth(5.0);
+     //add graph base sprite
+    graphBase = Sprite::create("Sprites/graphBase.png");
+    graphBase->setScale(0.5);
+    graphBase->setAnchorPoint(Vec2(0,0));
+    initialPanel->addChild(graphBase);
 
     this->setNoMode();
-    this->schedule();
+    // this->schedule();
 }
 
 void ControlPanel::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
+//    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
 }
 
 void ControlPanel::unschedule(){
-    Director::getInstance()->getScheduler()->unschedule("controlPanel", this);
+//    Director::getInstance()->getScheduler()->unschedule("controlPanel", this);
 }
 
-void ControlPanel::update(float dt){  
+// void ControlPanel::update(float dt){  
 
-    if(!isActive) return;
+//     if(!isActive) return;
 
-    if(AcademyFlappyBots::getInstance()->inferenceModeOn){
-        for(int i = 0 ; i < 7; i++){
-            float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
-            activeNeurons.at(i)->setOpacity(output*400);
-            if(i == 0 || i == 1 || i == 6){
-                activeNeurons.at(i)->setVisible(output > 0.5);
-            }
+//     if(AcademyFlappyBots::getInstance()->inferenceModeOn){
+//         for(int i = 0 ; i < 7; i++){
+//             float output = AcademyFlappyBots::getInstance()->inferenceBird->nn->currentOutputs.at(i);
+//             activeNeurons.at(i)->setOpacity(output*400);
+//             if(i == 0 || i == 1 || i == 6){
+//                 activeNeurons.at(i)->setVisible(output > 0.5);
+//             }
             
-            labelsOutputs.at(i)->setString(this->toStr(output));
-        }
-        auto weights = AcademyFlappyBots::getInstance()->inferenceBird->nn->getWeightsAsVector();
-        for(int i = 0 ; i < 12; i++){
-            labelsWeights.at(i)->setString(this->toStr(weights.at(i)));
-        }
-        dxLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dx));
-        dyLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dy));
-    }
-    else{
-        auto orig = lastPoint;
-        auto dest = Vec2(AcademyFlappyBots::getInstance()->getCurrentGeneration(),AcademyFlappyBots::getInstance()->cumulatedReward);
-        graphTrainingMode->drawLine(orig, dest, Color4F::GREEN);
-        lastPoint = dest;
-    }
-}
+//             labelsOutputs.at(i)->setString(this->toStr(output));
+//         }
+//         auto weights = AcademyFlappyBots::getInstance()->inferenceBird->nn->getWeightsAsVector();
+//         for(int i = 0 ; i < 12; i++){
+//             labelsWeights.at(i)->setString(this->toStr(weights.at(i)));
+//         }
+//         dxLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dx));
+//         dyLabel->setString(this->toStr(AcademyFlappyBots::getInstance()->inferenceBird->dy));
+//     }
+//     else{
+//         timePlot += dt;
+//         // log("Gen: %d",AcademyFlappyBots::getInstance()->getCurrentGeneration());
+//         // log("Rewards: %3.4f",AcademyFlappyBots::getInstance()->cumulatedReward);
+//         auto pX = timePlot + graphOffSetX + AcademyFlappyBots::getInstance()->getCurrentGeneration() * graphScaleX;
+//         auto pY = graphOffSetY + AcademyFlappyBots::getInstance()->cumulatedReward * graphScaleY;
+//         drawLineTo(Vec2(pX,pY));
+//     }
+// }
+
 
 void ControlPanel::startTrainingPressed(){
     log("startTrainingPressed pressed");
@@ -253,5 +272,19 @@ string ControlPanel::toStr(float val){
     ss2 << val;
     string dyStr = ss2.str();
     return dyStr;
+}
+
+void ControlPanel::plot(){  
+    auto pX = timePlot + graphOffSetX + AcademyFlappyBots::getInstance()->getCurrentGeneration() * graphScaleX;
+    lastPoint = Vec2(pX,graphOffSetY);
+    auto pY = graphOffSetY + AcademyFlappyBots::getInstance()->cumulatedReward * graphScaleY;
+    AcademyFlappyBots::getInstance()->cumulatedReward = 0;
+    drawLineTo(Vec2(pX,pY));
+}
+
+void  ControlPanel::drawLineTo(Vec2 dest){
+    auto orig = lastPoint;
+    graphTrainingMode->drawLine(orig, dest, Color4F::WHITE);
+    // lastPoint = dest;
 }
 

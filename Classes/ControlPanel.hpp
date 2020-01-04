@@ -14,12 +14,23 @@
 
 class ControlPanel: public cocos2d::Node{
 private:
+    static ControlPanel* instance;
+
+    float graphScaleX = 5;
+    float graphScaleY = 2.5;
+
+    float graphOffSetX = 35;
+    float graphOffSetY = 33; 
+
+    float timePlot = 0;
+
     void schedule();
     void unschedule();
-    void update(float dt);
+//    void update(float dt);
     void initialSetup();
     void startTrainingPressed();
     void watchBestPlayerPressed();
+    void drawLineTo(cocos2d::Vec2 dest);
     
     std::string toStr(float val);
 
@@ -29,9 +40,10 @@ private:
     cocos2d::DrawNode* initialPanel = nullptr;
 
     cocos2d::DrawNode* graphTrainingMode = nullptr;
-    cocos2d::Vec2 lastPoint = cocos2d::Vec2::ZERO;
+    cocos2d::Vec2 lastPoint = cocos2d::Vec2(35,33);
 
     cocos2d::Sprite* base_nn = nullptr;
+    cocos2d::Sprite* graphBase = nullptr;
     cocos2d::Sprite* base_parameters = nullptr;
     cocos2d::Vector<cocos2d::Sprite*> activeNeurons;
     cocos2d::Vector<cocos2d::Label*> labelsOutputs;
@@ -53,6 +65,10 @@ public:
     void setTrainingMode();
     void setInferenceMode();
     void setNoMode();
+
+    void plot();
+    static ControlPanel* getInstance();
 };
+
 
 #endif /*  ControlPanel_hpp */

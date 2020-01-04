@@ -14,7 +14,6 @@
 #include "ScrollableSprite.hpp"
 #include "GameManager.hpp"
 #include "AgentFlappyBot.hpp"
-#include "ControlPanel.hpp"
 
 using namespace cocos2d;
 using namespace ui;
@@ -56,7 +55,7 @@ class TrainingScene : public Scene
         Menu* stopButton;
     
         //control panel
-        ControlPanel* controlPanel;
+        // ControlPanel* controlPanel;
     
         void loadSpriteSheet();
         void setupScreen(Vec2 origin);

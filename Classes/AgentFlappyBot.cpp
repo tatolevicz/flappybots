@@ -143,8 +143,6 @@ vector<float>  AgentFlappyBot::getWeights(){
      
 void AgentFlappyBot::die(){
     Player::die(); 
-    //penalizing dead
-    this->totalScore -= dx + dy;
     this->clearDrawnNode();
 }
 

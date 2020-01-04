@@ -120,12 +120,10 @@ void Player::reset(){
 }
 
 void Player::schedule(){
-//    scheduleUpdate();
     Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "player");
 }
 
 void Player::unschedule(){
-//    unscheduleUpdate();
     Director::getInstance()->getScheduler()->unschedule("player", this);
 }
 
@@ -134,6 +132,7 @@ void Player::update(float dt){
     if(GameManager::getInstance()->state == GameManager::PLAYING_STATE){
         this->rotate(dt);
         this->checkLimit();
+        this->totalLifeTime += dt;
     }
 }
 
@@ -161,13 +160,18 @@ int Player::getTotalScore(){
     return this->totalScore;
 }
 
+float Player::getLifeTime(){
+    return this->totalLifeTime;
+}
+
+
 void Player::resetScore(){
     this->totalScore = 0;
+    this->totalLifeTime = 0;
 }
 
 void Player::score(){
     this->totalScore += 1;
-    // log("Agent score: %d", this->totalScore);
 }
 
 bool Player::getIsDead(){

@@ -27,15 +27,16 @@ USING_NS_CC;
       virtual void die();
       void reset();
 
-        int getTotalScore();
-        void resetScore();
-        void score();
+      int getTotalScore();
+      float getLifeTime();
+      void resetScore();
+      void score();
       
       float fixedX = 300.0f;
       
       bool getIsDead();
       
-     private:
+    private:
       Vector<SpriteFrame*> animFrames;
       void initialSetup();
       void addPhysics();
@@ -50,10 +51,11 @@ USING_NS_CC;
       void rotate(float dt);
       void checkLimit();
 
-      protected:
-        Size screenSize;
-        float currentAngle;
-        int totalScore = 0;
+    protected:
+      Size screenSize;
+      float currentAngle;
+      int totalScore = 0;
+      float totalLifeTime = 0;
     
 };
 

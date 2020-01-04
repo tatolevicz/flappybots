@@ -7,6 +7,7 @@
 
 #include "TrainingScene.hpp"
 #include "AcademyFlappyBots.hpp"
+#include "ControlPanel.hpp"
 
 
 USING_NS_CC;
@@ -100,8 +101,9 @@ void  TrainingScene::createRespawner(){
 
 void TrainingScene::createUI(){
     
-    controlPanel = ControlPanel::create();
-    this->addChild(controlPanel,100);
+//    auto controlPanel = ControlPanel::getInstance();
+
+    this->addChild(ControlPanel::getInstance(),100);
     
     auto startLabel = Label::createWithTTF("Start training", "fonts/Marker Felt.ttf", 64);
     auto watchLabel = Label::createWithTTF("Watch best player", "fonts/Marker Felt.ttf", 64);
@@ -145,7 +147,7 @@ void TrainingScene::startButtonPressed(Ref* pSender){
     this->watchButton->setVisible(false);
     this->stopButton->setVisible(true);
     this->restartGame();
-    this->controlPanel->setTrainingMode();
+    ControlPanel::getInstance()->setTrainingMode();
 }
 
 void TrainingScene::stopTrainingPressed(Ref* pSender){
@@ -155,7 +157,7 @@ void TrainingScene::stopTrainingPressed(Ref* pSender){
     this->watchButton->setVisible(true);
     this->stopButton->setVisible(false);
     this->gameOver();
-    this->controlPanel->setNoMode();
+    ControlPanel::getInstance()->setNoMode();
 }
  
 void TrainingScene::watchButtonPressed(Ref* pSender){
@@ -167,7 +169,7 @@ void TrainingScene::watchButtonPressed(Ref* pSender){
     this->watchButton->setVisible(false);
     this->stopButton->setVisible(true);
     this->restartGame();
-    this->controlPanel->setInferenceMode();
+    ControlPanel::getInstance()->setInferenceMode();
 }
 void  TrainingScene::addPhysicsGround(){
     auto sizeBodyGround = Size(this->screenSize.width,this->screenSize.height*0.065);
