@@ -150,11 +150,6 @@ Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
         this->bestAgentOfAllTime->setLifeTime(firstAgent->getLifeTime());
     }
 
-    if(bestAgentOfAllTime->getLifeTime() > secondBestScore &&  bestAgentOfAllTime->getLifeTime() > firstBestScore){
-        firstAgent->setWeights(bestAgentOfAllTime->getWeights());
-        firstAgent->setLifeTime(bestAgentOfAllTime->getLifeTime());
-    }
-    
     agents.pushBack(firstAgent);
     agents.pushBack(secondAgent);
     
