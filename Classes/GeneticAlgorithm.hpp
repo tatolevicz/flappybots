@@ -15,7 +15,7 @@
 class GeneticAlgorithm : public cocos2d::Ref{
     
 private:
-    int generationSize = 50;
+    int generationSize = 100;
     int numerOfNegerations = 150;
     int currentGeneration = 1;
     void initPool();

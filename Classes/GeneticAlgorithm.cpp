@@ -35,7 +35,7 @@ void GeneticAlgorithm::initPool(){
 
 void GeneticAlgorithm::setMutation(AgentFlappyBot* agent){
     auto weights = agent->getWeights();
-    int numberOfMutations = agent->getNumberOfWeights()*0.4;
+    int numberOfMutations = agent->getNumberOfWeights()*0.3;
     vector<int> randVec;
     randVec.reserve(numberOfMutations);
     
@@ -89,7 +89,7 @@ void GeneticAlgorithm::nextGeneration(){
     
     //################
     // to preserve some percent agent with the bests weights from last generation
-    int remainAmount = 2;//(int)floor(this->generationSize*0.05);
+    int remainAmount = (int)floor(this->generationSize)*0.1;
     
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
@@ -100,6 +100,9 @@ void GeneticAlgorithm::nextGeneration(){
         }
         else{
             this->copyBestWeights(bestAgents.at(i%2==0?0:1),agent);
+            if(i>2){
+                this->setMutation(agent);
+            }
         }
     }
 
@@ -142,7 +145,9 @@ Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
     }
 
     auto secondWeights = secondBestAgent->getWeights();
-    secondAgent->setWeights(secondWeights);
+//    secondAgent->setWeights(secondWeights);
+    secondAgent->setWeights(firstWeights);
+
 
     //save score from de best agent of this generation
     if(this->bestAgentOfAllTime->getLifeTime() <= firstAgent->getLifeTime()){

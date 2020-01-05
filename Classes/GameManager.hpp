@@ -42,7 +42,7 @@ class GameManager
 
         float speedObstacle = 200.0f;
 
-        float worldSpeed = 4;
+        float worldSpeed = 1.0;
         float gravitySpeed = worldSpeed*3; //3X world
 
         float heightLimityGame = 512;
