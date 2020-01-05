@@ -190,7 +190,7 @@ void ControlPanel::initialSetup(){
 }
 
 void ControlPanel::schedule(){
-   Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, 1.0f / 60, false, "controlPanel");
+   Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(ControlPanel::update, this), this, (1.0f / 60)/GameManager::getInstance()->worldSpeed, false, "controlPanel");
 }
 
 void ControlPanel::unschedule(){

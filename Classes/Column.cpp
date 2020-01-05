@@ -120,7 +120,7 @@ void Column::stop(){
 }
 
 void Column::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Column::update, this), this, 1.0f / 60, false, "column");
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Column::update, this), this, (1.0f / 60)/GameManager::getInstance()->worldSpeed, false, "column");
 }
 
 void Column::unschedule(){

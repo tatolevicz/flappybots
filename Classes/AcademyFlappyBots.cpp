@@ -116,7 +116,7 @@ void AcademyFlappyBots::update(float dt){
             // }
             // this->cumulatedReward += countScore/ga->agentsPool->size();
            
-            this->cumulatedReward = ga->getTimeCurrentGeneration();
+            this->cumulatedReward = ga->getBestScoreCurrentGeneration();
             log("Time bestAgent: %3.2f ", this->cumulatedReward);
             this->scene->gameOver();
             this->ga->nextGeneration();

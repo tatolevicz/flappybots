@@ -23,6 +23,8 @@ void GeneticAlgorithm::initPool(){
         this->agentsPool->pushBack(agent);
         agent->stopAnimation();
         agent->getPhysicsBody()->setGravityEnable(true);
+        agent->fixedX = (((float)rand())/(float)RAND_MAX) * 600 + 100;
+
     }
 
     bestAgentOfAllTime = AgentFlappyBot::create();
@@ -84,63 +86,62 @@ void GeneticAlgorithm::copyBestWeights(AgentFlappyBot* fromAgent,AgentFlappyBot*
 void GeneticAlgorithm::nextGeneration(){
     auto bestAgents = this->getBestTwoAgents();
     AgentFlappyBot* sonAgent = this->permuteGenes(bestAgents.at(0),bestAgents.at(1));
-    for(int i = 0; i< this->agentsPool->size(); i++){
-       auto agent = this->agentsPool->at(i);
-       agent->reset();
-       this->copyBestWeights(sonAgent,agent);
-    }
-
+    
     //################
     // to preserve some percent agent with the bests weights from last generation
-    int remainAmount = (int)floor(this->generationSize*0.05);
-    // log("Remaning: %d",remainAmount);
+    int remainAmount = 2;//(int)floor(this->generationSize*0.05);
+    
     for(int i = 0; i< this->agentsPool->size(); i++){
-       auto agent = this->agentsPool->at(i);
-       if(i >= remainAmount){
-           this->setMutation(agent);
-       }
-       else{
-           agent->setWeights(bestAgents.at((i%2==0?0:1))->getWeights());
-       }
-       agent->nn->setWeightsFromVector(agent->getWeights());
+        auto agent = this->agentsPool->at(i);
+        agent->reset();
+        if(i >= remainAmount){
+            this->copyBestWeights(sonAgent,agent);
+            this->setMutation(agent);
+        }
+        else{
+            this->copyBestWeights(bestAgents.at(i%2==0?0:1),agent);
+        }
     }
-    //################
 
     this->currentGeneration += 1;
 }
 
 Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
-    int firstBestScore = 0;
-    int secondBestScore = 0;
+    float firstBestScore = 0;
+    float secondBestScore = 0;
 
     Vector<AgentFlappyBot*> agents;
     agents.reserve(2);
 
-    AgentFlappyBot* firstAgent;
-    AgentFlappyBot* secondAgent;
+    AgentFlappyBot* firstAgent = AgentFlappyBot::create();
+    AgentFlappyBot* secondAgent = AgentFlappyBot::create();
+    
+    AgentFlappyBot* firstBestAgent;
+    AgentFlappyBot* secondBestAgent;
 
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
         auto agentScore = agent->getLifeTime();
         if(agentScore >= firstBestScore){
             firstBestScore = agentScore;
-            firstAgent = agent;
+            firstBestAgent = agent;
         }
     }
 
-    auto firstWeights = firstAgent->getWeights();
+    auto firstWeights = firstBestAgent->getWeights();
     firstAgent->setWeights(firstWeights);
+    
 
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
         auto agentScore = agent->getLifeTime();
         if(agentScore >= secondBestScore && agent != firstAgent){
             secondBestScore = agentScore;
-            secondAgent = agent;
+            secondBestAgent = agent;
         }
     }
 
-    auto secondWeights = secondAgent->getWeights();
+    auto secondWeights = secondBestAgent->getWeights();
     secondAgent->setWeights(secondWeights);
 
     //save score from de best agent of this generation
@@ -206,7 +207,16 @@ float GeneticAlgorithm::getTimeCurrentGeneration(){
     return resp;
 }
 
-
+int GeneticAlgorithm::getBestScoreCurrentGeneration(){
+    float scoreBest = 0;
+    for(int i = 0; i < agentsPool->size();i++){
+        int score = agentsPool->at(i)->getTotalScore();
+        if(scoreBest <= score){
+            scoreBest = score;
+        }
+    } 
+    return scoreBest;
+}
 
 int GeneticAlgorithm::getCurrentGeneration(){
     return this->currentGeneration;

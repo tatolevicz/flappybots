@@ -18,7 +18,7 @@ private:
     static ControlPanel* instance;
 
     float graphScaleX = 6.15;
-    float graphScaleY = 0.20 * GameManager::getInstance()->worldSpeed;
+    float graphScaleY = 2.4;//0.20 * GameManager::getInstance()->worldSpeed;
 
     float graphOffSetX = 30;
     float graphOffSetY = 31;
@@ -27,7 +27,7 @@ private:
 
     void schedule();
     void unschedule();
-   void update(float dt);
+    void update(float dt);
     void initialSetup();
     void startTrainingPressed();
     void watchBestPlayerPressed();

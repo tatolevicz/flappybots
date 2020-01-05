@@ -35,6 +35,7 @@ bool Player::init()
 
 void Player::initialSetup(){
     this->screenSize = Director::getInstance()->getVisibleSize();
+    this->setPosition(Vec2(fixedX,GameManager::getInstance()->heightLimityGame/2));
     this->addAnimation();
     this->addPhysics();
     this->schedule();
@@ -52,7 +53,6 @@ void Player::addAnimation(){
 
     this->runAction(RepeatForever::create(animate));
 
-    this->setPosition(Vec2(this->fixedX,this->screenSize.height/2));
     this->setScale(0.4);
 
     auto moveBy = MoveBy::create(1,Vec2(0,100));
@@ -120,7 +120,7 @@ void Player::reset(){
 }
 
 void Player::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, 1.0f / 60, false, "player");
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Player::update, this), this, (1.0f / 60)/GameManager::getInstance()->worldSpeed, false, "player");
 }
 
 void Player::unschedule(){

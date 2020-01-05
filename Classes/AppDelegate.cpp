@@ -25,6 +25,7 @@
 #include "AppDelegate.h"
 // #include "HelloWorldScene.h"
 #include "Splash.hpp"
+#include "GameManager.hpp"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -93,7 +94,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //    director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0f / 60);
+    director->setAnimationInterval((1.0f / 60)/GameManager::getInstance()->worldSpeed);
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);

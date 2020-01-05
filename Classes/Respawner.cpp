@@ -50,7 +50,7 @@ void Respawner::stop(){
 }
 
 void Respawner::schedule(){
-    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Respawner::update, this), this, 1.0f / 60, false, "respawner");
+    Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Respawner::update, this), this, (1.0f / 60)/GameManager::getInstance()->worldSpeed, false, "respawner");
     this->respawnRate /= GameManager::getInstance()->worldSpeed;
 }
 
