@@ -135,7 +135,7 @@ Vector<AgentFlappyBot*> GeneticAlgorithm::getBestTwoAgents(){
     for(int i = 0; i< this->agentsPool->size(); i++){
         auto agent = this->agentsPool->at(i);
         auto agentScore = agent->getLifeTime();
-        if(agentScore >= secondBestScore && agent != firstAgent){
+        if(agentScore >= secondBestScore && agent != firstBestAgent){
             secondBestScore = agentScore;
             secondBestAgent = agent;
         }
